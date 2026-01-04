@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnuae6fbhbx3a"]
+
+[ext_resource type="Script" uid="uid://brwuo8qdwsg7g" path="res://Pbar.gd" id="1_pdqca"]
+
+[sub_resource type="Gradient" id="Gradient_cua4h"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.1)
+colors = PackedColorArray(0, 0, 0, 1, 0.444388, 0.68669, 0.50115, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_70f5h"]
+gradient = SubResource("Gradient_cua4h")
+width = 24
+height = 10
+fill_from = Vector2(0.5, 1)
+fill_to = Vector2(0.5, 0)
+repeat = 1
+metadata/_snap_enabled = true
+metadata/_snap_count = 2
+
+[node name="CoolGradient" type="ColorRect"]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 392.0
+offset_right = 56.0
+offset_bottom = -48.0
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("1_pdqca")
+progress = 16
+background_color = Color(0.179076, 0.412685, 0.385786, 1)
+foreground_color1 = Color(0.336283, 0.462228, 0.601696, 1)
+foreground_color2 = Color(0.735654, 0.869616, 0.96022, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 5.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_70f5h")
+expand_mode = 5
+stretch_mode = 1
+flip_v = true

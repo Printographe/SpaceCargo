@@ -1,0 +1,125 @@
+[gd_scene load_steps=2 format=3 uid="uid://87ciacv3mtls"]
+
+[ext_resource type="Script" uid="uid://x3g7jxn0miry" path="res://contract_panel.gd" id="1_c73c8"]
+
+[node name="Contract Panel" type="Panel"]
+custom_minimum_size = Vector2(200, 200)
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 704.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_c73c8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+metadata/_edit_group_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CONTRACT OFFER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="cancelbutton" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.1
+text = "Cancel"
+
+[node name="Context" type="RichTextLabel" parent="VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_vertical = 3
+text = "UN CONTRACT OU TU FAIS DES TRUCS, TU DOIS ALLER DE LA PLANETE A  A LA PLANETE B, ET RAPIDEMENT !
+
+"
+scroll_following = true
+
+[node name="Time" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.3
+alignment = 1
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Time label" type="Label" parent="VBoxContainer/Time"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "Time"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="time" type="Label" parent="VBoxContainer/Time"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "mm:ss"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Offer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.3
+alignment = 1
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Offer label" type="Label" parent="VBoxContainer/Offer"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "Offer"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="amount" type="Label" parent="VBoxContainer/Offer"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "3 415"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ActionButtons" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ConfirmButton" type="Button" parent="VBoxContainer/ActionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Confirm
+"
+
+[node name="OngoingButton" type="Button" parent="VBoxContainer/ActionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "It's already ongoing"
+
+[node name="RefuseButton" type="Button" parent="VBoxContainer/ActionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Refuse
+"

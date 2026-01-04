@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkxqwm1hikgut"]
+
+[ext_resource type="PackedScene" uid="uid://k13yv2k8ujob" path="res://Space Cargo.glb" id="1_4djj7"]
+
+[node name="Space Cargo" instance=ExtResource("1_4djj7")]
+
+[node name="Cube" parent="." index="0"]
+ignore_occlusion_culling = true
+
+[node name="Cube_001" parent="." index="1"]
+ignore_occlusion_culling = true

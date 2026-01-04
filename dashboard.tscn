@@ -1,0 +1,107 @@
+[gd_scene load_steps=7 format=3 uid="uid://cpnl153rw4le"]
+
+[ext_resource type="Script" uid="uid://bp8wqbamwkw63" path="res://dashboard.gd" id="1_dx5rv"]
+[ext_resource type="PackedScene" uid="uid://87ciacv3mtls" path="res://contract_panel.tscn" id="2_dx5rv"]
+[ext_resource type="PackedScene" uid="uid://cnuae6fbhbx3a" path="res://CoolGradient.tscn" id="3_bc6a6"]
+[ext_resource type="PackedScene" uid="uid://cqbkuvoxmmuwt" path="res://mission_success_message.tscn" id="3_vyiww"]
+[ext_resource type="PackedScene" uid="uid://cgfh3eidsfnr2" path="res://mission_item_text.tscn" id="4_1w0xl"]
+[ext_resource type="PackedScene" uid="uid://dt2oyc685eyt7" path="res://Player_debug.tscn" id="5_ly5nh"]
+
+[node name="Dashboard" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dx5rv")
+
+[node name="Dashboard_panel" type="Control" parent="."]
+layout_mode = 1
+anchor_top = 0.799383
+anchor_right = 1.00087
+anchor_bottom = 0.996913
+
+[node name="mission_button" type="Button" parent="Dashboard_panel"]
+layout_mode = 2
+anchor_left = 0.00693841
+anchor_top = 0.304688
+anchor_right = 0.107545
+anchor_bottom = 0.679689
+text = "Missions"
+metadata/_edit_use_anchors_ = true
+
+[node name="mission_container" type="HBoxContainer" parent="Dashboard_panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.134
+anchor_top = 0.414
+anchor_right = 0.863832
+anchor_bottom = 0.7815
+offset_left = -0.502304
+offset_top = 0.00822449
+offset_bottom = -0.0315399
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MissionProgressbar" parent="Dashboard_panel" instance=ExtResource("3_bc6a6")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.000867303
+anchor_top = -0.335945
+anchor_right = 0.000867303
+anchor_bottom = 0.008
+offset_left = 0.0
+offset_top = 44.001
+offset_right = 44.0
+offset_bottom = 453.976
+grow_horizontal = 2
+rotation = -1.5708
+background_color = Color(0.151987, 0.215328, 0.130433, 1)
+foreground_color1 = Color(0.390329, 0.515968, 0.347808, 1)
+foreground_color2 = Color(0.627326, 0.769376, 0.579768, 1)
+
+[node name="mission_panel" parent="." instance=ExtResource("2_dx5rv")]
+visible = false
+layout_mode = 1
+anchor_left = 0.313368
+anchor_top = 0.0817901
+anchor_right = 0.613715
+anchor_bottom = 0.868827
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+metadata/_edit_use_anchors_ = true
+
+[node name="MissionItemText" parent="." instance=ExtResource("4_1w0xl")]
+visible = false
+layout_mode = 1
+
+[node name="MissionSuccessMessage" parent="." instance=ExtResource("3_vyiww")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+
+[node name="ShowDebug" type="Button" parent="."]
+layout_mode = 2
+anchor_left = 0.895
+anchor_top = 0.946
+anchor_right = 0.993146
+anchor_bottom = 0.994
+offset_left = -0.0400391
+offset_top = -0.00799561
+offset_right = 0.896118
+offset_bottom = -0.112
+text = "Show Debug"
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerDebug" parent="." instance=ExtResource("5_ly5nh")]
+visible = false
+layout_mode = 1
+
+[node name="time" type="Timer" parent="."]

@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgfh3eidsfnr2"]
+
+[ext_resource type="Script" uid="uid://dwbvtwe5s7dbc" path="res://mission_item_text.gd" id="1_1hvmd"]
+
+[node name="MissionItemText" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1hvmd")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.582
+anchor_right = 0.996
+anchor_bottom = 0.954
+offset_top = -0.136017
+offset_right = -0.39209
+offset_bottom = -0.192017
+
+[node name="Title" type="Label" parent="Panel"]
+layout_mode = 1
+offset_left = 29.0
+offset_top = 19.0
+offset_right = 137.0
+offset_bottom = 68.0
+text = "title
+"
+
+[node name="Content" type="Label" parent="Panel"]
+layout_mode = 1
+offset_left = 43.0
+offset_top = 74.0
+offset_right = 1118.0
+offset_bottom = 197.0
+text = "Blabla"
+
+[node name="Button" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -205.0
+offset_top = -63.0
+offset_right = -31.9999
+offset_bottom = -11.0
+text = "CONTINUE"

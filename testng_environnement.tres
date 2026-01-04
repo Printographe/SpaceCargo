@@ -1,0 +1,45 @@
+[gd_resource type="Environment" load_steps=7 format=3 uid="uid://4ibwtduv01jq"]
+
+[sub_resource type="Curve" id="Curve_pcrpi"]
+_data = [Vector2(0, 0), 0.0, 2.21136, 0, 0, Vector2(0.300546, 0.988764), -1.81428, -1.81428, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_cq6tu"]
+_data = [Vector2(0, 0.157303), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Curve" id="Curve_qp375"]
+_data = [Vector2(0, 0.258427), 0.0, 0.0, 0, 0, Vector2(0.240437, 0.573034), 0.116387, 0.116387, 0, 0, Vector2(0.655738, 0.853933), 0.0, 0.0, 0, 0, Vector2(1, 0.280899), -5.90323, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_1aqq2"]
+curve_x = SubResource("Curve_pcrpi")
+curve_y = SubResource("Curve_cq6tu")
+curve_z = SubResource("Curve_qp375")
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_w3xiv"]
+panorama = SubResource("CurveXYZTexture_1aqq2")
+energy_multiplier = 5.31
+
+[sub_resource type="Sky" id="Sky_cq6tu"]
+sky_material = SubResource("PanoramaSkyMaterial_w3xiv")
+process_mode = 1
+radiance_size = 6
+
+[resource]
+background_mode = 2
+background_color = Color(0.279909, 0.651145, 0.79716, 1)
+background_energy_multiplier = 0.01
+sky = SubResource("Sky_cq6tu")
+sky_custom_fov = 68.7
+sky_rotation = Vector3(-0.980875, 1.88496, 2.51327)
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.15
+ambient_light_energy = 0.7
+reflected_light_source = 1
+glow_enabled = true
+glow_normalized = true
+glow_bloom = 0.05
+volumetric_fog_emission = Color(0.303233, 0.303233, 0.303233, 1)
+volumetric_fog_gi_inject = 2.57

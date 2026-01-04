@@ -1,0 +1,218 @@
+[gd_scene load_steps=24 format=3 uid="uid://dd5k1qilde1i1"]
+
+[ext_resource type="PackedScene" uid="uid://k13yv2k8ujob" path="res://Space Cargo.glb" id="1_nyone"]
+[ext_resource type="Script" uid="uid://bghl4gr2g6x8w" path="res://joueur.gd" id="1_pfoao"]
+
+[sub_resource type="Curve" id="Curve_pfoao"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0959167, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_onbj7"]
+curve = SubResource("Curve_pfoao")
+
+[sub_resource type="Gradient" id="Gradient_pfoao"]
+colors = PackedColorArray(1, 1, 1, 1, 0.0871712, 0.0251685, 0.00261845, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_onbj7"]
+gradient = SubResource("Gradient_pfoao")
+
+[sub_resource type="Curve" id="Curve_ae20r"]
+_data = [Vector2(0, 1), 0.0, -0.229222, 0, 0, Vector2(0.390023, 0.574871), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.36823, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_xsfoi"]
+curve = SubResource("Curve_ae20r")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fpxll"]
+lifetime_randomness = 0.5
+angle_min = -146.0
+angle_max = 72.7
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+gravity = Vector3(-10, 0, 0)
+radial_accel_min = 4.59
+radial_accel_max = 18.79
+scale_min = 0.1
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_xsfoi")
+color = Color(0.890327, 0.416015, 0.0994459, 1)
+color_ramp = SubResource("GradientTexture1D_onbj7")
+alpha_curve = SubResource("CurveTexture_onbj7")
+hue_variation_min = -0.02
+hue_variation_max = 0.02
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pfoao"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_onbj7"]
+material = SubResource("StandardMaterial3D_pfoao")
+radius = 0.75
+height = 1.25
+radial_segments = 5
+rings = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pfoao"]
+size = Vector3(8.81589, 2.46262, 2.23743)
+
+[sub_resource type="Animation" id="Animation_onbj7"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Space Cargo")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array()
+
+[sub_resource type="Animation" id="Animation_xsqk8"]
+resource_name = "Speeding"
+length = 2.0
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("C1")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0.0333333, 1, -10, 7.301, 0.294, 0.566667, 1, -29.512, 7.301, 0.294, 1.66667, 1, -10, 7.301, 0.294)
+
+[sub_resource type="Animation" id="Animation_wqfnb"]
+resource_name = "diag_down_left"
+length = 0.3
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Space Cargo")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.3, 1, 0.027, 0.176, -0.147, 0.973)
+
+[sub_resource type="Animation" id="Animation_0mg02"]
+resource_name = "diag_down_right"
+length = 0.3
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Space Cargo")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.3, 1, 0.0266001, -0.175875, -0.147159, 0.972988)
+
+[sub_resource type="Animation" id="Animation_3qv4i"]
+resource_name = "diag_up_left"
+length = 0.3
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Space Cargo")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.3, 1, -0.031, 0.186, 0.161, 0.969)
+
+[sub_resource type="Animation" id="Animation_8fkn7"]
+resource_name = "diag_up_right"
+length = 0.3
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Space Cargo")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.3, 1, -0.031, -0.186, 0.161, 0.969)
+
+[sub_resource type="Animation" id="Animation_fpxll"]
+resource_name = "down"
+length = 0.3
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Space Cargo")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.266667, 1, 0, 0, -0.188, 0.982)
+
+[sub_resource type="Animation" id="Animation_ae20r"]
+resource_name = "left"
+length = 0.25
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Space Cargo")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.233333, 1, 0, 0.135, 0, 0.991)
+
+[sub_resource type="Animation" id="Animation_pfoao"]
+resource_name = "right"
+length = 0.25
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Space Cargo")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.233333, 1, 0, -0.13478, 0, 0.990876)
+
+[sub_resource type="Animation" id="Animation_xsfoi"]
+resource_name = "up"
+length = 0.25
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Space Cargo")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.233333, 1, 0, 0, 0.188281, 0.982115)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xsqk8"]
+_data = {
+&"RESET": SubResource("Animation_onbj7"),
+&"Speeding": SubResource("Animation_xsqk8"),
+&"diag_down_left": SubResource("Animation_wqfnb"),
+&"diag_down_right": SubResource("Animation_0mg02"),
+&"diag_up_left": SubResource("Animation_3qv4i"),
+&"diag_up_right": SubResource("Animation_8fkn7"),
+&"down": SubResource("Animation_fpxll"),
+&"left": SubResource("Animation_ae20r"),
+&"right": SubResource("Animation_pfoao"),
+&"up": SubResource("Animation_xsfoi")
+}
+
+[node name="Node3D" type="CharacterBody3D"]
+motion_mode = 1
+script = ExtResource("1_pfoao")
+
+[node name="Space Cargo" parent="." instance=ExtResource("1_nyone")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.96108, 0, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Space Cargo"]
+transform = Transform3D(0.611504, 0, 0, 0, 0.193605, 0, 0, 0, 0.32102, -5.34331, -0.502022, -0.0629213)
+amount = 100
+amount_ratio = 0.9455
+lifetime = 2.22
+interp_to_end = 0.05
+preprocess = 1.08
+speed_scale = 0.7
+explosiveness = 0.09
+randomness = 0.06
+collision_base_size = 12.09
+transform_align = 3
+trail_enabled = true
+trail_lifetime = 0.89
+process_material = SubResource("ParticleProcessMaterial_fpxll")
+draw_pass_1 = SubResource("SphereMesh_onbj7")
+
+[node name="Carry" type="RemoteTransform3D" parent="Space Cargo"]
+update_scale = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.20573, 0.650406, 0.18158)
+shape = SubResource("BoxShape3D_pfoao")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_xsqk8")
+}
+
+[node name="C1" type="Camera3D" parent="."]
+transform = Transform3D(0.0101492, 0.0713587, -0.997399, -0.000726082, 0.997451, 0.071355, 0.999948, -4.36565e-09, 0.0101752, -14.7558, 7.30146, 0.293667)
+current = true

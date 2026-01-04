@@ -1,0 +1,217 @@
+[gd_scene load_steps=21 format=3 uid="uid://dq87yi5bfss86"]
+
+[ext_resource type="PackedScene" uid="uid://dd5k1qilde1i1" path="res://Joueur.tscn" id="1_37kl0"]
+[ext_resource type="PackedScene" uid="uid://cpnl153rw4le" path="res://dashboard.tscn" id="2_8uh7m"]
+[ext_resource type="PackedScene" uid="uid://d4ji265l14uqv" path="res://Asteroid1.glb" id="2_ppyta"]
+[ext_resource type="Environment" uid="uid://4ibwtduv01jq" path="res://testng_environnement.tres" id="2_xersf"]
+[ext_resource type="Script" uid="uid://c3j7g4ey4joxn" path="res://Mission.gd" id="3_6uqi0"]
+[ext_resource type="PackedScene" uid="uid://cmrdrvs2n2xyi" path="res://Gas Station.glb" id="4_77dp3"]
+[ext_resource type="PackedScene" uid="uid://wp3vni7e86es" path="res://prop.tscn" id="5_5tkv4"]
+[ext_resource type="PackedScene" uid="uid://cw1bruqimy766" path="res://pinky.glb" id="5_ykrsh"]
+[ext_resource type="PackedScene" uid="uid://jroqs1xxjf01" path="res://item.tscn" id="7_vbegm"]
+[ext_resource type="Texture2D" uid="uid://xotpjs66rnkj" path="res://pistol.png" id="8_5tkv4"]
+[ext_resource type="PackedScene" uid="uid://4aglyq1mqitp" path="res://Finaltarget.tscn" id="8_ehkex"]
+[ext_resource type="PackedScene" uid="uid://b8covhlk57xb" path="res://planet.glb" id="11_5tkv4"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_37kl0"]
+lifetime_randomness = 1.0
+emission_shape_scale = Vector3(20, 20, 20)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+angle_min = -720.0
+angle_max = 720.0
+velocity_pivot = Vector3(1, 1, 1)
+direction = Vector3(1, 1, 1)
+spread = 102.446
+flatness = 0.178
+initial_velocity_max = 2.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -5.43
+linear_accel_max = 2.92
+hue_variation_min = -0.12
+hue_variation_max = 0.11
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6uqi0"]
+vertex_color_use_as_albedo = true
+metallic_specular = 1.0
+roughness = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_6uqi0"]
+material = SubResource("StandardMaterial3D_6uqi0")
+radius = 0.2
+height = 0.2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ppyta"]
+radius = 10.7561
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_37kl0"]
+radius = 3.77624
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8uh7m"]
+radius = 7.85149
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0m0f1"]
+albedo_color = Color(0.299001, 0.59404, 0.627244, 1)
+albedo_texture = ExtResource("8_5tkv4")
+uv1_scale = Vector3(3, 3, 3)
+uv1_offset = Vector3(0, 0.5, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_b0q6j"]
+
+[node name="test" type="WorldEnvironment"]
+environment = ExtResource("2_xersf")
+
+[node name="PlayerController" parent="." instance=ExtResource("1_37kl0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.17784, 0, -12.8668)
+decel_coef = -0.5
+
+[node name="C2" type="Camera3D" parent="PlayerController"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15.4847, 4.28375, 0.132806)
+environment = ExtResource("2_xersf")
+fov = 55.0
+
+[node name="World" type="Node" parent="."]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="World"]
+transform = Transform3D(32.1983, 0, 0, 0, 15.4117, 0, 0, 0, 40.1242, 0, 0, 0)
+amount = 3000
+amount_ratio = 0.5968
+lifetime = 3.0
+preprocess = 1.12
+explosiveness = 0.06
+randomness = 0.14
+process_material = SubResource("ParticleProcessMaterial_37kl0")
+draw_pass_1 = SubResource("SphereMesh_6uqi0")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.00007, 13.9671, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D"]
+shape = SubResource("SphereShape3D_ppyta")
+
+[node name="Asteroid1" parent="World/StaticBody3D" instance=ExtResource("2_ppyta")]
+
+[node name="StaticBody3D7" type="StaticBody3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.9653, -95.7205, 69.4298)
+
+[node name="Asteroid1" parent="World/StaticBody3D7" instance=ExtResource("2_ppyta")]
+transform = Transform3D(1.62992, 0.327436, 2.49723, 2.5186, -0.211901, -1.61609, 0, 2.97454, -0.390021, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D7"]
+shape = SubResource("SphereShape3D_ppyta")
+
+[node name="StaticBody3D8" type="StaticBody3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.9653, -95.7205, -164.478)
+
+[node name="Asteroid1" parent="World/StaticBody3D8" instance=ExtResource("2_ppyta")]
+transform = Transform3D(3.26987, 0, -9.45029, 5.85981, -7.84549, 2.02754, -7.41422, -6.20067, -2.56537, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D8"]
+shape = SubResource("SphereShape3D_ppyta")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.3723, 2.9647, -47.7384)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D2"]
+transform = Transform3D(0.99973, 0, 0, 0, 0.99973, 0, 0, 0, 0.99973, 0, 0, 0)
+shape = SubResource("SphereShape3D_37kl0")
+
+[node name="Asteroid1" parent="World/StaticBody3D2" instance=ExtResource("2_ppyta")]
+transform = Transform3D(0.341823, -0.801152, 0.491235, 0, -0.522722, -0.852503, 0.939764, 0.291406, -0.178678, 0, 0, 0)
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 92.111, 2.9647, 29.7293)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D3"]
+shape = SubResource("SphereShape3D_8uh7m")
+debug_color = Color(0.29983, 0.59227, 0.587542, 0.42)
+
+[node name="Asteroid1" parent="World/StaticBody3D3" instance=ExtResource("2_ppyta")]
+transform = Transform3D(0.647894, -0.695355, -0.310989, 0, -0.408267, 0.912863, -0.761731, -0.591438, -0.264514, 0, 0, 0)
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.2828, 59.4513, 29.7293)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D4"]
+shape = SubResource("SphereShape3D_8uh7m")
+debug_color = Color(0.29983, 0.59227, 0.587542, 0.42)
+
+[node name="Asteroid1" parent="World/StaticBody3D4" instance=ExtResource("2_ppyta")]
+transform = Transform3D(0.122822, 0.992429, 0, -0.992429, 0.122822, 0, 0, 0, 1, 0, 1.33776, 0)
+
+[node name="StaticBody3D5" type="StaticBody3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -108.671, -35.4867, 29.7293)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D5"]
+shape = SubResource("SphereShape3D_8uh7m")
+debug_color = Color(0.29983, 0.59227, 0.587542, 0.42)
+
+[node name="Asteroid1" parent="World/StaticBody3D5" instance=ExtResource("2_ppyta")]
+transform = Transform3D(0.23061, 0, -0.973046, 0, 1, 0, 0.973046, 0, 0.23061, 0, 0, -0.437162)
+
+[node name="StaticBody3D6" type="StaticBody3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -110.201, 108.51, 28.5939)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25909, 0, -1.39139)
+shape = SubResource("SphereShape3D_8uh7m")
+debug_color = Color(0.29983, 0.59227, 0.587542, 0.42)
+
+[node name="Asteroid1" parent="World/StaticBody3D6" instance=ExtResource("2_ppyta")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+
+[node name="Gas Station" parent="World" instance=ExtResource("4_77dp3")]
+transform = Transform3D(-0.996371, 0.0851214, 0, -0.0851214, -0.996371, 0, 0, 0, 1, -233.767, 0, 0)
+
+[node name="Node3D" parent="World" instance=ExtResource("5_5tkv4")]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 152.122, 6.58343, -30.6552)
+
+[node name="Missions" type="Node" parent="."]
+
+[node name="Mission" type="Node" parent="Missions"]
+script = ExtResource("3_6uqi0")
+contractor = "Chekov"
+context = "I want my gun lol"
+time = 3.45
+price = 235.0
+metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
+
+[node name="CollectableItem" parent="Missions/Mission" instance=ExtResource("7_vbegm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.8048, 104.328, 70.142)
+item_id = 4
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Missions/Mission/CollectableItem"]
+transform = Transform3D(11.1215, 0, 0, 0, 5.89491, 0, 0, 0, 10.9979, 12.7737, 0, 0)
+material_override = SubResource("StandardMaterial3D_0m0f1")
+mesh = SubResource("BoxMesh_b0q6j")
+
+[node name="ArrivingPoint" parent="Missions/Mission" instance=ExtResource("8_ehkex")]
+transform = Transform3D(0.609949, 0.248004, -0.752633, -0.135215, 0.968409, 0.209524, 0.78082, -0.0260312, 0.624214, 61.6581, 24.7862, 73.7725)
+actor = ExtResource("5_ykrsh")
+trigger_text = ""
+item_id = 4
+
+[node name="Mission2" type="Node" parent="Missions"]
+script = ExtResource("3_6uqi0")
+contractor = "ijiojoijouge"
+context = "hughiuhojojok"
+time = 3.45
+price = 235.0
+id = 1
+metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
+
+[node name="Dashboard" parent="." instance=ExtResource("2_8uh7m")]
+offset_top = -1.0
+offset_bottom = -1.0
+
+[node name="planet" parent="." instance=ExtResource("11_5tkv4")]
+transform = Transform3D(24.2565, -97.0135, 0, 97.0135, 24.2565, 0, 0, 0, 100, -199.533, 239.745, 377.821)
+
+[node name="planet2" parent="." instance=ExtResource("11_5tkv4")]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 184.643, -101.355, 555.838)
+
+[node name="planet3" parent="." instance=ExtResource("11_5tkv4")]
+transform = Transform3D(73.1163, -68.2203, 0, 68.2203, 73.1163, 0, 0, 0, 100, -622.827, -375.879, 555.838)
+
+[node name="planet4" parent="." instance=ExtResource("11_5tkv4")]
+transform = Transform3D(18.2791, -17.0551, 0, 17.0551, 18.2791, 0, 0, 0, 25, -622.827, -656.603, 152.819)
