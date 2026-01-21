@@ -63,7 +63,7 @@ environment = ExtResource("2_xersf")
 
 [node name="PlayerController" parent="." instance=ExtResource("1_37kl0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.17784, 0, -12.8668)
-decel_coef = -0.5
+decel_rate = 0.99
 
 [node name="C2" type="Camera3D" parent="PlayerController"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15.4847, 4.28375, 0.132806)
@@ -171,7 +171,7 @@ transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 152.122, 6.58343, -30.6
 [node name="Mission" type="Node" parent="Missions"]
 script = ExtResource("3_6uqi0")
 contractor = "Chekov"
-context = "I want my gun lol"
+context = "J'ai mal au couilles, OUY"
 time = 3.45
 price = 235.0
 metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
@@ -211,7 +211,7 @@ transform = Transform3D(24.2565, -97.0135, 0, 97.0135, 24.2565, 0, 0, 0, 100, -1
 transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 184.643, -101.355, 555.838)
 
 [node name="planet3" parent="." instance=ExtResource("11_5tkv4")]
-transform = Transform3D(73.1163, -68.2203, 0, 68.2203, 73.1163, 0, 0, 0, 100, -622.827, -375.879, 555.838)
+transform = Transform3D(73.1163, -68.2203, 0, 68.2203, 73.1163, 0, 0, 0, 100, -154.45923, 455.87103, -15.84436)
 
 [node name="planet4" parent="." instance=ExtResource("11_5tkv4")]
 transform = Transform3D(18.2791, -17.0551, 0, 17.0551, 18.2791, 0, 0, 0, 25, -622.827, -656.603, 152.819)

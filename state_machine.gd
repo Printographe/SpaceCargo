@@ -30,7 +30,7 @@ var process_functions = {}
 var transitions = {}
 
 func show_debug():
-	self.debug = true
+	self._debug = true
 	return self
 
 
@@ -59,7 +59,7 @@ func get_state_identifier(state) -> String:
 
 func add_st_transition(to : int, with : Callable) -> StateMachine:
 	for state in self.states:
-		if state == to and ignore_self_transitions():
+		if state == to and _ignore_self_transitions:
 			continue
 		self.add_transition(state, to, with)
 	return self
@@ -80,6 +80,11 @@ func set_process_function(state : int, f : Callable, replace : bool = false) -> 
 	else:
 		self.process_functions[state] = f
 	
+	return self
+
+func set_process_function_for(states_array : Array[int], f : Callable, replace_all : bool = false) -> StateMachine:
+	for state in states_array:
+		self.set_process_function(state, f, replace_all)
 	return self
 
 func set_st_process_function(f : Callable) -> StateMachine:
