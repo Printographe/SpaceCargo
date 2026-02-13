@@ -18,5 +18,5 @@ func connect_to_node(node):
 				{	"x": "%0.2f" % player.velocity.x ,
 					"y": "%0.2f" % player.velocity.y, 
 					"z": "%0.2f" % player.velocity.z})
-			$
+			
 		)
