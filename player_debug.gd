@@ -11,12 +11,15 @@ func connect_to_node(node):
 			$HBoxContainer2/VBoxContainer2/CurrentStateValue.set_text(player.rotation_statemachine.get_state_identifier(curr))
 			)
 		
-		player.rotation_statemachine.stateChange.connect(func(_prev, _curr) :
-			$HBoxContainer2/VBoxContainer5/SpeedValue.set_text(str(sqrt(player.velocity.dot(player.velocity)))) 
-			$HBoxContainer2/VBoxContainer4/VelocityValue.text = \
-			"x: {x}, y: {y}, z: {z} ".format(
+		player.movement_statemachine.stateChange.connect(func(_prev, _curr) :
+			
+			$HBoxContainer2/VBoxContainer7/MovementStateValue.set_text(player.movement_statemachine.get_state_identifier(_curr))
+		)
+
+func _process(_delta: float) -> void:
+	$HBoxContainer2/VBoxContainer5/SpeedValue.set_text("%0.2f" % player.speed)
+	$HBoxContainer2/VBoxContainer4/VelocityValue.text = \
+			"(x: {x}, y: {y}, z: {z}) ".format(
 				{	"x": "%0.2f" % player.velocity.x ,
 					"y": "%0.2f" % player.velocity.y, 
 					"z": "%0.2f" % player.velocity.z})
-			
-		)
