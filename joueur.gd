@@ -221,11 +221,11 @@ func setup_movement_statemachine():
 	print(self.movement_statemachine.generate_process_map())
 	return
 
-func set_acceleration(c, n):
+func set_acceleration(_c, n):
 	self.acceleration = BASE_ACCELERATION
 	self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
 
-func set_deceleration(c, n):
+func set_deceleration(_c, n):
 	self.acceleration = self.decel_rate
 	self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
 
