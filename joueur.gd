@@ -24,12 +24,26 @@ enum STATES {
 	IDLE,
 	BASE,
 	NULL,
+
+	FIRST_GEAR,
+	SECOND_GEAR,
+	THIRD_GEAR,
+
 }
 
-#utility function
+#helper functions
 static func sorted(list : Array) -> Array:
 	list.sort()
 	return list
+
+func custom_rotate(up, right):
+	self.basis = self.basis * Basis(Vector3.FORWARD, up*angle).orthonormalized()
+	#self.basis = Basis.IDENTITY.rotated(Vector3(0, 1, 0), pos*angle).orthonormalized()
+	self.basis = self.basis * Basis(Vector3.UP, right*angle).orthonormalized()
+	
+
+static func in_percent_range(value: float, test_value: float, percentage: float) -> bool :
+	return   value >= test_value * (1-percentage) and value <= test_value * (1+percentage)
 
 
 
@@ -38,6 +52,7 @@ var movement_statemachine : StateMachine
 var carry_statemachine : StateMachine
 
 
+#maps
 var input_map : Dictionary[String, bool] = {
 	"action_up" : false,
 	"action_right" : false,
@@ -86,22 +101,53 @@ var state_to_rotation = {
 	STATES.MOVING_DIAG_DOWN_LEFT :  custom_rotate.bind(1, 1),
 }
 
-func custom_rotate(up, right):
-	self.basis = self.basis * Basis(Vector3.FORWARD, up*angle).orthonormalized()
-	#self.basis = Basis.IDENTITY.rotated(Vector3(0, 1, 0), pos*angle).orthonormalized()
-	self.basis = self.basis * Basis(Vector3.UP, right*angle).orthonormalized()
-	
 
-var speed = 0;
 
-@export var BASE_SPEED = 2;
-@export var MAX_SPEED = 200;
+var gear_to_number : Dictionary =  {
+	STATES.IDLE : 0,
+	STATES.FIRST_GEAR : 1,
+	STATES.SECOND_GEAR : 2,
+	STATES.THIRD_GEAR : 3
+}
+
+var number_to_gear_map = {
+	 0: STATES.IDLE        ,
+	 1: STATES.FIRST_GEAR  ,
+	 2: STATES.SECOND_GEAR ,
+	 3: STATES.THIRD_GEAR  
+}
+
+
+
+func number_to_gear(n):
+	if n > 3 or n < 0:
+		return  null
+	else:
+		return  number_to_gear_map[n]
+
+
+
+
+#Exports 
+@export var BASE_ACCELERATION = 2;
 @export var angle = TAU/100 ;
 @export var MAX_ANGLE = TAU/12;
 
+
 @export_category("The physics of it")
-@export var acceleration : float = 50
-@export var decel_rate : float = 0.5
+var speed : float = 0;
+var current_max_speed : float = 0;
+@export var acceleration : float = 5
+@export var decel_rate : float = 5
+
+
+
+@export var gear_to_max_speed = {
+	0 : 0,
+	1 : 50,
+	2 : 100,
+	3 : 150,
+}
 
 @export var fuel_per_acceleration = 10
 
@@ -152,66 +198,71 @@ func setup_rotation_statemachine():
 
 func setup_movement_statemachine():
 	self.movement_statemachine = StateMachine.new(STATES.IDLE, 
-		[STATES.IDLE, STATES.ACCELERATING, STATES.DECELERATING, STATES.HYPERSPEED], {
+		[STATES.IDLE, STATES.HYPERSPEED, STATES.FIRST_GEAR, STATES.SECOND_GEAR, STATES.THIRD_GEAR], {
 			STATES.IDLE : "Idle",
-			STATES.ACCELERATING : "Accelerating",
-			STATES.DECELERATING : "Decelerating",
-			STATES.HYPERSPEED : "Hyperspeed"
+			STATES.HYPERSPEED : "Hyperspeed",
+			STATES.FIRST_GEAR : "Gear I",
+			STATES.SECOND_GEAR : "Gear II",
+			STATES.THIRD_GEAR : "Gear III",
 		}) \
-		.set_process_function_for([STATES.IDLE, STATES.ACCELERATING,STATES.DECELERATING], update_movement) \
-		#.add_st_transition(STATES.ACCELERATING, print.bind("Accel")) \
-		#.add_st_transition(STATES.DECELERATING, print.bind("Decel")) \
-		#When in hyperspeed start a timer ? 
-		.add_st_transition(STATES.HYPERSPEED, func (_prev, _next) : movement_statemachine.switch_to(STATES.IDLE)) \
-		.add_st_transition(STATES.IDLE, func (_prev, _next) : return ) \
-		.add_st_transition(STATES.ACCELERATING, on_acceleration) \
-		.add_st_transition(STATES.DECELERATING, on_deceleration) 
-		#.show_debug()
+		.add_transition(STATES.IDLE, STATES.FIRST_GEAR, set_acceleration)\
+		.add_transition(STATES.FIRST_GEAR, STATES.SECOND_GEAR, set_acceleration)\
+		.add_transition(STATES.SECOND_GEAR, STATES.THIRD_GEAR, set_acceleration)\
+		## 
+		.add_transition(STATES.THIRD_GEAR, STATES.SECOND_GEAR, set_deceleration)\
+		.add_transition(STATES.SECOND_GEAR, STATES.FIRST_GEAR, set_deceleration)\
+		.add_transition(STATES.FIRST_GEAR, STATES.IDLE, set_deceleration)\
+
+		.set_process_function_for([STATES.IDLE, STATES.FIRST_GEAR, STATES.SECOND_GEAR, STATES.THIRD_GEAR], update_movement) \
+		.show_debug()
+
 
 	print(self.movement_statemachine.generate_transition_map())
+	print(self.movement_statemachine.generate_process_map())
 	return
 
+func set_acceleration(c, n):
+	self.acceleration = BASE_ACCELERATION
+	self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
 
+func set_deceleration(c, n):
+	self.acceleration = self.decel_rate
+	self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
 
-
-func on_acceleration(prev, _nxt):
-	if prev == STATES.DECELERATING:
-		speed = BASE_SPEED
+func update_movement(delta):
+	if self.speed < self.current_max_speed and acceleration > 0:
+		self.speed += self.acceleration
+	elif self.speed> self.current_max_speed and acceleration <0:
+		self.speed += self.acceleration
 	
-	print("accellerating")
-	if self.speed >= MAX_SPEED:
-		self.movement_statemachine.switch_to(STATES.HYPERSPEED)
-		print("hyperspeed")
-		self.speed = BASE_SPEED
-	self.speed += self.acceleration
+	self.velocity = self.basis.x * speed * delta
 
-func on_deceleration(_prev, _nxt):
-	print("decellerating")
-	if self.velocity.is_zero_approx():
-		self.velocity = Vector3.ZERO
-	self.speed = pow(self.speed, decel_rate)
-
-	print(velocity.distance_to(Vector3.ZERO))
-
-
-
-
-
-func update_movement(_delta):
-	self.velocity = self.basis.x * speed
 
 	if Input.is_action_just_pressed("acceleration"):
-		self.movement_statemachine.switch_to(STATES.ACCELERATING)
+		var current_gear_number = gear_to_number[self.movement_statemachine.get_state()]
+		print("current gear : ",  current_gear_number)
+		# condition 1 : If you've roughly reached the maximum speed for the current gear
+		# condition 2 : Check whether you can go faster
+		# condition 3 : Check that you're not decelerating
+		print(in_percent_range(self.speed, self.current_max_speed, 0.05))
+		print(current_gear_number < 3)
+		print(self.acceleration >= 0)
+		if in_percent_range(self.speed, self.current_max_speed, 0.05) and current_gear_number < 3 and self.acceleration >= 0 :
+			self.movement_statemachine.switch_to(number_to_gear(current_gear_number+1))
 
 	elif Input.is_action_pressed("deceleration"):
-		self.movement_statemachine.switch_to(STATES.DECELERATING)
-	
+		var current_gear_number = gear_to_number[self.movement_statemachine.get_state()]
+		if is_zero_approx(self.speed): return
+		else : self.movement_statemachine.switch_to(number_to_gear(current_gear_number-1))
+
+
 	self.move_and_slide()
 
 
 func _ready() -> void:
 	setup_rotation_statemachine()
 	setup_movement_statemachine()
+
 
 	for node in get_tree().get_nodes_in_group("Debug"):
 		if node is PlayerDebug:
