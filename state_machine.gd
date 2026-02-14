@@ -37,6 +37,10 @@ func show_debug():
 	self._debug = true
 	return self
 
+func sm_print_debug(bla):
+	if self._debug:
+		print(self._name + ": " + str(bla))
+
 
 func _init(s0 : int, states : Array[int], state_to_string) -> void:
 	stateChange.emit(null, s0)
@@ -55,6 +59,9 @@ func ignore_self_transitions():
 func no_conditions_dfs():
 	self._is_no_conditions_dfs = true
 
+func get_states():
+	return self._states
+
 func get_state():
 	return self._current_state
 
@@ -64,27 +71,15 @@ func get_current_state_identifier() -> String:
 func get_state_identifier(state) -> String:
 	return self._state_identifiers[state]
 
-func next():
+func to_next():
 	if self._is_no_conditions_dfs:
 		if self.transitions[_current_state][0]:
 			self.switch_to(self.transitions[_current_state][0])
 		else : 
 			push_error("The state {cs} doesn't have a transition state".format({"cs" : self._current_state}))
 	else:
-		push_error("Can't use the next method without adding add no_conditions_dfs() to the instance")
+		push_error("Can't use the to_next method without adding add no_conditions_dfs() to the instance")
 
-
-func add_st_transition(to : int, with : Callable) -> StateMachine:
-	for state in self.states:
-		if state == to and _ignore_self_transitions:
-			continue
-		self.add_transition(state, to, with)
-	return self
-	
-func add_st_transition_arr(to : Array, with: Callable):
-	for state in to:
-		self.add_st_transition(state, with)
-	return self
 
 
 func add_transition(from: int, to: int, with: Callable):
@@ -92,6 +87,25 @@ func add_transition(from: int, to: int, with: Callable):
 		push_error("This graph can have at most one transition per state")
 	self.transitions[from].append(ConcreteTransition.new(from, to, with))
 	return self
+
+
+func add_st_transition(to : int, with : Callable) -> StateMachine:
+	for state in self._states:
+		if state == to and _ignore_self_transitions:
+			continue
+		self.add_transition(state, to, with)
+	return self
+	
+func add_st_transition_arr(to : Array, with: Callable):
+	for state in to:
+		if self._states.has(state):
+			self.add_st_transition(state, with)
+		else :
+			push_error("State {} not declared among states definition".format(state))
+	return self
+
+
+
 	
 
 func set_process_function(state : int, f : Callable, replace : bool = false) -> StateMachine:
@@ -102,9 +116,12 @@ func set_process_function(state : int, f : Callable, replace : bool = false) -> 
 	
 	return self
 
-func set_process_function_for(states_array : Array[int], f : Callable, replace_all : bool = false) -> StateMachine:
+func set_process_function_for(states_array : Array, f : Callable, replace_all : bool = false) -> StateMachine:
 	for state in states_array:
-		self.set_process_function(state, f, replace_all)
+		if self._states.has(state):
+			self.set_process_function(state, f, replace_all)
+		else: 
+			push_error("State {} not declared among states definition".format(state))
 	return self
 
 func set_st_process_function(f : Callable) -> StateMachine:
@@ -137,6 +154,8 @@ func use_process(delta : float) -> void:
 	if self.process_functions.has(self._current_state):
 		self.process_functions[_current_state].call(delta)
 
+
+
 func switch_to(next):
 	sm_print_debug("Attempt to switch from " + _state_identifiers[self._current_state] + " to " + _state_identifiers[next])
 	if next == self._current_state and self._ignore_self_transitions:
@@ -160,7 +179,3 @@ func switch_to(next):
 	
 	
 	#utility 
-	
-func sm_print_debug(bla):
-	if self._debug:
-		print(self._name + ": " + bla)
