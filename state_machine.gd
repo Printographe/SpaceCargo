@@ -18,10 +18,14 @@ var _state_identifiers
 
 var _debug : bool = false
 var _name : String
-var states : Array[int]
+var _states : Array[int]
   
 var _current_state : int
+
+#Params
+
 var _ignore_self_transitions : bool = false
+var _is_no_conditions_dfs : bool = false
 
 #Allowed to do in state
 var process_functions = {}
@@ -37,7 +41,7 @@ func show_debug():
 func _init(s0 : int, states : Array[int], state_to_string) -> void:
 	stateChange.emit(null, s0)
 	self._current_state = s0
-	self.states = states
+	self._states = states
 	self._state_identifiers = state_to_string
 	for state in states:
 		transitions[state] = []
@@ -46,6 +50,10 @@ func ignore_self_transitions():
 	self._ignore_self_transitions = true
 	return self
 
+# Every state in the state space has at most one transition (eg. A --> B --> C --> D). 
+# Used to permit the usage of the next() method which given the current state would go to the next one.
+func no_conditions_dfs():
+	self._is_no_conditions_dfs = true
 
 func get_state():
 	return self._current_state
@@ -55,6 +63,15 @@ func get_current_state_identifier() -> String:
 
 func get_state_identifier(state) -> String:
 	return self._state_identifiers[state]
+
+func next():
+	if self._is_no_conditions_dfs:
+		if self.transitions[_current_state][0]:
+			self.switch_to(self.transitions[_current_state][0])
+		else : 
+			push_error("The state {cs} doesn't have a transition state".format({"cs" : self._current_state}))
+	else:
+		push_error("Can't use the next method without adding add no_conditions_dfs() to the instance")
 
 
 func add_st_transition(to : int, with : Callable) -> StateMachine:
@@ -71,9 +88,12 @@ func add_st_transition_arr(to : Array, with: Callable):
 
 
 func add_transition(from: int, to: int, with: Callable):
+	if self._is_no_conditions_dfs and len(self.transitions[from].keys()) > 1:
+		push_error("This graph can have at most one transition per state")
 	self.transitions[from].append(ConcreteTransition.new(from, to, with))
 	return self
 	
+
 func set_process_function(state : int, f : Callable, replace : bool = false) -> StateMachine:
 	if self.process_functions.has(state) and replace :
 		push_error("Trying to set a process function for a state that's already set")
@@ -88,14 +108,14 @@ func set_process_function_for(states_array : Array[int], f : Callable, replace_a
 	return self
 
 func set_st_process_function(f : Callable) -> StateMachine:
-	for state in self.states:
+	for state in self._states:
 		self.process_functions[state] = f 
 	return self
 
 #for debug
 func generate_transition_map() -> Dictionary:
 	var simplified_transition_map = {}
-	for state in self.states:
+	for state in self._states:
 		simplified_transition_map[_state_identifiers[state]] = []
 		for transition : ConcreteTransition in self.transitions[state]:
 			simplified_transition_map[_state_identifiers[state]].append(_state_identifiers[transition.next_state])
@@ -103,7 +123,14 @@ func generate_transition_map() -> Dictionary:
 	sm_print_debug(simplified_transition_map)
 	return simplified_transition_map
 
-
+func generate_process_map() -> Dictionary:
+	var process_map : Dictionary = {}
+	for state in self._states:
+		if self.process_functions.has(state) : 
+			process_map[_state_identifiers[state]] = "Ok"
+		else :
+			process_map[_state_identifiers[state]] = "Unset"
+	return process_map
 
 
 func use_process(delta : float) -> void:
@@ -136,4 +163,4 @@ func switch_to(next):
 	
 func sm_print_debug(bla):
 	if self._debug:
-		print(bla)
+		print(self._name + ": " + bla)
