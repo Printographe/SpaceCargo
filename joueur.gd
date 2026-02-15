@@ -226,15 +226,22 @@ func set_acceleration(_c, n):
 	self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
 
 func set_deceleration(_c, n):
+	print("I'm called ?")
 	self.acceleration = self.decel_rate
 	self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
 
 func update_movement(delta):
 	if self.speed < self.current_max_speed and acceleration > 0:
 		self.speed += self.acceleration
-	elif self.speed> self.current_max_speed and acceleration <0:
-		self.speed += self.acceleration
-	
+	if self.speed > self.current_max_speed and acceleration <0:
+		#to avoid negative velocities 
+		if self.speed + self.acceleration > self.current_max_speed:
+			self.speed += self.acceleration
+		else :
+			self.speed = self.current_max_speed
+
+	clampf(self.speed, self.speed, self.current_max_speed)
+
 	self.velocity = self.basis.x * speed * delta
 
 
@@ -247,13 +254,15 @@ func update_movement(delta):
 		print(in_percent_range(self.speed, self.current_max_speed, 0.05))
 		print(current_gear_number < 3)
 		print(self.acceleration >= 0)
-		if in_percent_range(self.speed, self.current_max_speed, 0.05) and current_gear_number < 3 and self.acceleration >= 0 :
+		if in_percent_range(self.speed, self.current_max_speed, 0.05) and current_gear_number < 3 : #and self.acceleration >= 0 :
 			self.movement_statemachine.switch_to(number_to_gear(current_gear_number+1))
 
-	elif Input.is_action_pressed("deceleration"):
+	elif Input.is_action_just_pressed("deceleration"):
 		var current_gear_number = gear_to_number[self.movement_statemachine.get_state()]
-		if is_zero_approx(self.speed): return
-		else : self.movement_statemachine.switch_to(number_to_gear(current_gear_number-1))
+		if is_zero_approx(self.speed) or current_gear_number == 0: return
+		else :
+			self.movement_statemachine.switch_to(number_to_gear(current_gear_number-1))
+			print(number_to_gear(current_gear_number-1))
 
 
 	self.move_and_slide()

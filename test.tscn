@@ -64,7 +64,7 @@ environment = ExtResource("2_xersf")
 [node name="PlayerController" parent="." instance=ExtResource("1_37kl0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.17784, 0, -12.8668)
 BASE_ACCELERATION = 25
-decel_rate = 0.01
+decel_rate = -90.0
 gear_to_max_speed = {
 0: 0,
 1: 1500,
