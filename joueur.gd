@@ -29,6 +29,9 @@ enum STATES {
 	SECOND_GEAR,
 	THIRD_GEAR,
 
+	CARRYING,
+	EMPTY,
+
 }
 
 #helper functions
@@ -50,6 +53,7 @@ static func in_percent_range(value: float, test_value: float, percentage: float)
 var rotation_statemachine : StateMachine
 var movement_statemachine : StateMachine
 var carry_statemachine : StateMachine
+
 
 
 #maps
@@ -232,13 +236,13 @@ func set_deceleration(_c, n):
 
 func update_movement(delta):
 	if self.speed < self.current_max_speed and acceleration > 0:
-		self.speed += self.acceleration
+		self.speed += self.acceleration 
 	if self.speed > self.current_max_speed and acceleration <0:
 		#to avoid negative velocities 
 		if self.speed + self.acceleration > self.current_max_speed:
-			self.speed += self.acceleration
+			self.speed += self.acceleration 
 		else :
-			self.speed = self.current_max_speed
+			self.speed = self.current_max_speed 
 
 	clampf(self.speed, self.speed, self.current_max_speed)
 
@@ -266,6 +270,13 @@ func update_movement(delta):
 
 
 	self.move_and_slide()
+
+
+# func setup_carry_statemachine():
+# 	self.carry_statemachine = StateMachine.new(STATES.EMPTY, [STATES.CARRYING, STATES.EMPTY])\
+# 		.add_transition(STATES.EMPTY, STATES.CARRYING, func (c, n) : set_carrying_id()
+
+
 
 
 func _ready() -> void:
@@ -330,10 +341,3 @@ func update_rotation(_delta):
 		
 	if any_button_released:
 		self.rotation_statemachine.switch_to(STATES.IDLE)
-
-
-
-func move() -> void:
-		
-	self.velocity += self.basis.x * speed
-	#self.rot_axis = Vector3(1, 0, 0)
