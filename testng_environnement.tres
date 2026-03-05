@@ -25,5 +25,7 @@ reflected_light_source = 1
 glow_enabled = true
 glow_normalized = true
 glow_bloom = 0.05
+fog_enabled = true
+fog_light_color = Color(0.43578514, 0.57032496, 0.66063964, 1)
 volumetric_fog_emission = Color(0.303233, 0.303233, 0.303233, 1)
 volumetric_fog_gi_inject = 2.57

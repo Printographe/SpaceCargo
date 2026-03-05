@@ -13,6 +13,7 @@ config_version=5
 config/name="space_cargo"
 run/main_scene="uid://dq87yi5bfss86"
 config/features=PackedStringArray("4.5", "Forward Plus")
+boot_splash/bg_color=Color(0.30565047, 0.67787755, 0.8155503, 1)
 config/icon="res://icon.svg"
 
 [input]

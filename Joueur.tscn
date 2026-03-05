@@ -204,6 +204,17 @@ draw_pass_1 = SubResource("SphereMesh_onbj7")
 [node name="Carry" type="RemoteTransform3D" parent="Space Cargo"]
 update_scale = false
 
+[node name="DirectionalLight3D" type="SpotLight3D" parent="Space Cargo"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.2509222, 0.5545572, 0)
+light_color = Color(1, 0.9178659, 0.50818473, 1)
+light_energy = 20.0
+light_indirect_energy = 15.0
+light_volumetric_fog_energy = 5.0
+light_size = 15.0
+light_specular = 2.5
+spot_range = 299.4278
+spot_angle = 12.4642105
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.20573, 0.650406, 0.18158)
 shape = SubResource("BoxShape3D_pfoao")
