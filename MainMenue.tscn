@@ -1,0 +1,146 @@
+[gd_scene load_steps=11 format=3 uid="uid://b86uma5ww43n0"]
+
+[ext_resource type="Theme" uid="uid://dws2gsvokqfrx" path="res://MainMenue.tres" id="1_7jywe"]
+[ext_resource type="Script" uid="uid://u656mo4oo01x" path="res://main_menu.gd" id="1_y0kxn"]
+[ext_resource type="PackedScene" uid="uid://k13yv2k8ujob" path="res://Space Cargo.glb" id="2_cw4yn"]
+[ext_resource type="PackedScene" uid="uid://dsbiiqsdmjvuj" path="res://parameters.tscn" id="3_q427x"]
+[ext_resource type="Theme" uid="uid://bfegocmrimfd0" path="res://12pxlabel.tres" id="3_y0kxn"]
+[ext_resource type="PackedScene" uid="uid://b06cuqq4etmmg" path="res://pinky2.tscn" id="6_05tgr"]
+
+[sub_resource type="Environment" id="Environment_05tgr"]
+background_mode = 1
+background_color = Color(0.51024073, 0.895452, 0.6935374, 1)
+
+[sub_resource type="Animation" id="Animation_x2n5p"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("pinky")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.07138429, -0.01702403, -0.24173278, 0.9675638)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Space Cargo")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -3.040844, -1.716147, -3.4939475)
+
+[sub_resource type="Animation" id="Animation_05tgr"]
+resource_name = "Floating"
+length = 20.0
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("pinky")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0.033333335, 1, -0.07138429, -0.01702403, -0.24173278, 0.9675638, 6.0333333, 1, -0.25169685, 0.9372438, 0.013384699, 0.24092232, 15, 1, 0.11878817, -0.6911407, -0.22230563, 0.6773434, 19.966667, 1, -0.07013803, -0.022008238, -0.24209727, 0.96746325)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Space Cargo")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(13.3, 1, -3.040844, -1.716147, -3.4939475, 15.066667, 1, -1.0509977, -0.6813619, -3.4939475, 17.833334, 1, -0.49530947, -2.0912514, -3.4939475, 19, 1, -0.65221095, -2.0681307, -10.821505)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_acwmj"]
+_data = {
+&"RESET": SubResource("Animation_x2n5p"),
+&"main_menu": SubResource("Animation_05tgr")
+}
+
+[node name="Control" type="CanvasLayer"]
+script = ExtResource("1_y0kxn")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_05tgr")
+
+[node name="Space Cargo" parent="." instance=ExtResource("2_cw4yn")]
+transform = Transform3D(0.93736845, -0.334432, 0.09744636, 0.34057608, 0.8211541, -0.4579452, 0.07313302, 0.46245122, 0.88362366, -3.040844, -1.716147, -3.4939475)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.88617927, 0.46334246, 0, -0.46334246, -0.88617927, -3.167811, 5.6654644, -7.1404834)
+light_color = Color(0.5812114, 0.9257195, 0.9412168, 1)
+light_energy = 16.0
+light_indirect_energy = 6.15
+spot_range = 28.942816
+spot_angle = 89.99
+
+[node name="OmniLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.590427, 1.562428, 0.8054681)
+light_color = Color(0.99999994, 0.34480336, 0.15952355, 1)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.3390101)
+fov = 79.825294
+
+[node name="Title" type="Label" parent="."]
+anchors_preset = -1
+anchor_top = 0.136
+anchor_right = 1.0
+anchor_bottom = 0.19900002
+offset_top = -0.12800598
+offset_bottom = -17.952011
+grow_horizontal = 2
+theme = ExtResource("1_7jywe")
+text = "Average Space Game"
+horizontal_alignment = 1
+
+[node name="MainMenue" type="VBoxContainer" parent="."]
+anchors_preset = -1
+anchor_left = 0.31500003
+anchor_top = 0.5
+anchor_right = 0.70400006
+anchor_bottom = 0.5
+offset_left = 0.1199646
+offset_top = -33.0
+offset_right = -0.008056641
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DemoButton" type="Button" parent="MainMenue"]
+layout_mode = 2
+text = "Try the Demo
+"
+
+[node name="SettingsButton" type="Button" parent="MainMenue"]
+layout_mode = 2
+text = "Settings
+"
+
+[node name="Settings" parent="." instance=ExtResource("3_q427x")]
+visible = false
+anchors_preset = 15
+offset_left = 204.0
+offset_top = 144.0
+offset_right = -164.0
+offset_bottom = -110.0
+
+[node name="Version" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.703
+anchor_top = 0.934
+anchor_right = 1.001
+anchor_bottom = 0.99700004
+offset_left = 0.14398193
+offset_top = -0.23199463
+offset_right = -0.15209961
+offset_bottom = -0.056030273
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_y0kxn")
+text = "Version Alpha"
+horizontal_alignment = 1
+
+[node name="pinky" parent="." instance=ExtResource("6_05tgr")]
+transform = Transform3D(0.88255084, 0.47021422, 0.001568172, -0.46535328, 0.87293893, 0.14636824, 0.067455515, -0.12990716, 0.9892289, 13.697197, 0, -14.153838)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_acwmj")
+}

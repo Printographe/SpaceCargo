@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dws2gsvokqfrx"]
+
+[ext_resource type="FontFile" uid="uid://ckibv4ykl0wmp" path="res://Magazine Publisher.otf" id="1_5bhi8"]
+
+[resource]
+default_font = ExtResource("1_5bhi8")
+default_font_size = 45
