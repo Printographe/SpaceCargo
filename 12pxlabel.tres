@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bfegocmrimfd0"]
+
+[ext_resource type="FontFile" uid="uid://v7g3dfalih0g" path="res://MainFont.fontdata" id="1_jvfah"]
+
+[resource]
+default_font = ExtResource("1_jvfah")
+default_font_size = 24
