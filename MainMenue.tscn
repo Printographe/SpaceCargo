@@ -138,7 +138,7 @@ text = "Version Alpha"
 horizontal_alignment = 1
 
 [node name="pinky" parent="." instance=ExtResource("6_05tgr")]
-transform = Transform3D(0.88255084, 0.47021422, 0.001568172, -0.46535328, 0.87293893, 0.14636824, 0.067455515, -0.12990716, 0.9892289, 13.697197, 0, -14.153838)
+transform = Transform3D(0.8825508, 0.4702142, 0.0015681719, -0.46535325, 0.8729389, 0.14636822, 0.06745551, -0.12990715, 0.98922884, 13.697197, 0, -14.153838)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
