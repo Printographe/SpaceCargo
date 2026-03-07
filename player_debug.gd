@@ -15,11 +15,14 @@ func connect_to_node(node):
 			
 			$HBoxContainer2/VBoxContainer7/MovementStateValue.set_text(player.movement_statemachine.get_state_identifier(_curr))
 		)
+	else:
+		print_debug("Trying to connect the GUI Player pannel to a non-Player node.")
 
 func _process(_delta: float) -> void:
-	$HBoxContainer2/VBoxContainer5/SpeedValue.set_text("%0.2f" % player.speed)
-	$HBoxContainer2/VBoxContainer4/VelocityValue.text = \
-			"(x: {x}, y: {y}, z: {z}) ".format(
-				{	"x": "%0.2f" % player.velocity.x ,
-					"y": "%0.2f" % player.velocity.y, 
-					"z": "%0.2f" % player.velocity.z})
+	if player and player is PlayerController:
+		$HBoxContainer2/VBoxContainer5/SpeedValue.set_text("%0.2f" % player.speed)
+		$HBoxContainer2/VBoxContainer4/VelocityValue.text = \
+				"(x: {x}, y: {y}, z: {z}) ".format(
+					{	"x": "%0.2f" % player.velocity.x ,
+						"y": "%0.2f" % player.velocity.y, 
+						"z": "%0.2f" % player.velocity.z})
