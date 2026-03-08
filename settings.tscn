@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsbiiqsdmjvuj"]
+[gd_scene load_steps=3 format=3 uid="uid://di3tveig4f53b"]
 
-[ext_resource type="Theme" uid="uid://bfegocmrimfd0" path="res://12pxlabel.tres" id="1_4wnoj"]
-[ext_resource type="Theme" uid="uid://dws2gsvokqfrx" path="res://MainMenue.tres" id="1_p7af5"]
+[ext_resource type="Theme" uid="uid://dws2gsvokqfrx" path="res://MainMenue.tres" id="1_nkug2"]
+[ext_resource type="Theme" uid="uid://bfegocmrimfd0" path="res://12pxlabel.tres" id="2_3ykye"]
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -25,7 +25,7 @@ offset_bottom = -0.048034668
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-theme = ExtResource("1_p7af5")
+theme = ExtResource("1_nkug2")
 text = "Settings"
 horizontal_alignment = 1
 
@@ -40,7 +40,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
-theme = ExtResource("1_4wnoj")
+theme = ExtResource("2_3ykye")
 text = "General sound"
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/HBoxContainer"]
@@ -59,7 +59,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
-theme = ExtResource("1_4wnoj")
+theme = ExtResource("2_3ykye")
 text = "Music"
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/HBoxContainer2"]
@@ -78,7 +78,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
-theme = ExtResource("1_4wnoj")
+theme = ExtResource("2_3ykye")
 text = "Effects and atmosphere"
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/HBoxContainer3"]
