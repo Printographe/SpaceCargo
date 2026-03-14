@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dq87yi5bfss86"]
+[gd_scene load_steps=23 format=3 uid="uid://dq87yi5bfss86"]
 
 [ext_resource type="PackedScene" uid="uid://dd5k1qilde1i1" path="res://Joueur.tscn" id="1_37kl0"]
 [ext_resource type="PackedScene" uid="uid://cpnl153rw4le" path="res://dashboard.tscn" id="2_8uh7m"]
@@ -51,11 +51,15 @@ radius = 3.77624
 radius = 7.85149
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5tkv4"]
+albedo_color = Color(0, 0, 0, 1)
 emission_enabled = true
-emission = Color(0.87153256, 0.9815814, 3.080368e-06, 1)
-emission_energy_multiplier = 4.86
+emission = Color(0.82856286, 0.56194276, 0.22854379, 1)
+emission_energy_multiplier = 11.35
 emission_on_uv2 = true
 backlight_enabled = true
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5tkv4"]
+radius = 100.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0m0f1"]
 albedo_color = Color(0.299001, 0.59404, 0.627244, 1)
@@ -181,15 +185,17 @@ transform = Transform3D(-0.996371, 0.0851214, 0, -0.0851214, -0.996371, 0, 0, 0,
 [node name="Node3D" parent="World" instance=ExtResource("5_5tkv4")]
 transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 152.122, 6.58343, -30.6552)
 
-[node name="MiniSun" type="CSGSphere3D" parent="World"]
+[node name="StaticBody3D9" type="StaticBody3D" parent="World"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.3154144, 0, -126.68958)
-radius = 67.704
+
+[node name="MiniSun" type="CSGSphere3D" parent="World/StaticBody3D9"]
+radius = 100.0
+radial_segments = 24
+rings = 24
 material = SubResource("StandardMaterial3D_5tkv4")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="World/MiniSun"]
-light_color = Color(0.7405442, 0.7005959, 0.16797602, 1)
-light_energy = 200.0
-omni_range = 1470.334
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D9"]
+shape = SubResource("SphereShape3D_5tkv4")
 
 [node name="Missions" type="Node" parent="."]
 
