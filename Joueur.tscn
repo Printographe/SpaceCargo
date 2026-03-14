@@ -52,7 +52,7 @@ radial_segments = 5
 rings = 2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pfoao"]
-size = Vector3(8.81589, 2.46262, 2.23743)
+size = Vector3(9.046746, 2.46262, 2.23743)
 
 [sub_resource type="Animation" id="Animation_onbj7"]
 length = 0.001
@@ -216,7 +216,7 @@ spot_range = 299.4278
 spot_angle = 12.4642105
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.20573, 0.650406, 0.18158)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.72938776, 0.650406, 0.18158)
 shape = SubResource("BoxShape3D_pfoao")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
