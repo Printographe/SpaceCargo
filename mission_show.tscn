@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcwikomwqyonj"]
+
+[ext_resource type="Script" uid="uid://5ahnvwfeu30d" path="res://mission_show.gd" id="1_ylxd7"]
+
+[node name="MissionShow" type="Control"]
+custom_minimum_size = Vector2(300, 80)
+layout_mode = 3
+anchor_bottom = 0.123
+offset_right = 301.0
+offset_bottom = 0.29599762
+script = ExtResource("1_ylxd7")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+offset_right = 300.0
+offset_bottom = 80.0
+
+[node name="VboxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 1.0
+offset_right = 303.0
+offset_bottom = 1.0
+
+[node name="MarginContainer" type="MarginContainer" parent="VboxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 14
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VboxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="TimerLabel" type="Label" parent="VboxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "TIMER : "
+
+[node name="time" type="Label" parent="VboxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "00:00s"
+
+[node name="MarginContainer2" type="MarginContainer" parent="VboxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 10
+
+[node name="ProgressBar" type="ProgressBar" parent="VboxContainer/MarginContainer2"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+value = 45.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="."]
