@@ -8,8 +8,6 @@ class_name Mission
 #	3. Go to Point B
 #	4. Put the cargo there
 
-
-signal emit_contract_info
 signal updateAdvancement(max : int, current : int)
 
 enum MissionState {
@@ -29,7 +27,7 @@ var _progress: int =0
 func incr_progress():
 	
 	self._progress +=1
-	updateAdvancement.emit(_progress, max_progress)
+	updateAdvancement.emit(max_progress, _progress)
 	if _progress == max_progress:
 		self.statemachine.switch_to(MissionState.FINISHED_SUCCESS)
 		
@@ -88,8 +86,6 @@ func _enter_tree() -> void:
 	self.max_progress = self.get_child_count()
 	for child : MissionItem in self.get_children():
 		child.taskDone.connect(incr_progress)
-	
-	
 	
 
 func print_transition(last, current):

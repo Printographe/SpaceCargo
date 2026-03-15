@@ -46,5 +46,5 @@ func set_contract_info(mission : Mission):
 		_:
 			push_error("Mission {id} shown while state is {state}"
 				.format({"id" : mission.id, "state" : mission.statemachine.get_state_identifier(mission.statemachine.current_state) }))
-	#Match end
+	
 	self.show()
