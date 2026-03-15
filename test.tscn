@@ -51,7 +51,7 @@ radius = 3.77624
 radius = 7.85149
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5tkv4"]
-albedo_color = Color(0, 0, 0, 1)
+albedo_color = Color(0.96794087, 0.7358446, 0.30894724, 1)
 emission_enabled = true
 emission = Color(0.82856286, 0.56194276, 0.22854379, 1)
 emission_energy_multiplier = 11.35
@@ -197,13 +197,19 @@ material = SubResource("StandardMaterial3D_5tkv4")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D9"]
 shape = SubResource("SphereShape3D_5tkv4")
 
+[node name="OmniLight3D" type="OmniLight3D" parent="World/StaticBody3D9"]
+light_color = Color(0.827451, 0.56078434, 0.22745098, 1)
+light_energy = 100.0
+omni_range = 381.90283
+omni_attenuation = 0.655
+
 [node name="Missions" type="Node" parent="."]
 
 [node name="Mission" type="Node" parent="Missions"]
 script = ExtResource("3_6uqi0")
 contractor = "Chekov"
 context = "Rapporte moi mon gun stp : )"
-time = 3.45
+time = 100000.0
 price = 235.0
 metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
 
@@ -212,7 +218,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.8048, 104.328, 70.142)
 item_id = 4
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Missions/Mission/CollectableItem"]
-transform = Transform3D(11.1215, 0, 0, 0, 5.89491, 0, 0, 0, 10.9979, 12.7737, 0, 0)
+transform = Transform3D(7.2844167, 0, 0, 0, 3.7069705, 0, 0, 0, 6.2859664, -0.11637497, 0, 0)
 material_override = SubResource("StandardMaterial3D_0m0f1")
 mesh = SubResource("BoxMesh_b0q6j")
 
