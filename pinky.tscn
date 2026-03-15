@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://blbb524cos70f"]
+
+[ext_resource type="PackedScene" uid="uid://cw1bruqimy766" path="res://pinky.glb" id="1_4c7jl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ig8gb"]
+albedo_color = Color(0.50084865, 0, 0.0005759807, 1)
+emission_enabled = true
+emission = Color(0.8627451, 0.05490196, 0, 1)
+
+[node name="pinky" instance=ExtResource("1_4c7jl")]
+
+[node name="Sphere" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ig8gb")

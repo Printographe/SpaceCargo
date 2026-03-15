@@ -202,6 +202,7 @@ process_material = SubResource("ParticleProcessMaterial_fpxll")
 draw_pass_1 = SubResource("SphereMesh_onbj7")
 
 [node name="Carry" type="RemoteTransform3D" parent="Space Cargo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1860223, 0, 0)
 update_scale = false
 
 [node name="DirectionalLight3D" type="SpotLight3D" parent="Space Cargo"]
