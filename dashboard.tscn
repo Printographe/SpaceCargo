@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cpnl153rw4le"]
+[gd_scene load_steps=8 format=3 uid="uid://cpnl153rw4le"]
 
 [ext_resource type="Script" uid="uid://bp8wqbamwkw63" path="res://dashboard.gd" id="1_dx5rv"]
+[ext_resource type="Theme" uid="uid://b60m0ngucfrwp" path="res://MainTheme.tres" id="2_bw4wq"]
 [ext_resource type="PackedScene" uid="uid://87ciacv3mtls" path="res://contract_panel.tscn" id="2_dx5rv"]
 [ext_resource type="PackedScene" uid="uid://cqbkuvoxmmuwt" path="res://mission_success_message.tscn" id="3_vyiww"]
 [ext_resource type="PackedScene" uid="uid://cgfh3eidsfnr2" path="res://mission_item_text.tscn" id="4_1w0xl"]
@@ -19,10 +20,14 @@ script = ExtResource("1_dx5rv")
 [node name="MissionViewContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.165
+anchor_left = 0.034722224
+anchor_top = 0.108
+anchor_right = 0.19972223
 anchor_bottom = 0.56200004
+offset_top = 0.01599884
 offset_right = -0.08000183
 offset_bottom = -0.17602539
+metadata/_edit_use_anchors_ = true
 
 [node name="Dashboard_panel" type="Control" parent="."]
 layout_mode = 1
@@ -31,21 +36,23 @@ anchor_right = 1.00087
 anchor_bottom = 0.996913
 
 [node name="mission_button" type="Button" parent="Dashboard_panel"]
-layout_mode = 0
-anchor_left = 0.00693841
-anchor_top = 0.304688
-anchor_right = 0.107545
-anchor_bottom = 0.679689
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.030355535
+anchor_top = 0.39843792
+anchor_right = 0.14223737
+anchor_bottom = 0.77343893
+theme = ExtResource("2_bw4wq")
 text = "Missions"
 metadata/_edit_use_anchors_ = true
 
 [node name="mission_container" type="HBoxContainer" parent="Dashboard_panel"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.134
-anchor_top = 0.414
-anchor_right = 0.863832
-anchor_bottom = 0.7815
+anchor_left = 0.15828444
+anchor_top = 0.406186
+anchor_right = 0.5793571
+anchor_bottom = 0.77368605
 offset_left = -0.502304
 offset_top = 0.00822449
 offset_bottom = -0.0315399
@@ -89,6 +96,7 @@ offset_top = -0.00799561
 offset_right = 0.896118
 offset_bottom = -0.112
 text = "Show Debug"
+flat = true
 metadata/_edit_use_anchors_ = true
 
 [node name="PlayerDebug" parent="." instance=ExtResource("5_ly5nh")]
@@ -110,3 +118,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Settings" parent="Panel" instance=ExtResource("7_bw4wq")]
 layout_mode = 1
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

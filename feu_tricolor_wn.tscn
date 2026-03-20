@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cs1w0y5xhq4yi"]
+
+[ext_resource type="PackedScene" uid="uid://c46r64xn7p1d1" path="res://feu tricolor wn.glb" id="1_0d62u"]
+[ext_resource type="Material" uid="uid://c0vaj5bm6kahy" path="res://simple contour shader.tres" id="2_jquk5"]
+
+[node name="feu tricolor wn" instance=ExtResource("1_0d62u")]
+
+[node name="Cube" parent="." index="0"]
+material_overlay = ExtResource("2_jquk5")

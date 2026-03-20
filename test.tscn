@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dq87yi5bfss86"]
+[gd_scene load_steps=25 format=3 uid="uid://dq87yi5bfss86"]
 
 [ext_resource type="PackedScene" uid="uid://dd5k1qilde1i1" path="res://Joueur.tscn" id="1_37kl0"]
 [ext_resource type="PackedScene" uid="uid://cpnl153rw4le" path="res://dashboard.tscn" id="2_8uh7m"]
@@ -11,7 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://jroqs1xxjf01" path="res://item.tscn" id="7_vbegm"]
 [ext_resource type="Texture2D" uid="uid://xotpjs66rnkj" path="res://pistol.png" id="8_5tkv4"]
 [ext_resource type="PackedScene" uid="uid://4aglyq1mqitp" path="res://Finaltarget.tscn" id="8_ehkex"]
+[ext_resource type="Material" uid="uid://c0vaj5bm6kahy" path="res://simple contour shader.tres" id="9_uty7l"]
 [ext_resource type="PackedScene" uid="uid://b8covhlk57xb" path="res://planet.glb" id="11_5tkv4"]
+[ext_resource type="PackedScene" uid="uid://cs1w0y5xhq4yi" path="res://feu_tricolor_wn.tscn" id="16_vxl6d"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_37kl0"]
 lifetime_randomness = 1.0
@@ -209,17 +211,20 @@ omni_attenuation = 0.655
 script = ExtResource("3_6uqi0")
 contractor = "Chekov"
 context = "Rapporte moi mon gun stp : )"
-time = 100000.0
+time = 300.0
 price = 235.0
 metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
 
 [node name="CollectableItem" parent="Missions/Mission" instance=ExtResource("7_vbegm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.8048, 104.328, 70.142)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 181.57707, 104.328, 70.142)
 item_id = 4
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Missions/Mission/CollectableItem"]
-transform = Transform3D(7.2844167, 0, 0, 0, 3.7069705, 0, 0, 0, 6.2859664, -0.11637497, 0, 0)
+transform = Transform3D(7.2844167, 0, 0, 0, 3.7069705, 0, 0, 0, 6.2859664, 0.37792397, -0.25816345, 2.1565933)
 material_override = SubResource("StandardMaterial3D_0m0f1")
+material_overlay = ExtResource("9_uty7l")
+cast_shadow = 0
+extra_cull_margin = 1506.57
 mesh = SubResource("BoxMesh_b0q6j")
 
 [node name="ArrivingPoint" parent="Missions/Mission" instance=ExtResource("8_ehkex")]
@@ -245,10 +250,13 @@ offset_bottom = -1.0
 transform = Transform3D(24.2565, -97.0135, 0, 97.0135, 24.2565, 0, 0, 0, 100, -199.533, 239.745, 377.821)
 
 [node name="planet2" parent="." instance=ExtResource("11_5tkv4")]
-transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 184.643, -101.355, 555.838)
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 184.643, -101.355, 856.1949)
 
 [node name="planet3" parent="." instance=ExtResource("11_5tkv4")]
 transform = Transform3D(73.1163, -68.2203, 0, 68.2203, 73.1163, 0, 0, 0, 100, -154.45923, 455.87103, -15.84436)
 
 [node name="planet4" parent="." instance=ExtResource("11_5tkv4")]
 transform = Transform3D(18.2791, -17.0551, 0, 17.0551, 18.2791, 0, 0, 0, 25, -622.827, -656.603, 152.819)
+
+[node name="feu tricolor wn2" parent="." instance=ExtResource("16_vxl6d")]
+transform = Transform3D(-0.9831976, 0, -0.18254432, 0, 1, 0, 0.18254432, 0, -0.9831976, -44.343716, 104.13226, 88.23602)

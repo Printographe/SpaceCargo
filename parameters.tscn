@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsbiiqsdmjvuj"]
+[gd_scene load_steps=4 format=3 uid="uid://dsbiiqsdmjvuj"]
 
 [ext_resource type="Theme" uid="uid://bfegocmrimfd0" path="res://12pxlabel.tres" id="1_4wnoj"]
 [ext_resource type="Theme" uid="uid://dws2gsvokqfrx" path="res://MainMenue.tres" id="1_p7af5"]
+[ext_resource type="Theme" uid="uid://b60m0ngucfrwp" path="res://MainTheme.tres" id="3_6ay0h"]
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -93,4 +94,5 @@ size_flags_vertical = 3
 
 [node name="Button" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("3_6ay0h")
 text = "Back"
