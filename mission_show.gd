@@ -1,4 +1,4 @@
-extends Control
+extends MarginContainer
 class_name MissionShow
 
 
@@ -14,15 +14,15 @@ func connect_to_mission(mission : Mission):
 	$Timer.set_one_shot(true)
 	
 	$Timer.timeout.connect(func() : print("timeout for mission #" + str(mission.id)))
-	$VboxContainer/MarginContainer2/ProgressBar.set_max(mission.max_progress)
-	current_mission.updateAdvancement.connect(func (_maximum, curr) : $VboxContainer/MarginContainer2/ProgressBar.set_value(curr))
+	$Panel/VboxContainer/MarginContainer2/ProgressBar.set_max(mission.max_progress)
+	current_mission.updateAdvancement.connect(func (_maximum, curr) : $Panel/VboxContainer/MarginContainer2/ProgressBar.set_value(curr))
 	self.show()
 	$Timer.start()
 	current_mission.statemachine.stateChange.connect(sever_ties, CONNECT_ONE_SHOT)
 
 func _process(_delta: float) -> void:
 	if current_mission == null : return 
-	$VboxContainer/MarginContainer/HBoxContainer/time.set_text(str($Timer.get_time_left()))
+	$Panel/VboxContainer/MarginContainer/HBoxContainer/time.set_text(str("%0.2fs" % $Timer.get_time_left()))
 
 
 func sever_ties(_prev, curr) : 
