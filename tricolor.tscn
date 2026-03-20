@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bl0aob1pacxsp"]
+
+[ext_resource type="PackedScene" uid="uid://b0d857beg25t3" path="res://tricolor.glb" id="1_ta0xr"]
+[ext_resource type="Material" uid="uid://c0vaj5bm6kahy" path="res://simple contour shader.tres" id="2_ppkem"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2bgq8"]
+size = Vector3(2.2821045, 12.091309, 2.4229736)
+
+[node name="tricolor" instance=ExtResource("1_ta0xr")]
+
+[node name="Cube" parent="." index="0"]
+material_overlay = ExtResource("2_ppkem")
+
+[node name="AnimatableBody3D" type="StaticBody3D" parent="." index="13"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016418457, 5.5456543, -0.04534912)
+shape = SubResource("BoxShape3D_2bgq8")
