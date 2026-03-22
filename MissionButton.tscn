@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://dx75mvjdvtfsx"]
+
+[ext_resource type="Theme" uid="uid://b60m0ngucfrwp" path="res://MainTheme.tres" id="1_6atrn"]
+
+[node name="Button" type="Button"]
+custom_minimum_size = Vector2(100, 0)
+offset_left = 5.0
+offset_right = 88.0
+offset_bottom = 41.0
+theme = ExtResource("1_6atrn")
+theme_override_font_sizes/font_size = 35
+text = "hello "

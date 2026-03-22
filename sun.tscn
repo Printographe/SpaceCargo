@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://bccu8rb5cnu5k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5tkv4"]
+albedo_color = Color(0.96794087, 0.7358446, 0.30894724, 1)
+emission_enabled = true
+emission = Color(0.82856286, 0.56194276, 0.22854379, 1)
+emission_energy_multiplier = 11.35
+emission_on_uv2 = true
+backlight_enabled = true
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5tkv4"]
+radius = 100.0
+
+[node name="sun" type="StaticBody3D"]
+
+[node name="MiniSun" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 131.58803, 0)
+radius = 100.0
+radial_segments = 24
+rings = 24
+material = SubResource("StandardMaterial3D_5tkv4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_5tkv4")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(0.827451, 0.56078434, 0.22745098, 1)
+light_energy = 100.0
+omni_range = 381.90283
+omni_attenuation = 0.655

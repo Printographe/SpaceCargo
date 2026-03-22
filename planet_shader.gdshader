@@ -2,13 +2,11 @@ shader_type spatial;
 
 
 uniform vec3 basecolor = vec3(0, 1, 0);
-uniform uint island_count = 1;
 uniform bool rotation = false;
 
 
 uniform vec3 i_p = vec3(0, 1, 0);
 
-const vec4 I = vec4(1,1,1,1);
 const float TWO_HALVES = 1./1.;
 
 
@@ -22,10 +20,6 @@ float f(float x, float y) {
 
 void vertex() {
 	COLOR.xyz = VERTEX.xyz;
-}
-
-float shape(float d) {
-	return sin(d);
 }
 
 

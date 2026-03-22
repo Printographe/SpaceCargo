@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dq87yi5bfss86"]
+[gd_scene load_steps=26 format=3 uid="uid://dq87yi5bfss86"]
 
 [ext_resource type="PackedScene" uid="uid://dd5k1qilde1i1" path="res://Joueur.tscn" id="1_37kl0"]
 [ext_resource type="PackedScene" uid="uid://cpnl153rw4le" path="res://dashboard.tscn" id="2_8uh7m"]
@@ -6,13 +6,15 @@
 [ext_resource type="Environment" uid="uid://4ibwtduv01jq" path="res://testng_environnement.tres" id="2_xersf"]
 [ext_resource type="Script" uid="uid://c3j7g4ey4joxn" path="res://Mission.gd" id="3_6uqi0"]
 [ext_resource type="PackedScene" uid="uid://cmrdrvs2n2xyi" path="res://Gas Station.glb" id="4_77dp3"]
+[ext_resource type="PackedScene" uid="uid://c05frf1gjc430" path="res://Asteroid.tscn" id="4_a3se8"]
 [ext_resource type="PackedScene" uid="uid://wp3vni7e86es" path="res://prop.tscn" id="5_5tkv4"]
-[ext_resource type="PackedScene" uid="uid://cw1bruqimy766" path="res://pinky.glb" id="5_ykrsh"]
+[ext_resource type="Shader" uid="uid://cukn3v5hgl6qw" path="res://planet_shader.gdshader" id="7_a3se8"]
+[ext_resource type="PackedScene" uid="uid://bccu8rb5cnu5k" path="res://sun.tscn" id="7_uty7l"]
 [ext_resource type="PackedScene" uid="uid://jroqs1xxjf01" path="res://item.tscn" id="7_vbegm"]
 [ext_resource type="Texture2D" uid="uid://xotpjs66rnkj" path="res://pistol.png" id="8_5tkv4"]
 [ext_resource type="PackedScene" uid="uid://4aglyq1mqitp" path="res://Finaltarget.tscn" id="8_ehkex"]
-[ext_resource type="Material" uid="uid://c0vaj5bm6kahy" path="res://simple contour shader.tres" id="9_uty7l"]
 [ext_resource type="PackedScene" uid="uid://b8covhlk57xb" path="res://planet.glb" id="11_5tkv4"]
+[ext_resource type="PackedScene" uid="uid://blbb524cos70f" path="res://pinky.tscn" id="13_a3se8"]
 [ext_resource type="PackedScene" uid="uid://cs1w0y5xhq4yi" path="res://feu_tricolor_wn.tscn" id="16_vxl6d"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_37kl0"]
@@ -34,42 +36,38 @@ hue_variation_min = -0.12
 hue_variation_max = 0.11
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6uqi0"]
+shading_mode = 0
 vertex_color_use_as_albedo = true
-metallic_specular = 1.0
-roughness = 0.5
 
 [sub_resource type="SphereMesh" id="SphereMesh_6uqi0"]
 material = SubResource("StandardMaterial3D_6uqi0")
-radius = 0.2
+radius = 0.1
 height = 0.2
+radial_segments = 10
+rings = 10
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ppyta"]
 radius = 10.7561
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_37kl0"]
-radius = 3.77624
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_8uh7m"]
 radius = 7.85149
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5tkv4"]
-albedo_color = Color(0.96794087, 0.7358446, 0.30894724, 1)
-emission_enabled = true
-emission = Color(0.82856286, 0.56194276, 0.22854379, 1)
-emission_energy_multiplier = 11.35
-emission_on_uv2 = true
-backlight_enabled = true
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_5tkv4"]
-radius = 100.0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uty7l"]
+render_priority = 0
+shader = ExtResource("7_a3se8")
+shader_parameter/basecolor = Vector3(0, 1, 0)
+shader_parameter/rotation = false
+shader_parameter/i_p = Vector3(0, 1, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0m0f1"]
-albedo_color = Color(0.299001, 0.59404, 0.627244, 1)
 albedo_texture = ExtResource("8_5tkv4")
 uv1_scale = Vector3(3, 3, 3)
 uv1_offset = Vector3(0, 0.5, 0)
 
-[sub_resource type="BoxMesh" id="BoxMesh_b0q6j"]
+[sub_resource type="SphereMesh" id="SphereMesh_a3se8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a3se8"]
+size = Vector3(7.9663696, 4.703369, 6.831543)
 
 [node name="test" type="WorldEnvironment"]
 environment = ExtResource("2_xersf")
@@ -95,8 +93,7 @@ fov = 55.0
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="World"]
 transform = Transform3D(32.1983, 0, 0, 0, 15.4117, 0, 0, 0, 40.1242, 0, 0, 0)
-amount = 3000
-amount_ratio = 0.5968
+amount = 1000
 lifetime = 3.0
 preprocess = 1.12
 explosiveness = 0.06
@@ -130,15 +127,8 @@ transform = Transform3D(3.26987, 0, -9.45029, 5.85981, -7.84549, 2.02754, -7.414
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D8"]
 shape = SubResource("SphereShape3D_ppyta")
 
-[node name="StaticBody3D2" type="StaticBody3D" parent="World"]
+[node name="Asteroid" parent="World" instance=ExtResource("4_a3se8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.3723, 2.9647, -47.7384)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D2"]
-transform = Transform3D(0.99973, 0, 0, 0, 0.99973, 0, 0, 0, 0.99973, 0, 0, 0)
-shape = SubResource("SphereShape3D_37kl0")
-
-[node name="Asteroid1" parent="World/StaticBody3D2" instance=ExtResource("2_ppyta")]
-transform = Transform3D(0.341823, -0.801152, 0.491235, 0, -0.522722, -0.852503, 0.939764, 0.291406, -0.178678, 0, 0, 0)
 
 [node name="StaticBody3D3" type="StaticBody3D" parent="World"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 92.111, 2.9647, 29.7293)
@@ -185,25 +175,12 @@ transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 transform = Transform3D(-0.996371, 0.0851214, 0, -0.0851214, -0.996371, 0, 0, 0, 1, -233.767, 0, 0)
 
 [node name="Node3D" parent="World" instance=ExtResource("5_5tkv4")]
-transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 152.122, 6.58343, -30.6552)
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 271.91275, 6.58343, -30.6552)
+material_override = SubResource("ShaderMaterial_uty7l")
+transparency = 1.0
 
-[node name="StaticBody3D9" type="StaticBody3D" parent="World"]
+[node name="sun" parent="World" instance=ExtResource("7_uty7l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.3154144, 0, -126.68958)
-
-[node name="MiniSun" type="CSGSphere3D" parent="World/StaticBody3D9"]
-radius = 100.0
-radial_segments = 24
-rings = 24
-material = SubResource("StandardMaterial3D_5tkv4")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/StaticBody3D9"]
-shape = SubResource("SphereShape3D_5tkv4")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="World/StaticBody3D9"]
-light_color = Color(0.827451, 0.56078434, 0.22745098, 1)
-light_energy = 100.0
-omni_range = 381.90283
-omni_attenuation = 0.655
 
 [node name="Missions" type="Node" parent="."]
 
@@ -218,20 +195,27 @@ metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
 [node name="CollectableItem" parent="Missions/Mission" instance=ExtResource("7_vbegm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 181.57707, 104.328, 70.142)
 item_id = 4
+child_mesh_path = NodePath("MeshInstance3D2")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Missions/Mission/CollectableItem"]
-transform = Transform3D(7.2844167, 0, 0, 0, 3.7069705, 0, 0, 0, 6.2859664, 0.37792397, -0.25816345, 2.1565933)
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0.3779297, -0.25816345, -2.1566544)
 material_override = SubResource("StandardMaterial3D_0m0f1")
-material_overlay = ExtResource("9_uty7l")
 cast_shadow = 0
 extra_cull_margin = 1506.57
-mesh = SubResource("BoxMesh_b0q6j")
+mesh = SubResource("SphereMesh_a3se8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Missions/Mission/CollectableItem"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21591187, -0.23739624, -2.1587296)
+shape = SubResource("BoxShape3D_a3se8")
 
 [node name="ArrivingPoint" parent="Missions/Mission" instance=ExtResource("8_ehkex")]
 transform = Transform3D(0.609949, 0.248004, -0.752633, -0.135215, 0.968409, 0.209524, 0.78082, -0.0260312, 0.624214, 61.6581, 24.7862, 73.7725)
-actor = ExtResource("5_ykrsh")
 trigger_text = ""
 item_id = 4
+child_mesh_path = NodePath("pinky")
+
+[node name="pinky" parent="Missions/Mission/ArrivingPoint" instance=ExtResource("13_a3se8")]
+transform = Transform3D(1.0000001, 1.1175871e-08, -2.9802322e-08, 9.313226e-09, 1, -2.0489097e-08, 5.9604645e-08, 5.5879354e-09, 1.0000001, -0.1962738, 1.4057007, 0.30413437)
 
 [node name="Mission2" type="Node" parent="Missions"]
 script = ExtResource("3_6uqi0")
@@ -253,7 +237,7 @@ transform = Transform3D(24.2565, -97.0135, 0, 97.0135, 24.2565, 0, 0, 0, 100, -1
 transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 184.643, -101.355, 856.1949)
 
 [node name="planet3" parent="." instance=ExtResource("11_5tkv4")]
-transform = Transform3D(73.1163, -68.2203, 0, 68.2203, 73.1163, 0, 0, 0, 100, -154.45923, 455.87103, -15.84436)
+transform = Transform3D(73.1163, -68.2203, 0, 68.2203, 73.1163, 0, 0, 0, 100, -209.00134, 281.25665, -40.188416)
 
 [node name="planet4" parent="." instance=ExtResource("11_5tkv4")]
 transform = Transform3D(18.2791, -17.0551, 0, 17.0551, 18.2791, 0, 0, 0, 25, -622.827, -656.603, 152.819)
