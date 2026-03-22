@@ -2,12 +2,19 @@ extends Area3D
 class_name MissionItem
 
 
-var mission : Mission
-
-@export var progress: int
-
 signal taskDone
 signal showContent
+
+var mission : Mission
+var detected = false
+
+@export var progress: int
+@export var child_mesh_path : NodePath
+
+
+
+
+@onready var highlight_shader = preload("res://simple contour shader.tres") 
 
 @onready var StateFunction = {
 	Mission.MissionState.PENDING : on_pending,
@@ -62,6 +69,12 @@ func _ready():
 		push_error(false, "MissionItem instance not child of Mission")
 	
 	self.add_to_group("mission_items")
+
+	for player : PlayerController in get_tree().get_nodes_in_group("PlayerController"):
+		player.mission_item_detected.connect(on_detected)
+		player.mission_item_undetected.connect(on_undetect)
+
+
 	
 
 
@@ -74,3 +87,28 @@ func _on_mission_state_change(prev, current):
 	#These work instantly
 	if current == Mission.MissionState.FINISHED_SUCCESS:
 		mission_done()
+
+func on_detected(body):
+	set_detect(body, true)
+
+func on_undetect(body):
+	set_detect(body, false)
+
+
+func set_detect(body, enabled):
+	if self != body: return
+	var val = {true : highlight_shader, false : null}[enabled]
+	var child_mesh = get_node_or_null(child_mesh_path)
+	if !child_mesh:
+		push_error("Child mesh not specified")
+		return
+	else:
+		if not child_mesh is MeshInstance3D:
+			for child in child_mesh.get_children():
+				set_overlay(child, val)
+		else : 
+			set_overlay(child_mesh, val)
+
+func set_overlay(object, val):
+	if object is MeshInstance3D:
+		object.set_material_overlay(val)
