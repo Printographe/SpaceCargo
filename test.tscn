@@ -80,14 +80,15 @@ decel_rate = -90.0
 gear_to_max_speed = {
 0: 0,
 1: 1500,
-2: 2500,
-3: 3500
+2: 3000,
+3: 5000
 }
 
 [node name="C2" type="Camera3D" parent="PlayerController"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -15.4847, 4.28375, 0.132806)
+transform = Transform3D(-4.2865086e-08, 0.19582626, -0.9806386, 8.55983e-09, 0.9806386, 0.19582626, 1, 9.769963e-15, -4.3711395e-08, -38.092014, 13.391382, 0.09759331)
 environment = ExtResource("2_xersf")
-fov = 55.0
+current = true
+fov = 30.0
 
 [node name="World" type="Node" parent="."]
 
@@ -198,14 +199,14 @@ item_id = 4
 child_mesh_path = NodePath("MeshInstance3D2")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Missions/Mission/CollectableItem"]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0.3779297, -0.25816345, -2.1566544)
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0.3779297, -0.25816345, -0.15665436)
 material_override = SubResource("StandardMaterial3D_0m0f1")
 cast_shadow = 0
 extra_cull_margin = 1506.57
 mesh = SubResource("SphereMesh_a3se8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Missions/Mission/CollectableItem"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21591187, -0.23739624, -2.1587296)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21591187, -0.23739624, -0.15872955)
 shape = SubResource("BoxShape3D_a3se8")
 
 [node name="ArrivingPoint" parent="Missions/Mission" instance=ExtResource("8_ehkex")]

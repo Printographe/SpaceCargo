@@ -238,11 +238,13 @@ func setup_movement_statemachine():
 func set_acceleration(_c, n):
 	self.acceleration = BASE_ACCELERATION
 	self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
+	self.set_particle_emmission(n)
 
 func set_deceleration(_c, n):
-	print("I'm called ?")
 	self.acceleration = self.decel_rate
 	self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
+	self.set_particle_emmission(n)
+	
 
 func update_movement(delta):
 	if self.speed < self.current_max_speed and acceleration > 0:
@@ -367,3 +369,29 @@ func detect():
 		mission_item_undetected.emit(current_collider)
 		mission_item_detected.emit(collider)
 		current_collider = collider
+
+
+
+func set_particle_emmission(gear):
+	const BASE_EXPLOSIVENESS = 0.09
+	const SPEED_SCALE_MAP = {
+		0: 1,
+		1: 1,
+		2: 2,
+		3: 4
+	}
+	const AMOUNT_TO_GEAR = {
+		0: 0,
+		1: 25,
+		2: 100,
+		3: 250
+	}
+	print("THE GEAR IS :", gear )
+	if gear == STATES.IDLE:
+		$"Space Cargo/GPUParticles3D".set_emitting(false)
+		return
+	elif gear == STATES.FIRST_GEAR:
+		$"Space Cargo/GPUParticles3D".set_emitting(true)
+
+	$"Space Cargo/GPUParticles3D".set_amount(AMOUNT_TO_GEAR[gear_to_number[gear]])
+	$"Space Cargo/GPUParticles3D".set_speed_scale(1+gear_to_number[gear]/3)

@@ -24,31 +24,40 @@ point_count = 3
 curve = SubResource("Curve_ae20r")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fpxll"]
-lifetime_randomness = 0.5
-angle_min = -146.0
-angle_max = 72.7
-angular_velocity_min = -720.0
-angular_velocity_max = 720.0
+angle_min = -720.0
+angle_max = 720.0
+spread = 10.0
+angular_velocity_min = -228.18001
+angular_velocity_max = 423.13998
 gravity = Vector3(-10, 0, 0)
-radial_accel_min = 4.59
-radial_accel_max = 18.79
-scale_min = 0.1
-scale_max = 1.5
+linear_accel_min = -1.2300022
+linear_accel_max = 5.529998
+radial_accel_min = 4.589998
+radial_accel_max = 4.589998
+tangential_accel_min = -17.850002
+tangential_accel_max = 17.849997
+damping_max = 4.9230003
+scale_min = 0.099999994
+scale_max = 3.0
 scale_curve = SubResource("CurveTexture_xsfoi")
 color = Color(0.890327, 0.416015, 0.0994459, 1)
 color_ramp = SubResource("GradientTexture1D_onbj7")
 alpha_curve = SubResource("CurveTexture_onbj7")
-hue_variation_min = -0.02
-hue_variation_max = 0.02
+hue_variation_min = 0.019999977
+hue_variation_max = 0.019999977
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pfoao"]
 shading_mode = 0
+specular_mode = 1
+disable_ambient_light = true
+disable_fog = true
+disable_specular_occlusion = true
 vertex_color_use_as_albedo = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_onbj7"]
 material = SubResource("StandardMaterial3D_pfoao")
-radial_segments = 4
-rings = 3
+radial_segments = 5
+rings = 4
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pfoao"]
 size = Vector3(9.046746, 2.46262, 2.23743)
@@ -179,6 +188,12 @@ _data = {
 [node name="Node3D" type="CharacterBody3D"]
 motion_mode = 1
 script = ExtResource("1_pfoao")
+gear_to_max_speed = {
+0: 0,
+1: 100,
+2: 200,
+3: 400
+}
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5738292, 0.6523733, -0.022773445)
@@ -191,16 +206,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.96108, 0, 0)
 [node name="GPUParticles3D" type="GPUParticles3D" parent="Space Cargo"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.367002, -0.502022, -0.0629213)
 amount = 50
-lifetime = 2.0
+lifetime = 10.0
 interp_to_end = 0.05
-preprocess = 1.08
-speed_scale = 0.7
-explosiveness = 0.09
-randomness = 0.06
-collision_base_size = 12.09
+preprocess = 5.0
 local_coords = true
-transform_align = 3
-trail_lifetime = 0.89
 process_material = SubResource("ParticleProcessMaterial_fpxll")
 draw_pass_1 = SubResource("SphereMesh_onbj7")
 
