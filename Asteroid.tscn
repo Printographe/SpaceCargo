@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c05frf1gjc430"]
+
+[ext_resource type="PackedScene" uid="uid://d4ji265l14uqv" path="res://Asteroid1.glb" id="1_l7pm1"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_37kl0"]
+radius = 2.1070874
+
+[node name="asteroid" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.99973, 0, 0, 0, 0.99973, 0, 0, 0, 0.99973, 0, 0, 0.8456955)
+shape = SubResource("SphereShape3D_37kl0")
+
+[node name="Asteroid1" parent="." instance=ExtResource("1_l7pm1")]
+transform = Transform3D(0.341823, -0.801152, 0.491235, 0, -0.522722, -0.852503, 0.939764, 0.291406, -0.178678, 0, 0, 0)
