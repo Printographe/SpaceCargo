@@ -1,0 +1,98 @@
+[gd_scene load_steps=3 format=3 uid="uid://cx13gkih43nxa"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ecy6"]
+bg_color = Color(0.7370078, 0.7434871, 0.7385617, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+expand_margin_left = 10.0
+expand_margin_top = 5.0
+expand_margin_right = 10.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="Theme" id="Theme_ep6xv"]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/styles/normal = SubResource("StyleBoxFlat_5ecy6")
+
+[node name="InputView" type="VBoxContainer"]
+offset_right = 343.0
+offset_bottom = 320.0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_bottom = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme = SubResource("Theme_ep6xv")
+text = "E"
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Action E"
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_bottom = 15
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer2/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="Button" type="Button" parent="MarginContainer2/HBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme = SubResource("Theme_ep6xv")
+text = "X"
+
+[node name="Label" type="Label" parent="MarginContainer2/HBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Accelerate"
+
+[node name="HBoxContainer2" type="VBoxContainer" parent="MarginContainer2/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="Button" type="Button" parent="MarginContainer2/HBoxContainer2/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme = SubResource("Theme_ep6xv")
+text = "C
+"
+
+[node name="Label" type="Label" parent="MarginContainer2/HBoxContainer2/HBoxContainer2"]
+layout_mode = 2
+text = "Brakes"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="Button" type="Button" parent="HBoxContainer3/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme = SubResource("Theme_ep6xv")
+text = "A"
+
+[node name="Label" type="Label" parent="HBoxContainer3/HBoxContainer"]
+layout_mode = 2
+text = "Action A"

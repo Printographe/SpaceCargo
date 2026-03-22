@@ -1,7 +1,9 @@
 extends Control
 
-signal accept_mission
-signal refuse_mission
+#Will have to implement it
+
+#signal accept_mission
+#signal refuse_mission
 
 
 var connected_mission : Mission = null;
@@ -14,35 +16,35 @@ func _ready() -> void:
 func set_contract_info(mission : Mission):
 
 	if connected_mission : 
-		$VBoxContainer/ActionButtons/ConfirmButton.disconnect("pressed", on_confirm_button_pressed)
-		$VBoxContainer/ActionButtons/RefuseButton.disconnect("pressed", on_refused_button_pressed)
+		$VBoxContainer/MarginContainer2/ActionButtons/ConfirmButton.disconnect("pressed", on_confirm_button_pressed)
+		$VBoxContainer/MarginContainer2/ActionButtons/RefuseButton.disconnect("pressed", on_refused_button_pressed)
 	
 	connected_mission = mission
 
 	print_rich("[color=green]Showing mission {0}[/color]".format([mission.id]))
 	
 	
-	$VBoxContainer/Offer/amount.text = str(mission.price)
-	$VBoxContainer/Time/time.text = str(mission.time)
-	$VBoxContainer/Context.text = mission.context
+	$VBoxContainer/Offer/amount.set_text(str(mission.price))
+	$VBoxContainer/Time/time.set_text(str(mission.time))
+	$VBoxContainer/MarginContainer/Context.set_text(mission.context)
 	
-	for button in $VBoxContainer/ActionButtons.get_children():
+	for button in $VBoxContainer/MarginContainer2/ActionButtons.get_children():
 		button.show()
 	
 	match mission.statemachine.get_state() :
 		
 		Mission.MissionState.PENDING:
-			$VBoxContainer/ActionButtons/OngoingButton.hide()
+			$VBoxContainer/MarginContainer2/ActionButtons/OngoingButton.hide()
 			
-			$VBoxContainer/ActionButtons/ConfirmButton.connect("pressed", on_confirm_button_pressed.bind(connected_mission), CONNECT_ONE_SHOT)
+			$VBoxContainer/MarginContainer2/ActionButtons/ConfirmButton.connect("pressed", on_confirm_button_pressed.bind(connected_mission), CONNECT_ONE_SHOT)
 				
-			$VBoxContainer/ActionButtons/RefuseButton.connect("pressed", on_refused_button_pressed.bind(connected_mission), CONNECT_ONE_SHOT)
+			$VBoxContainer/MarginContainer2/ActionButtons/RefuseButton.connect("pressed", on_refused_button_pressed.bind(connected_mission), CONNECT_ONE_SHOT)
 	
 		Mission.MissionState.ACCEPTED_ONGOING:
-			$VBoxContainer/ActionButtons/ConfirmButton.hide()
-			$VBoxContainer/ActionButtons/RefuseButton.hide()
-			$VBoxContainer/ActionButtons/OngoingButton.show()
-			$VBoxContainer/ActionButtons/OngoingButton \
+			$VBoxContainer/MarginContainer2/ActionButtons/ConfirmButton.hide()
+			$VBoxContainer/MarginContainer2/ActionButtons/RefuseButton.hide()
+			$VBoxContainer/MarginContainer2/ActionButtons/OngoingButton.show()
+			$VBoxContainer/MarginContainer2/ActionButtons/OngoingButton \
 				.pressed.connect(self.hide, CONNECT_ONE_SHOT)
 		_:
 			push_error("Mission {id} shown while state is {state}"

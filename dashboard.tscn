@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cpnl153rw4le"]
+[gd_scene load_steps=9 format=3 uid="uid://cpnl153rw4le"]
 
 [ext_resource type="Script" uid="uid://bp8wqbamwkw63" path="res://dashboard.gd" id="1_dx5rv"]
 [ext_resource type="Theme" uid="uid://b60m0ngucfrwp" path="res://MainTheme.tres" id="2_bw4wq"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cgfh3eidsfnr2" path="res://mission_item_text.tscn" id="4_1w0xl"]
 [ext_resource type="PackedScene" uid="uid://dt2oyc685eyt7" path="res://Player_debug.tscn" id="5_ly5nh"]
 [ext_resource type="PackedScene" uid="uid://di3tveig4f53b" path="res://settings.tscn" id="7_bw4wq"]
+[ext_resource type="PackedScene" uid="uid://cx13gkih43nxa" path="res://InputView.tscn" id="8_76h3o"]
 
 [node name="Dashboard" type="Control"]
 layout_mode = 3
@@ -66,11 +67,6 @@ anchor_left = 0.313368
 anchor_top = 0.0817901
 anchor_right = 0.613715
 anchor_bottom = 0.868827
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-metadata/_edit_use_anchors_ = true
 
 [node name="MissionItemText" parent="." instance=ExtResource("4_1w0xl")]
 visible = false
@@ -86,11 +82,12 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 
 [node name="ShowDebug" type="Button" parent="."]
-layout_mode = 0
-anchor_left = 0.895
-anchor_top = 0.946
-anchor_right = 0.993146
-anchor_bottom = 0.994
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.88631946
+anchor_top = 0.013901228
+anchor_right = 0.9844655
+anchor_bottom = 0.061901234
 offset_left = -0.0400391
 offset_top = -0.00799561
 offset_right = 0.896118
@@ -123,3 +120,17 @@ layout_mode = 1
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="InputView" parent="." instance=ExtResource("8_76h3o")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -188.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0

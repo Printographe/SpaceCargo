@@ -1,6 +1,7 @@
 extends Control
 
 @onready var mission_show = preload("res://mission_show.tscn")
+@onready var mission_button_prefab = preload("res://MissionButton.tscn")
 
 var free_mission_show = []
 
@@ -87,9 +88,9 @@ func update_mission_container():
 	for mission in pending_missions: 
 		if available_mission_button.has(mission) : continue
 		else:
-			var mission_button = Button.new()
-			mission_button.name = "Mission " + str(mission.id)
-			mission_button.text = mission.contractor
+			var mission_button = mission_button_prefab.instantiate()
+			mission_button.set_name("Mission " + str(mission.id))
+			mission_button.set_text(mission.contractor)
 			mission_button.pressed.connect(func () : $mission_panel.set_contract_info(mission) )
 			
 			available_mission_button[mission] = mission_button
