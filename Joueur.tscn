@@ -42,14 +42,13 @@ hue_variation_min = -0.02
 hue_variation_max = 0.02
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pfoao"]
+shading_mode = 0
 vertex_color_use_as_albedo = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_onbj7"]
 material = SubResource("StandardMaterial3D_pfoao")
-radius = 0.75
-height = 1.25
-radial_segments = 5
-rings = 2
+radial_segments = 4
+rings = 3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pfoao"]
 size = Vector3(9.046746, 2.46262, 2.23743)
@@ -181,28 +180,32 @@ _data = {
 motion_mode = 1
 script = ExtResource("1_pfoao")
 
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5738292, 0.6523733, -0.022773445)
+target_position = Vector3(100, -1, 0)
+collide_with_areas = true
+
 [node name="Space Cargo" parent="." instance=ExtResource("1_nyone")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.96108, 0, 0)
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="Space Cargo"]
-transform = Transform3D(0.611504, 0, 0, 0, 0.193605, 0, 0, 0, 0.32102, -5.34331, -0.502022, -0.0629213)
-amount = 100
-amount_ratio = 0.9455
-lifetime = 2.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.367002, -0.502022, -0.0629213)
+amount = 50
+lifetime = 2.0
 interp_to_end = 0.05
 preprocess = 1.08
 speed_scale = 0.7
 explosiveness = 0.09
 randomness = 0.06
 collision_base_size = 12.09
+local_coords = true
 transform_align = 3
-trail_enabled = true
 trail_lifetime = 0.89
 process_material = SubResource("ParticleProcessMaterial_fpxll")
 draw_pass_1 = SubResource("SphereMesh_onbj7")
 
 [node name="Carry" type="RemoteTransform3D" parent="Space Cargo"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1860223, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.942065, 0, 0)
 update_scale = false
 
 [node name="DirectionalLight3D" type="SpotLight3D" parent="Space Cargo"]

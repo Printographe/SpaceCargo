@@ -3,6 +3,16 @@ class_name PlayerController
 extends CharacterBody3D
 
 
+signal mission_item_detected
+signal mission_item_undetected
+
+
+
+
+## Raycast Variables:
+var current_collider
+
+
 ## Object carrying logic : 
 @onready var carry = $"Space Cargo/Carry";
 var carrying : bool = false
@@ -280,8 +290,10 @@ func update_movement(delta):
 
 
 func _ready() -> void:
+	self.add_to_group("PlayerController", true)
 	setup_rotation_statemachine()
 	setup_movement_statemachine()
+
 
 
 	for node in get_tree().get_nodes_in_group("Debug"):
@@ -306,6 +318,8 @@ func _physics_process(delta: float) -> void:
 		self.rotation_statemachine.use_process(delta)
 	if self.movement_statemachine:
 		self.movement_statemachine.use_process(delta)
+
+	detect()
 
 	if carrying:
 		#carry.update_position()
@@ -341,3 +355,15 @@ func update_rotation(_delta):
 		
 	if any_button_released:
 		self.rotation_statemachine.switch_to(STATES.IDLE)
+
+func detect():
+	var collider = $RayCast3D.get_collider()
+	if current_collider == null : 
+		current_collider = collider
+		mission_item_detected.emit(current_collider)
+	elif current_collider == collider:
+		return
+	else :
+		mission_item_undetected.emit(current_collider)
+		mission_item_detected.emit(collider)
+		current_collider = collider
