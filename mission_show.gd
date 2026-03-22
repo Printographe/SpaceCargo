@@ -7,6 +7,10 @@ var current_mission : Mission = null
 
 signal freeMS(MissionShow)
 
+func _ready() -> void:
+	$Panel/VboxContainer/MarginContainer2/ProgressBar.set_value(0)
+
+
 func connect_to_mission(mission : Mission):
 	self.free = false
 	self.current_mission = mission
