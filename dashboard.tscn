@@ -71,6 +71,13 @@ anchor_bottom = 0.868827
 [node name="MissionItemText" parent="." instance=ExtResource("4_1w0xl")]
 visible = false
 layout_mode = 1
+anchor_top = 0.72700006
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = -0.09603882
+offset_right = -225.0
+offset_bottom = -9.0
 
 [node name="MissionSuccessMessage" parent="." instance=ExtResource("3_vyiww")]
 visible = false
@@ -102,7 +109,7 @@ layout_mode = 1
 
 [node name="time" type="Timer" parent="."]
 
-[node name="Panel" type="Panel" parent="."]
+[node name="SettingsPanel" type="Panel" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = -1
@@ -113,7 +120,7 @@ anchor_bottom = 0.912037
 metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
 
-[node name="Settings" parent="Panel" instance=ExtResource("7_bw4wq")]
+[node name="Settings" parent="SettingsPanel" instance=ExtResource("7_bw4wq")]
 layout_mode = 1
 
 [node name="Control" type="Control" parent="."]
@@ -128,7 +135,7 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -240.0
+offset_left = -224.0
 offset_top = -188.0
 offset_right = 0.0
 offset_bottom = 0.0

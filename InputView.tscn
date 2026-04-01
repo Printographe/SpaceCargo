@@ -1,7 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://cx13gkih43nxa"]
+[gd_scene load_steps=6 format=3 uid="uid://cx13gkih43nxa"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ecy6"]
-bg_color = Color(0.7370078, 0.7434871, 0.7385617, 1)
+[ext_resource type="Script" uid="uid://il3ggnlf20mj" path="res://input_view_system.gd" id="1_ep6xv"]
+[ext_resource type="StyleBox" uid="uid://bisumk3dihsiq" path="res://visual_input_normalstyle.tres" id="2_b23fh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b23fh"]
+bg_color = Color(0.16616043, 0.17086765, 0.1661666, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+expand_margin_left = 10.0
+expand_margin_top = 5.0
+expand_margin_right = 10.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_opfn7"]
+bg_color = Color(0.4716788, 0.48114938, 0.47168756, 1)
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
@@ -13,11 +27,14 @@ expand_margin_bottom = 5.0
 
 [sub_resource type="Theme" id="Theme_ep6xv"]
 Button/colors/font_color = Color(0, 0, 0, 1)
-Button/styles/normal = SubResource("StyleBoxFlat_5ecy6")
+Button/styles/disabled = SubResource("StyleBoxFlat_b23fh")
+Button/styles/hover = SubResource("StyleBoxFlat_opfn7")
+Button/styles/normal = ExtResource("2_b23fh")
 
 [node name="InputView" type="VBoxContainer"]
-offset_right = 343.0
-offset_bottom = 320.0
+offset_right = 232.0
+offset_bottom = 200.0
+script = ExtResource("1_ep6xv")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -26,20 +43,19 @@ theme_override_constants/margin_bottom = 15
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="ObjectInteractionButton" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 
-[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/ObjectInteractionButton"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 theme = SubResource("Theme_ep6xv")
 text = "E"
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/ObjectInteractionButton"]
 layout_mode = 2
-text = "Action E"
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -48,51 +64,51 @@ theme_override_constants/margin_bottom = 15
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer2"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer2/HBoxContainer2"]
+[node name="AccelerationButton" type="VBoxContainer" parent="MarginContainer2/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 6
 
-[node name="Button" type="Button" parent="MarginContainer2/HBoxContainer2/HBoxContainer"]
+[node name="Button" type="Button" parent="MarginContainer2/HBoxContainer2/AccelerationButton"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 theme = SubResource("Theme_ep6xv")
 text = "X"
 
-[node name="Label" type="Label" parent="MarginContainer2/HBoxContainer2/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer2/HBoxContainer2/AccelerationButton"]
 layout_mode = 2
 text = "Accelerate"
 
-[node name="HBoxContainer2" type="VBoxContainer" parent="MarginContainer2/HBoxContainer2"]
+[node name="BrakesButton" type="VBoxContainer" parent="MarginContainer2/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 6
 
-[node name="Button" type="Button" parent="MarginContainer2/HBoxContainer2/HBoxContainer2"]
+[node name="Button" type="Button" parent="MarginContainer2/HBoxContainer2/BrakesButton"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 theme = SubResource("Theme_ep6xv")
+disabled = true
 text = "C
 "
 
-[node name="Label" type="Label" parent="MarginContainer2/HBoxContainer2/HBoxContainer2"]
+[node name="Label" type="Label" parent="MarginContainer2/HBoxContainer2/BrakesButton"]
 layout_mode = 2
 text = "Brakes"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer3"]
+[node name="UIInteractionButton" type="VBoxContainer" parent="HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 6
 
-[node name="Button" type="Button" parent="HBoxContainer3/HBoxContainer"]
+[node name="Button" type="Button" parent="HBoxContainer3/UIInteractionButton"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 theme = SubResource("Theme_ep6xv")
 text = "A"
 
-[node name="Label" type="Label" parent="HBoxContainer3/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer3/UIInteractionButton"]
 layout_mode = 2
-text = "Action A"

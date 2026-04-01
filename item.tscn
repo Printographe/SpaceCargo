@@ -1,12 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://jroqs1xxjf01"]
+[gd_scene load_steps=2 format=3 uid="uid://jroqs1xxjf01"]
 
 [ext_resource type="Script" uid="uid://ba4l1qh1ulhvm" path="res://CollectableItem.gd" id="1_tnite"]
 
-[sub_resource type="PrismMesh" id="PrismMesh_tnite"]
-
 [node name="CollectableItem" type="Area3D"]
 script = ExtResource("1_tnite")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(3.81838, 0, 0, 0, 2.0092, 0, 0, 0, 3.28478, -0.530115, 0.468054, -0.660853)
-mesh = SubResource("PrismMesh_tnite")
+offset_xy = null
+item_id = null
+progress = null
+child_mesh_path = null

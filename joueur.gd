@@ -407,5 +407,5 @@ func on_uncarry(_current_state, _next_state):
     pass
 
 func get_carrying_id():
-    if !self.can_carry():
+    if self._carrying_object:
         return self._carrying_object.get_item_id()

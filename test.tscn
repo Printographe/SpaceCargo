@@ -67,7 +67,7 @@ uv1_offset = Vector3(0, 0.5, 0)
 [sub_resource type="SphereMesh" id="SphereMesh_a3se8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a3se8"]
-size = Vector3(7.9663696, 4.703369, 6.831543)
+size = Vector3(4.0849886, 4.5091248, 4.6351013)
 
 [node name="test" type="WorldEnvironment"]
 environment = ExtResource("2_xersf")
@@ -183,6 +183,21 @@ transparency = 1.0
 [node name="sun" parent="World" instance=ExtResource("7_uty7l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.3154144, 0, -126.68958)
 
+[node name="planet" parent="." instance=ExtResource("11_5tkv4")]
+transform = Transform3D(24.2565, -97.0135, 0, 97.0135, 24.2565, 0, 0, 0, 100, -199.533, 239.745, 377.821)
+
+[node name="planet2" parent="." instance=ExtResource("11_5tkv4")]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 184.643, -101.355, 856.1949)
+
+[node name="planet3" parent="." instance=ExtResource("11_5tkv4")]
+transform = Transform3D(73.1163, -68.2203, 0, 68.2203, 73.1163, 0, 0, 0, 100, -209.00134, 281.25665, -40.188416)
+
+[node name="planet4" parent="." instance=ExtResource("11_5tkv4")]
+transform = Transform3D(18.2791, -17.0551, 0, 17.0551, 18.2791, 0, 0, 0, 25, -622.827, -656.603, 152.819)
+
+[node name="feu tricolor wn2" parent="." instance=ExtResource("16_vxl6d")]
+transform = Transform3D(-0.9831976, 0, -0.18254432, 0, 1, 0, 0.18254432, 0, -0.9831976, -44.343716, 104.13226, 88.23602)
+
 [node name="Missions" type="Node" parent="."]
 
 [node name="Mission" type="Node" parent="Missions"]
@@ -195,7 +210,8 @@ metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
 
 [node name="CollectableItem" parent="Missions/Mission" instance=ExtResource("7_vbegm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 181.57707, 104.328, 70.142)
-item_id = 4
+offset_xy = Vector2(0, 0)
+progress = 0
 child_mesh_path = NodePath("MeshInstance3D2")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Missions/Mission/CollectableItem"]
@@ -206,7 +222,7 @@ extra_cull_margin = 1506.57
 mesh = SubResource("SphereMesh_a3se8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Missions/Mission/CollectableItem"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21591187, -0.23739624, -0.15872955)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.37730408, -0.2834015, -0.25798035)
 shape = SubResource("BoxShape3D_a3se8")
 
 [node name="ArrivingPoint" parent="Missions/Mission" instance=ExtResource("8_ehkex")]
@@ -230,18 +246,3 @@ metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
 [node name="Dashboard" parent="." instance=ExtResource("2_8uh7m")]
 offset_top = -1.0
 offset_bottom = -1.0
-
-[node name="planet" parent="." instance=ExtResource("11_5tkv4")]
-transform = Transform3D(24.2565, -97.0135, 0, 97.0135, 24.2565, 0, 0, 0, 100, -199.533, 239.745, 377.821)
-
-[node name="planet2" parent="." instance=ExtResource("11_5tkv4")]
-transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 184.643, -101.355, 856.1949)
-
-[node name="planet3" parent="." instance=ExtResource("11_5tkv4")]
-transform = Transform3D(73.1163, -68.2203, 0, 68.2203, 73.1163, 0, 0, 0, 100, -209.00134, 281.25665, -40.188416)
-
-[node name="planet4" parent="." instance=ExtResource("11_5tkv4")]
-transform = Transform3D(18.2791, -17.0551, 0, 17.0551, 18.2791, 0, 0, 0, 25, -622.827, -656.603, 152.819)
-
-[node name="feu tricolor wn2" parent="." instance=ExtResource("16_vxl6d")]
-transform = Transform3D(-0.9831976, 0, -0.18254432, 0, 1, 0, 0.18254432, 0, -0.9831976, -44.343716, 104.13226, 88.23602)
