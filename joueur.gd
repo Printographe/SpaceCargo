@@ -3,8 +3,8 @@ class_name PlayerController
 extends CharacterBody3D
 
 
-signal mission_item_detected
-signal mission_item_undetected
+signal interactible_detected
+signal interactible_undetected
 
 
 
@@ -14,64 +14,64 @@ var current_collider
 
 
 ## Object carrying logic : 
-@onready var carry = $"Space Cargo/Carry";
-var carrying : bool = false
-var _carrying_id
+@onready var carry_remote_transform : RemoteTransform3D = $"Space Cargo/Carry";
+var _carrying_object = null 
 
 
 enum STATES {
-	MOVING_RIGHT,
-	MOVING_LEFT,
-	MOVING_UP,
-	MOVING_DOWN,
-	MOVING_DIAG_UP_RIGHT,
-	MOVING_DIAG_UP_LEFT,
-	MOVING_DIAG_DOWN_RIGHT,
-	MOVING_DIAG_DOWN_LEFT,
-	ACCELERATING,
-	DECELERATING,
-	HYPERSPEED,
-	IDLE,
-	BASE,
-	NULL,
+    MOVING_RIGHT,
+    MOVING_LEFT,
+    MOVING_UP,
+    MOVING_DOWN,
+    MOVING_DIAG_UP_RIGHT,
+    MOVING_DIAG_UP_LEFT,
+    MOVING_DIAG_DOWN_RIGHT,
+    MOVING_DIAG_DOWN_LEFT,
+    ACCELERATING,
+    DECELERATING,
+    HYPERSPEED,
+    IDLE,
+    BASE,
+    NULL,
 
-	FIRST_GEAR,
-	SECOND_GEAR,
-	THIRD_GEAR,
+    FIRST_GEAR,
+    SECOND_GEAR,
+    THIRD_GEAR,
 
-	CARRYING,
-	EMPTY,
+    CARRYING,
+    EMPTY,
 
 }
 
 #helper functions
+
 static func sorted(list : Array) -> Array:
-	list.sort()
-	return list
+    list.sort()
+    return list
 
 func custom_rotate(up, right):
-	self.basis = self.basis * Basis(Vector3.FORWARD, up*angle).orthonormalized()
-	#self.basis = Basis.IDENTITY.rotated(Vector3(0, 1, 0), pos*angle).orthonormalized()
-	self.basis = self.basis * Basis(Vector3.UP, right*angle).orthonormalized()
-	
+    self.basis = self.basis * Basis(Vector3.FORWARD, up*angle).orthonormalized()
+    #self.basis = Basis.IDENTITY.rotated(Vector3(0, 1, 0), pos*angle).orthonormalized()
+    self.basis = self.basis * Basis(Vector3.UP, right*angle).orthonormalized()
+    
 
 static func in_percent_range(value: float, test_value: float, percentage: float) -> bool :
-	return   value >= test_value * (1-percentage) and value <= test_value * (1+percentage)
+    return   value >= test_value * (1-percentage) and value <= test_value * (1+percentage)
 
 
 
 var rotation_statemachine : StateMachine
 var movement_statemachine : StateMachine
-var carry_statemachine : StateMachine
+var carry_statemachine : StateMachine 
 
 
 
 #maps
 var input_map : Dictionary[String, bool] = {
-	"action_up" : false,
-	"action_right" : false,
-	"action_left" : false,
-	"action_down" : false,
+    "action_up" : false,
+    "action_right" : false,
+    "action_left" : false,
+    "action_down" : false,
 }
 
 
@@ -80,64 +80,64 @@ var banned_inputs_states = \
 
 
 var input_to_state = {
-	"action_left" : STATES.MOVING_LEFT,
-	"action_right": STATES.MOVING_RIGHT,
-	"action_up": STATES.MOVING_UP,
-	"action_down": STATES.MOVING_DOWN,
-	
-	#crazy trick
-	sorted(["action_left","action_up"]) : STATES.MOVING_DIAG_UP_LEFT,
-	sorted(["action_left", "action_down"]) : STATES.MOVING_DIAG_DOWN_LEFT,
-	sorted(["action_right", "action_up"]) : STATES.MOVING_DIAG_UP_RIGHT,
-	sorted(["action_right", "action_down"]) : STATES.MOVING_DIAG_DOWN_RIGHT
+    "action_left" : STATES.MOVING_LEFT,
+    "action_right": STATES.MOVING_RIGHT,
+    "action_up": STATES.MOVING_UP,
+    "action_down": STATES.MOVING_DOWN,
+    
+    #crazy trick
+    sorted(["action_left","action_up"]) : STATES.MOVING_DIAG_UP_LEFT,
+    sorted(["action_left", "action_down"]) : STATES.MOVING_DIAG_DOWN_LEFT,
+    sorted(["action_right", "action_up"]) : STATES.MOVING_DIAG_UP_RIGHT,
+    sorted(["action_right", "action_down"]) : STATES.MOVING_DIAG_DOWN_RIGHT
 }
 
 var state_to_animation = {
-	STATES.MOVING_RIGHT : "right",
-	STATES.MOVING_LEFT : "left",
-	STATES.MOVING_DOWN : "down",
-	STATES.MOVING_UP : "up",
-	STATES.MOVING_DIAG_UP_RIGHT: "diag_up_right",
-	STATES.MOVING_DIAG_UP_LEFT : "diag_up_left",
-	STATES.MOVING_DIAG_DOWN_RIGHT : "diag_down_right",
-	STATES.MOVING_DIAG_DOWN_LEFT : "diag_down_left",
+    STATES.MOVING_RIGHT : "right",
+    STATES.MOVING_LEFT : "left",
+    STATES.MOVING_DOWN : "down",
+    STATES.MOVING_UP : "up",
+    STATES.MOVING_DIAG_UP_RIGHT: "diag_up_right",
+    STATES.MOVING_DIAG_UP_LEFT : "diag_up_left",
+    STATES.MOVING_DIAG_DOWN_RIGHT : "diag_down_right",
+    STATES.MOVING_DIAG_DOWN_LEFT : "diag_down_left",
 }
 
 var state_to_rotation = {
-	STATES.MOVING_RIGHT : custom_rotate.bind(0, -1),
-	STATES.MOVING_LEFT : custom_rotate.bind(0, 1),
-	STATES.MOVING_UP : custom_rotate.bind(-1, 0),
-	STATES.MOVING_DOWN : custom_rotate.bind(1, 0),
-	#Diag
-	STATES.MOVING_DIAG_UP_RIGHT : custom_rotate.bind(-1, -1),
-	STATES.MOVING_DIAG_UP_LEFT : custom_rotate.bind(-1, 1),
-	STATES.MOVING_DIAG_DOWN_RIGHT: custom_rotate.bind(1, -1),
-	STATES.MOVING_DIAG_DOWN_LEFT :  custom_rotate.bind(1, 1),
+    STATES.MOVING_RIGHT : custom_rotate.bind(0, -1),
+    STATES.MOVING_LEFT : custom_rotate.bind(0, 1),
+    STATES.MOVING_UP : custom_rotate.bind(-1, 0),
+    STATES.MOVING_DOWN : custom_rotate.bind(1, 0),
+    #Diag
+    STATES.MOVING_DIAG_UP_RIGHT : custom_rotate.bind(-1, -1),
+    STATES.MOVING_DIAG_UP_LEFT : custom_rotate.bind(-1, 1),
+    STATES.MOVING_DIAG_DOWN_RIGHT: custom_rotate.bind(1, -1),
+    STATES.MOVING_DIAG_DOWN_LEFT :  custom_rotate.bind(1, 1),
 }
 
 
 
 var gear_to_number : Dictionary =  {
-	STATES.IDLE : 0,
-	STATES.FIRST_GEAR : 1,
-	STATES.SECOND_GEAR : 2,
-	STATES.THIRD_GEAR : 3
+    STATES.IDLE : 0,
+    STATES.FIRST_GEAR : 1,
+    STATES.SECOND_GEAR : 2,
+    STATES.THIRD_GEAR : 3
 }
 
 var number_to_gear_map = {
-	 0: STATES.IDLE        ,
-	 1: STATES.FIRST_GEAR  ,
-	 2: STATES.SECOND_GEAR ,
-	 3: STATES.THIRD_GEAR  
+     0: STATES.IDLE        ,
+     1: STATES.FIRST_GEAR  ,
+     2: STATES.SECOND_GEAR ,
+     3: STATES.THIRD_GEAR  
 }
 
 
 
 func number_to_gear(n):
-	if n > 3 or n < 0:
-		return  null
-	else:
-		return  number_to_gear_map[n]
+    if n > 3 or n < 0:
+        return  null
+    else:
+        return  number_to_gear_map[n]
 
 
 
@@ -157,241 +157,255 @@ var current_max_speed : float = 0;
 
 
 @export var gear_to_max_speed = {
-	0 : 0,
-	1 : 50,
-	2 : 100,
-	3 : 150,
+    0 : 0,
+    1 : 50,
+    2 : 100,
+    3 : 150,
 }
 
 @export var fuel_per_acceleration = 10
 
+func setup_carry_statemachine():
+    self.carry_statemachine = StateMachine.new(
+        STATES.EMPTY,
+        [STATES.EMPTY, STATES.CARRYING],
+        {
+            STATES.EMPTY : "empty",
+            STATES.CARRYING : "carrying",
+        })\
+        .add_transition(STATES.EMPTY, STATES.CARRYING, on_carry) \
+        .add_transition(STATES.EMPTY, STATES.CARRYING, on_uncarry) 
+
 
 func setup_rotation_statemachine():
-	self.rotation_statemachine = StateMachine.new(
-		STATES.IDLE, 
-		[
-		STATES.MOVING_RIGHT,
-		STATES.MOVING_LEFT,
-		STATES.MOVING_UP,
-		STATES.MOVING_DOWN,
-		STATES.IDLE,
-		STATES.MOVING_DIAG_UP_RIGHT,
-		STATES.MOVING_DIAG_UP_LEFT,
-		STATES.MOVING_DIAG_DOWN_RIGHT,
-		STATES.MOVING_DIAG_DOWN_LEFT,
-		],
-		{
-			STATES.MOVING_RIGHT : "rot right",
-			STATES.MOVING_LEFT : "rot left",
-			STATES.MOVING_UP : "rot up",
-			STATES.MOVING_DOWN : "rot down",
-			STATES.IDLE : "idle",
-			STATES.MOVING_DIAG_UP_RIGHT: "diag up right",
-			STATES.MOVING_DIAG_UP_LEFT : "diag up left",
-			STATES.MOVING_DIAG_DOWN_RIGHT : "diag down right",
-			STATES.MOVING_DIAG_DOWN_LEFT : "diag down left",
-			
-		})\
-		.ignore_self_transitions() \
-		.add_st_transition(STATES.MOVING_RIGHT, play_rot) \
-		.add_st_transition(STATES.MOVING_LEFT, play_rot) \
-		.add_st_transition(STATES.MOVING_UP, play_rot) \
-		.add_st_transition(STATES.MOVING_DOWN, play_rot)\
-		.add_st_transition_arr([STATES.MOVING_DIAG_UP_RIGHT,
-		STATES.MOVING_DIAG_UP_LEFT,
-		STATES.MOVING_DIAG_DOWN_RIGHT,
-		STATES.MOVING_DIAG_DOWN_LEFT,], play_rot)\
-		.add_st_transition(STATES.IDLE,
-			func (last, _current) : 
-				if state_to_animation.has(last):
-					#print("playing backwards : ")
-					$AnimationPlayer.play_backwards(state_to_animation[last])\
-			)\
-		.set_st_process_function(update_rotation)
-	
+    self.rotation_statemachine = StateMachine.new(
+        STATES.IDLE, 
+        [
+        STATES.MOVING_RIGHT,
+        STATES.MOVING_LEFT,
+        STATES.MOVING_UP,
+        STATES.MOVING_DOWN,
+        STATES.IDLE,
+        STATES.MOVING_DIAG_UP_RIGHT,
+        STATES.MOVING_DIAG_UP_LEFT,
+        STATES.MOVING_DIAG_DOWN_RIGHT,
+        STATES.MOVING_DIAG_DOWN_LEFT,
+        ],
+        {
+            STATES.MOVING_RIGHT : "rot right",
+            STATES.MOVING_LEFT : "rot left",
+            STATES.MOVING_UP : "rot up",
+            STATES.MOVING_DOWN : "rot down",
+            STATES.IDLE : "idle",
+            STATES.MOVING_DIAG_UP_RIGHT: "diag up right",
+            STATES.MOVING_DIAG_UP_LEFT : "diag up left",
+            STATES.MOVING_DIAG_DOWN_RIGHT : "diag down right",
+            STATES.MOVING_DIAG_DOWN_LEFT : "diag down left",
+            
+        })\
+        .ignore_self_transitions() \
+        .add_st_transition(STATES.MOVING_RIGHT, play_rot) \
+        .add_st_transition(STATES.MOVING_LEFT, play_rot) \
+        .add_st_transition(STATES.MOVING_UP, play_rot) \
+        .add_st_transition(STATES.MOVING_DOWN, play_rot)\
+        .add_st_transition_arr([STATES.MOVING_DIAG_UP_RIGHT,
+        STATES.MOVING_DIAG_UP_LEFT,
+        STATES.MOVING_DIAG_DOWN_RIGHT,
+        STATES.MOVING_DIAG_DOWN_LEFT,], play_rot)\
+        .add_st_transition(STATES.IDLE,
+            func (last, _current) : 
+                if state_to_animation.has(last):
+                    #print("playing backwards : ")
+                    $AnimationPlayer.play_backwards(state_to_animation[last])\
+            )\
+        .set_st_process_function(update_rotation)
+    
 
 func setup_movement_statemachine():
-	self.movement_statemachine = StateMachine.new(STATES.IDLE, 
-		[STATES.IDLE, STATES.HYPERSPEED, STATES.FIRST_GEAR, STATES.SECOND_GEAR, STATES.THIRD_GEAR], {
-			STATES.IDLE : "Idle",
-			STATES.HYPERSPEED : "Hyperspeed",
-			STATES.FIRST_GEAR : "Gear I",
-			STATES.SECOND_GEAR : "Gear II",
-			STATES.THIRD_GEAR : "Gear III",
-		}) \
-		.add_transition(STATES.IDLE, STATES.FIRST_GEAR, set_acceleration)\
-		.add_transition(STATES.FIRST_GEAR, STATES.SECOND_GEAR, set_acceleration)\
-		.add_transition(STATES.SECOND_GEAR, STATES.THIRD_GEAR, set_acceleration)\
-		## 
-		.add_transition(STATES.THIRD_GEAR, STATES.SECOND_GEAR, set_deceleration)\
-		.add_transition(STATES.SECOND_GEAR, STATES.FIRST_GEAR, set_deceleration)\
-		.add_transition(STATES.FIRST_GEAR, STATES.IDLE, set_deceleration)\
+    self.movement_statemachine = StateMachine.new(STATES.IDLE, 
+        [STATES.IDLE, STATES.HYPERSPEED, STATES.FIRST_GEAR, STATES.SECOND_GEAR, STATES.THIRD_GEAR], {
+            STATES.IDLE : "Idle",
+            STATES.HYPERSPEED : "Hyperspeed",
+            STATES.FIRST_GEAR : "Gear I",
+            STATES.SECOND_GEAR : "Gear II",
+            STATES.THIRD_GEAR : "Gear III",
+        }) \
+        .add_transition(STATES.IDLE, STATES.FIRST_GEAR, set_acceleration)\
+        .add_transition(STATES.FIRST_GEAR, STATES.SECOND_GEAR, set_acceleration)\
+        .add_transition(STATES.SECOND_GEAR, STATES.THIRD_GEAR, set_acceleration)\
+        ## 
+        .add_transition(STATES.THIRD_GEAR, STATES.SECOND_GEAR, set_deceleration)\
+        .add_transition(STATES.SECOND_GEAR, STATES.FIRST_GEAR, set_deceleration)\
+        .add_transition(STATES.FIRST_GEAR, STATES.IDLE, set_deceleration)\
 
-		.set_process_function_for([STATES.IDLE, STATES.FIRST_GEAR, STATES.SECOND_GEAR, STATES.THIRD_GEAR], update_movement) \
-		.show_debug()
+        .set_process_function_for([STATES.IDLE, STATES.FIRST_GEAR, STATES.SECOND_GEAR, STATES.THIRD_GEAR], update_movement) 
 
 
-	print(self.movement_statemachine.generate_transition_map())
-	print(self.movement_statemachine.generate_process_map())
-	return
+    print(self.movement_statemachine.generate_transition_map())
+    print(self.movement_statemachine.generate_process_map())
+    return
 
-func set_acceleration(_c, n):
-	self.acceleration = BASE_ACCELERATION
-	self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
-	self.set_particle_emmission(n)
+func set_acceleration(c, n):
+    self.acceleration = BASE_ACCELERATION
+    self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
+    self.set_particle_emmission(c, n)
 
-func set_deceleration(_c, n):
-	self.acceleration = self.decel_rate
-	self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
-	self.set_particle_emmission(n)
-	
+func set_deceleration(c, n):
+    self.acceleration = self.decel_rate
+    self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
+    self.set_particle_emmission(c, n)
+    
 
 func update_movement(delta):
-	if self.speed < self.current_max_speed and acceleration > 0:
-		self.speed += self.acceleration 
-	if self.speed > self.current_max_speed and acceleration <0:
-		#to avoid negative velocities 
-		if self.speed + self.acceleration > self.current_max_speed:
-			self.speed += self.acceleration 
-		else :
-			self.speed = self.current_max_speed 
+    if self.speed < self.current_max_speed and acceleration > 0:
+        self.speed += self.acceleration 
+    if self.speed > self.current_max_speed and acceleration <0:
+        #to avoid negative velocities 
+        if self.speed + self.acceleration > self.current_max_speed:
+            self.speed += self.acceleration 
+        else :
+            self.speed = self.current_max_speed 
 
-	clampf(self.speed, self.speed, self.current_max_speed)
+    clampf(self.speed, self.speed, self.current_max_speed)
 
-	self.velocity = self.basis.x * speed * delta
-
-
-	if Input.is_action_just_pressed("acceleration"):
-		var current_gear_number = gear_to_number[self.movement_statemachine.get_state()]
-		print("current gear : ",  current_gear_number)
-		# condition 1 : If you've roughly reached the maximum speed for the current gear
-		# condition 2 : Check whether you can go faster
-		# condition 3 : Check that you're not decelerating
-		print(in_percent_range(self.speed, self.current_max_speed, 0.05))
-		print(current_gear_number < 3)
-		print(self.acceleration >= 0)
-		if in_percent_range(self.speed, self.current_max_speed, 0.05) and current_gear_number < 3 : #and self.acceleration >= 0 :
-			self.movement_statemachine.switch_to(number_to_gear(current_gear_number+1))
-
-	elif Input.is_action_just_pressed("deceleration"):
-		var current_gear_number = gear_to_number[self.movement_statemachine.get_state()]
-		if is_zero_approx(self.speed) or current_gear_number == 0: return
-		else :
-			self.movement_statemachine.switch_to(number_to_gear(current_gear_number-1))
-			print(number_to_gear(current_gear_number-1))
+    self.velocity = self.basis.x * speed * delta
 
 
-	self.move_and_slide()
+    if Input.is_action_just_pressed("acceleration"):
+        var current_gear_number = gear_to_number[self.movement_statemachine.get_state()]
+        print("current gear : ",  current_gear_number)
+        # condition 1 : If you've roughly reached the maximum speed for the current gear
+        # condition 2 : Check whether you can go faster
+        # condition 3 : Check that you're not decelerating
+        print(in_percent_range(self.speed, self.current_max_speed, 0.05))
+        print(current_gear_number < 3)
+        print(self.acceleration >= 0)
+        if in_percent_range(self.speed, self.current_max_speed, 0.05) and current_gear_number < 3 : #and self.acceleration >= 0 :
+            self.movement_statemachine.switch_to(number_to_gear(current_gear_number+1))
+
+    elif Input.is_action_just_pressed("deceleration"):
+        var current_gear_number = gear_to_number[self.movement_statemachine.get_state()]
+        if is_zero_approx(self.speed) or current_gear_number == 0: return
+        else :
+            self.movement_statemachine.switch_to(number_to_gear(current_gear_number-1))
+            print(number_to_gear(current_gear_number-1))
 
 
-# func setup_carry_statemachine():
-# 	self.carry_statemachine = StateMachine.new(STATES.EMPTY, [STATES.CARRYING, STATES.EMPTY])\
-# 		.add_transition(STATES.EMPTY, STATES.CARRYING, func (c, n) : set_carrying_id()
-
-
+    self.move_and_slide()
 
 
 func _ready() -> void:
-	self.add_to_group("PlayerController", true)
-	setup_rotation_statemachine()
-	setup_movement_statemachine()
-
-
-
-	for node in get_tree().get_nodes_in_group("Debug"):
-		if node is PlayerDebug:
-			node.connect_to_node(self)
-	
-	
+    self.add_to_group("PlayerController", true)
+    setup_rotation_statemachine()
+    setup_movement_statemachine()	
+    setup_carry_statemachine()
+    
 
 
 
 func play_rot(_last, current):
-	$AnimationPlayer.play(state_to_animation[current])
+    $AnimationPlayer.play(state_to_animation[current])
 
-func set_carrying_id(id):
-	self._carrying_id = id
-func get_carrying_id():
-	return self._carrying_id 
 
 
 func _physics_process(delta: float) -> void:
-	if self.rotation_statemachine:
-		self.rotation_statemachine.use_process(delta)
-	if self.movement_statemachine:
-		self.movement_statemachine.use_process(delta)
+    if self.rotation_statemachine:
+        self.rotation_statemachine.use_process(delta)
+    if self.movement_statemachine:
+        self.movement_statemachine.use_process(delta)
 
-	detect()
-
-	if carrying:
-		#carry.update_position()
-		pass
-
+    detect()
 
 func update_rotation(_delta):
-	
-	for inp in input_map.keys():
-		input_map[inp] = Input.is_action_pressed(inp)
-	#I wrote cum it's funny haha xD*
-	var inp = input_map.keys().filter(func (x) : return input_map[x] == true)
-	
-	var input_count = input_map.values().reduce(func (cum, x) : return int(x) + int(cum))
-	if input_count == 1: 
-		inp = inp[0]
-		self.rotation_statemachine.switch_to(input_to_state[inp])
-		self.state_to_rotation[self.rotation_statemachine.get_state()].call()
-	#For diagonal input
-	elif input_count == 2:
-		inp.sort()
-		if not inp in banned_inputs_states:
-			self.rotation_statemachine.switch_to(input_to_state[inp])
-			self.state_to_rotation[self.rotation_statemachine.get_state()].call()
-	
-	#looking for releases
-	for k in input_map.keys():
-		input_map[k] = Input.is_action_just_released(k)
-		
-		
-	var any_button_released = input_map.values() \
-		.any(func (x) : return x == true)
-		
-	if any_button_released:
-		self.rotation_statemachine.switch_to(STATES.IDLE)
+    
+    for inp in input_map.keys():
+        input_map[inp] = Input.is_action_pressed(inp)
+    #I wrote cum it's funny haha xD*
+    var inp = input_map.keys().filter(func (x) : return input_map[x] == true)
+    
+    var input_count = input_map.values().reduce(func (cum, x) : return int(x) + int(cum))
+    if input_count == 1: 
+        inp = inp[0]
+        self.rotation_statemachine.switch_to(input_to_state[inp])
+        self.state_to_rotation[self.rotation_statemachine.get_state()].call()
+    #For diagonal input
+    elif input_count == 2:
+        inp.sort()
+        if not inp in banned_inputs_states:
+            self.rotation_statemachine.switch_to(input_to_state[inp])
+            self.state_to_rotation[self.rotation_statemachine.get_state()].call()
+    
+    #looking for releases
+    for k in input_map.keys():
+        input_map[k] = Input.is_action_just_released(k)
+        
+        
+    var any_button_released = input_map.values() \
+        .any(func (x) : return x == true)
+        
+    if any_button_released:
+        self.rotation_statemachine.switch_to(STATES.IDLE)
 
 func detect():
-	var collider = $RayCast3D.get_collider()
-	if current_collider == null : 
-		current_collider = collider
-		mission_item_detected.emit(current_collider)
-	elif current_collider == collider:
-		return
-	else :
-		mission_item_undetected.emit(current_collider)
-		mission_item_detected.emit(collider)
-		current_collider = collider
+    var collider = $RayCast3D.get_collider()
+    if current_collider == null : 
+        current_collider = collider
+        interactible_detected.emit(current_collider)
+    elif current_collider == collider:
+        return
+    else :
+        interactible_undetected.emit(current_collider)
+        interactible_detected.emit(collider)
+        current_collider = collider
 
 
 
-func set_particle_emmission(gear):
-	const BASE_EXPLOSIVENESS = 0.09
-	const SPEED_SCALE_MAP = {
-		0: 1,
-		1: 1,
-		2: 2,
-		3: 4
-	}
-	const AMOUNT_TO_GEAR = {
-		0: 0,
-		1: 25,
-		2: 100,
-		3: 250
-	}
-	print("THE GEAR IS :", gear )
-	if gear == STATES.IDLE:
-		$"Space Cargo/GPUParticles3D".set_emitting(false)
-		return
-	elif gear == STATES.FIRST_GEAR:
-		$"Space Cargo/GPUParticles3D".set_emitting(true)
+func set_particle_emmission(past, current):
+    const AMOUNT_TO_GEAR = {
+        0: 0,
+        1: 25,
+        2: 100,
+        3: 250
+    }
+    print("THE GEAR IS :", current )
+    if current == STATES.IDLE:
+        $"Space Cargo/EngineParticles".set_emitting(false)
+        return
+    elif current == STATES.FIRST_GEAR:
+        $"Space Cargo/EngineParticles".set_emitting(true)
+    elif current == STATES.SECOND_GEAR and past == STATES.THIRD_GEAR:
+        $SpeedParticles.set_emitting(false)
+    elif current == STATES.THIRD_GEAR:
+        $SpeedParticles.set_emitting(true)
+    
+    $"Space Cargo/EngineParticles".set_amount(AMOUNT_TO_GEAR[gear_to_number[current]])
+    $"Space Cargo/EngineParticles".set_speed_scale(1+gear_to_number[current]/3)
 
-	$"Space Cargo/GPUParticles3D".set_amount(AMOUNT_TO_GEAR[gear_to_number[gear]])
-	$"Space Cargo/GPUParticles3D".set_speed_scale(1+gear_to_number[gear]/3)
+
+func can_carry():
+    return self.carry_statemachine.get_state() == STATES.EMPTY
+
+func carry(item):
+    self.carry_statemachine.switch_to(STATES.CARRYING)
+    self._carrying_object = item
+
+func uncarry():
+    self.carry_statemachine.switch_to(STATES.EMPTY)
+    self._carrying_object = null
+
+func on_carry(_current_state, _next_state):
+    #set all the item's carry restrictions
+    if self._carrying_object == null :
+        push_error("Carrying object not set")
+        return
+    self.carry_remote_transform.set_remote_node(self._carrying_object.get_path())
+    ##Animation for ts ?
+
+func on_uncarry(_current_state, _next_state):
+    #remove all the item restrictions
+    self._carrying_object = null 
+    pass
+
+func get_carrying_id():
+    if !self.can_carry():
+        return self._carrying_object.get_item_id()

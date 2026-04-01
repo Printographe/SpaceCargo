@@ -154,9 +154,16 @@ func use_process(delta : float) -> void:
 	if self.process_functions.has(self._current_state):
 		self.process_functions[_current_state].call(delta)
 
+func can_switch_to(state) -> bool:
+	return state in self.transitions[self.get_state()] 
+
+func force_switch(next, transition, persistent = false) -> void:
+	#TODO implement forced transitions from a state to another
+	#bool persistent -> Add this transition to the transition map or is a one time use. 
+	pass
 
 
-func switch_to(next):
+func switch_to(next) -> void:
 	sm_print_debug("Attempt to switch from " + _state_identifiers[self._current_state] + " to " + _state_identifiers[next])
 	if next == self._current_state and self._ignore_self_transitions:
 		return 
