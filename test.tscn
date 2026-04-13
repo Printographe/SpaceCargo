@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dq87yi5bfss86"]
+[gd_scene load_steps=29 format=3 uid="uid://dq87yi5bfss86"]
 
 [ext_resource type="PackedScene" uid="uid://dd5k1qilde1i1" path="res://Joueur.tscn" id="1_37kl0"]
 [ext_resource type="PackedScene" uid="uid://cpnl153rw4le" path="res://dashboard.tscn" id="2_8uh7m"]
@@ -15,7 +15,9 @@
 [ext_resource type="PackedScene" uid="uid://4aglyq1mqitp" path="res://Finaltarget.tscn" id="8_ehkex"]
 [ext_resource type="PackedScene" uid="uid://b8covhlk57xb" path="res://planet.glb" id="11_5tkv4"]
 [ext_resource type="PackedScene" uid="uid://blbb524cos70f" path="res://pinky.tscn" id="13_a3se8"]
+[ext_resource type="Script" uid="uid://dp7h0dedmbsn3" path="res://Item.gd" id="13_uty7l"]
 [ext_resource type="PackedScene" uid="uid://cs1w0y5xhq4yi" path="res://feu_tricolor_wn.tscn" id="16_vxl6d"]
+[ext_resource type="PackedScene" uid="uid://lhhoityqm3o3" path="res://asymmetric_meteor.glb" id="18_45l4g"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_37kl0"]
 lifetime_randomness = 1.0
@@ -55,9 +57,13 @@ radius = 7.85149
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uty7l"]
 render_priority = 0
 shader = ExtResource("7_a3se8")
-shader_parameter/basecolor = Vector3(0, 1, 0)
-shader_parameter/rotation = false
-shader_parameter/i_p = Vector3(0, 1, 0)
+shader_parameter/basecolor = Vector3(0, 1, 1)
+shader_parameter/rotation = true
+shader_parameter/i_p = Vector3(1, 1, 4)
+
+[sub_resource type="Resource" id="Resource_45l4g"]
+script = ExtResource("13_uty7l")
+metadata/_custom_type_script = "uid://dp7h0dedmbsn3"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0m0f1"]
 albedo_texture = ExtResource("8_5tkv4")
@@ -211,6 +217,7 @@ metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
 [node name="CollectableItem" parent="Missions/Mission" instance=ExtResource("7_vbegm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 181.57707, 104.328, 70.142)
 offset_xy = Vector2(0, 0)
+item = SubResource("Resource_45l4g")
 progress = 0
 child_mesh_path = NodePath("MeshInstance3D2")
 
@@ -227,8 +234,7 @@ shape = SubResource("BoxShape3D_a3se8")
 
 [node name="ArrivingPoint" parent="Missions/Mission" instance=ExtResource("8_ehkex")]
 transform = Transform3D(0.609949, 0.248004, -0.752633, -0.135215, 0.968409, 0.209524, 0.78082, -0.0260312, 0.624214, 61.6581, 24.7862, 73.7725)
-trigger_text = ""
-item_id = 4
+trigger_text = "Bwaaaaaah"
 child_mesh_path = NodePath("pinky")
 
 [node name="pinky" parent="Missions/Mission/ArrivingPoint" instance=ExtResource("13_a3se8")]
@@ -246,3 +252,15 @@ metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
 [node name="Dashboard" parent="." instance=ExtResource("2_8uh7m")]
 offset_top = -1.0
 offset_bottom = -1.0
+
+[node name="asymmetric_meteor" parent="." instance=ExtResource("18_45l4g")]
+transform = Transform3D(0.37751755, 0, 0.92600244, 0, 1, 0, -0.92600244, 0, 0.37751755, 163.42123, 60.493134, -1.2944107)
+
+[node name="asymmetric_meteor2" parent="." instance=ExtResource("18_45l4g")]
+transform = Transform3D(-0.35144955, 0, -0.9362068, 0, 1, 0, 0.9362068, 0, -0.35144955, 51.474266, 60.493134, 59.565876)
+
+[node name="asymmetric_meteor3" parent="." instance=ExtResource("18_45l4g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.303986, 15.795692, 14.585552)
+
+[node name="asymmetric_meteor4" parent="." instance=ExtResource("18_45l4g")]
+transform = Transform3D(1, 0, 0, 0, 0.4725354, -0.8813117, 0, 0.8813117, 0.4725354, 53.303986, 15.795692, 80.76128)

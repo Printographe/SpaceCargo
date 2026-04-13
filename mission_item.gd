@@ -4,8 +4,9 @@ class_name MissionItem
 
 signal taskDone
 signal showContent
+signal addContent
 
-var mission : Mission 
+@onready var mission : Mission = get_parent() 
 var detected = false
 
 @export var progress: int
@@ -46,9 +47,11 @@ func get_mission_progress():
 
 
 
-func show_content(title, content, show_mission = false):
-    self.showContent.emit(title, content, show_mission, self.mission)
+func add_content(title : String, content : String, show_mission = false):
+    self.addContent.emit(title, content, show_mission, mission)
 
+func show_content():
+    self.showContent.emit()
 
 func _player_entered_check(body):
     if body is PlayerController:
@@ -58,7 +61,6 @@ func _ready():
     super._ready()
     self.body_entered.connect(_player_entered_check)
     
-    mission = get_parent()
     if mission is Mission:
         #allowed, because it synchronises 
         player_entered.connect(state_function[mission.statemachine.get_state()])

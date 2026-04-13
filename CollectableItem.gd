@@ -11,23 +11,28 @@ func on_progress(player : PlayerController):
         self.get_carried(player)
         taskDone.emit()
     else :
-        show_content("Issue", "We can't carry ts")
+        add_content("Issue", "We can't carry ts")
+        show_content()
     
 func on_detected(player):
     print('Detected !!')
     if player.can_carry():
         sendInteraction.emit(Interaction.new(Interaction.KEYS.E, "Carry", self,  get_carried.bind(player)) )
     else :
-        sendInteraction.emit(Interaction.new(Interaction.KEYS.E, "Carry", self, show_content.bind("object", "can't carry it you dumbass")))
+        sendInteraction.emit(Interaction.new(Interaction.KEYS.E, "Carry", self, func() : 
+            add_content("", "Ayo, I can't carry this shit")
+            show_content()
+            ))
 
-func on_pending(_player): 
-    print("Pretty pending !")
 
 func mission_done():
     self.queue_free()
 
 func get_carried(player: PlayerController):
     player.carry(self)
+    taskDone.emit()
+    sendInteraction.emit(Interaction.new(Interaction.KEYS.A, "Throw", player, player.uncarry))
+    print("I was in fact, carried")
 
 func get_item_id():
     return self.item.item_id
