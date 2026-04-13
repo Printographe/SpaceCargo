@@ -1,7 +1,7 @@
 extends Area3D
 class_name Interactible
 
-signal sendInteraction
+signal sendInteraction(interaction)
 signal loseInteraction
 
 

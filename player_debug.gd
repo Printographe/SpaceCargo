@@ -21,7 +21,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
     if player and player is PlayerController:
-        $HBoxContainer2/VBoxContainer5/SpeedValue.set_text("%0.2f" % player.speed)
+        $HBoxContainer2/VBoxContainer5/SpeedValue.set_text("%0.2f; %0.2f" % [player.speed, player.acceleration])
         $HBoxContainer2/VBoxContainer4/VelocityValue.text = \
                 "(x: {x}, y: {y}, z: {z}) ".format(
                     {	"x": "%0.2f" % player.velocity.x ,

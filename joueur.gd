@@ -49,7 +49,7 @@ static func sorted(list : Array) -> Array:
     list.sort()
     return list
 
-func custom_rotate(up, right):
+func custom_rotate(up : int, right : int):
     self.basis = self.basis * Basis(Vector3.FORWARD, up*angle).orthonormalized()
     #self.basis = Basis.IDENTITY.rotated(Vector3(0, 1, 0), pos*angle).orthonormalized()
     self.basis = self.basis * Basis(Vector3.UP, right*angle).orthonormalized()
@@ -117,17 +117,19 @@ var state_to_rotation = {
 
 
 
-var gear_to_number : Dictionary =  {
+const gear_to_number : Dictionary =  {
+    STATES.NULL : -1,
     STATES.IDLE : 0,
     STATES.FIRST_GEAR : 1,
     STATES.SECOND_GEAR : 2,
     STATES.THIRD_GEAR : 3
 }
 
-var number_to_gear_map = {
-     0: STATES.IDLE        ,
-     1: STATES.FIRST_GEAR  ,
-     2: STATES.SECOND_GEAR ,
+const number_to_gear_map = {
+    -1: STATES.NULL,
+     0: STATES.IDLE,
+     1: STATES.FIRST_GEAR,
+     2: STATES.SECOND_GEAR,
      3: STATES.THIRD_GEAR  
 }
 
@@ -174,7 +176,7 @@ func setup_carry_statemachine():
             STATES.CARRYING : "carrying",
         })\
         .add_transition(STATES.EMPTY, STATES.CARRYING, on_carry) \
-        .add_transition(STATES.EMPTY, STATES.CARRYING, on_uncarry) 
+        .add_transition(STATES.CARRYING, STATES.EMPTY, on_uncarry) 
 
 
 func setup_rotation_statemachine():
@@ -265,6 +267,9 @@ func update_movement(delta):
             self.speed += self.acceleration 
         else :
             self.speed = self.current_max_speed 
+   
+    if self.current_max_speed == self.speed:
+        self.acceleration = 0
 
     clampf(self.speed, self.speed, self.current_max_speed)
 
@@ -273,14 +278,13 @@ func update_movement(delta):
 
     if Input.is_action_just_pressed("acceleration"):
         var current_gear_number = gear_to_number[self.movement_statemachine.get_state()]
-        print("current gear : ",  current_gear_number)
         # condition 1 : If you've roughly reached the maximum speed for the current gear
         # condition 2 : Check whether you can go faster
         # condition 3 : Check that you're not decelerating
         print(in_percent_range(self.speed, self.current_max_speed, 0.05))
         print(current_gear_number < 3)
         print(self.acceleration >= 0)
-        if in_percent_range(self.speed, self.current_max_speed, 0.05) and current_gear_number < 3 : #and self.acceleration >= 0 :
+        if self.can_speed_up() :
             self.movement_statemachine.switch_to(number_to_gear(current_gear_number+1))
 
     elif Input.is_action_just_pressed("deceleration"):
@@ -293,6 +297,10 @@ func update_movement(delta):
 
     self.move_and_slide()
 
+
+func can_speed_up():
+    var current_gear_number = gear_to_number[self.movement_statemachine.get_state()]
+    return in_percent_range(self.speed, self.current_max_speed, 0.05) and current_gear_number < 3 and self.acceleration >= 0
 
 func _ready() -> void:
     self.add_to_group("PlayerController", true)
@@ -386,12 +394,12 @@ func can_carry():
     return self.carry_statemachine.get_state() == STATES.EMPTY
 
 func carry(item):
-    self.carry_statemachine.switch_to(STATES.CARRYING)
     self._carrying_object = item
+    self.carry_statemachine.switch_to(STATES.CARRYING)
 
 func uncarry():
     self.carry_statemachine.switch_to(STATES.EMPTY)
-    self._carrying_object = null
+
 
 func on_carry(_current_state, _next_state):
     #set all the item's carry restrictions
@@ -402,7 +410,7 @@ func on_carry(_current_state, _next_state):
     ##Animation for ts ?
 
 func on_uncarry(_current_state, _next_state):
-    #remove all the item restrictions
+    self.carry_remote_transform.set_remote_node("")
     self._carrying_object = null 
     pass
 
