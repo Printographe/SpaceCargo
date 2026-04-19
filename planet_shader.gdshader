@@ -30,9 +30,9 @@ void fragment() {
 	vec3 w;
 	if (rotation)
 		{
-			w = vec3(normal_i_p.x*cos(TIME) - normal_i_p.y*sin(TIME),
-							normal_i_p.x * sin(TIME) + normal_i_p.y * cos(TIME),
-							normal_i_p.z);
+			w = vec3(normal_i_p.x*cos(TIME) -   normal_i_p.y*sin(TIME)   +  0.,
+				     normal_i_p.x * sin(TIME) + normal_i_p.y * cos(TIME) +  0.,
+					  0. +                    + 0.                       + normal_i_p.z);
 		}
 	else w = normal_i_p;
 	vec3 dir = normalize(COLOR.xyz);
