@@ -10,14 +10,23 @@ var key : int
 var label : String
 var emitor : Variant
 var _callback : Callable
-var priority : int 
+var priority : int
+var persistent : bool = false
+var delete_on_play : bool = false
 
-func _init(key : int, label : String, emitor : Variant, fn : Callable, prio = 1) -> void:
-    self.key = key
-    self.label = label
-    self.emitor = emitor
-    self._callback = fn
-    self.priority = 1
+
+func _init(interaction_key : int, display_label : String, emitor_entity : Variant, callback : Callable, prio = 1) -> void:
+    self.key = interaction_key
+    self.label = display_label
+    self.emitor = emitor_entity
+    self._callback = callback
+    self.priority = prio
+    self.persistent = false;
+
+func set_priority(p : int) -> Interaction:
+    self.priority = p
+    return self
+
 
 func play():
     self._callback.call()

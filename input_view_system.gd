@@ -1,6 +1,9 @@
+###This class is soooo bad
+##TODO : Divide into two classes => input system and visual system 
+
 extends VBoxContainer
 
-##Rewrite with statemachine ????
+
 
 @onready var key_a_button = $HBoxContainer3/UIInteractionButton/Button
 @onready var key_a_label = $HBoxContainer3/UIInteractionButton/Label
@@ -26,6 +29,15 @@ var current_focus : Dictionary[Interaction.KEYS, Interaction] = {
     Interaction.KEYS.X : null,
 }
 
+#Ideally, I'd make these statically sized.. but oh well.
+var awaiting_interactions : Dictionary[Interaction.KEYS, Array] = {
+    Interaction.KEYS.A : [],
+    Interaction.KEYS.E : [],
+    Interaction.KEYS.C : [],
+    Interaction.KEYS.X : [],
+}
+
+
 
 @onready var key_to_button : Dictionary[Interaction.KEYS, Button] = {
     Interaction.KEYS.X : key_x_button,
@@ -41,6 +53,9 @@ var current_focus : Dictionary[Interaction.KEYS, Interaction] = {
     Interaction.KEYS.E : key_e_label,
 }
 
+
+#My own keycode to Godot input event to 
+#TODO : Just rename my keys with the same events and put it as a static map 
 var int_key_to_ui = {
     Interaction.KEYS.X : "accelerate",
     Interaction.KEYS.C : "decelerate",
@@ -53,7 +68,7 @@ func _ready() -> void:
     for node in get_tree().get_nodes_in_group("Interactibles"):
         var interactible : Interactible = node
         interactible.sendInteraction.connect(set_interaction)
-        interactible.loseInteraction.connect(reset_interaction)
+        interactible.loseInteraction.connect(remove_interactions)
 
     for  k in get_tree().get_nodes_in_group("PlayerController"):
         player = k
@@ -61,6 +76,22 @@ func _ready() -> void:
         player.movement_statemachine.stateChange.connect(on_speed_change)
         #manual call for sync
         on_speed_change(player.STATES.NULL, player.movement_statemachine.get_state())
+
+
+
+
+func suspend_interaction(interaction : Interaction):
+    disconnect_interaction(interaction)
+    add_awaiting_interaction(interaction)
+
+func add_awaiting_interaction(interaction : Interaction):
+    #TODO implement a binary insert 
+    self.awaiting_interactions[interaction.key].append(interaction)
+    self.awaiting_interactions.sort()
+
+func fetch_awaiting_interaction(key):
+    if len(self.awaiting_interactions[key]) > 0:
+        return self.awaiting_interactions[key].pop_front()
 
 
 
@@ -80,22 +111,45 @@ func on_speed_change(past, current):
 func set_interaction(interaction: Interaction):
     print("asking for interaction to be set ")
 
-    if current_focus[interaction.key]:
-        if interaction.priority >= current_focus[interaction.key].priority:
-            disconnect_interaction(current_focus[interaction.key])
-        else: 
-            push_error("Interaction priority is below current interaction's priority")
-            return
+    var current_focus_input : Interaction = current_focus[interaction.key] 
 
-    set_focus(interaction)
-        
-func reset_interaction(focus):
-    for key in current_focus:
-        if  current_focus[key] and current_focus[key].emitor == focus:
-            print("removing interaction from here (input view system l86)")
+    if current_focus_input:
+        if interaction.priority >= current_focus_input.priority:
+            suspend_interaction(current_focus_input)
+            set_focus(interaction)
+        else: 
+            add_awaiting_interaction(interaction)
+    else :
+        set_focus(interaction)
+
+
+func set_focus_on_awaiting_interection(key):
+    var possible_awaiting_interaction = fetch_awaiting_interaction(key)
+    if possible_awaiting_interaction:
+        set_focus(possible_awaiting_interaction)
+    else :
+        current_focus[key] = null
+
+func remove_interactions(interaction_stack: Array[Interaction]):
+    print("iterating through : ", interaction_stack)
+
+    for interaction : Interaction in interaction_stack:
+        if  current_focus[interaction.key] == interaction and not (interaction.persistent or interaction.delete_on_play):
+            var key = interaction.key
+            print("removing interaction from current focus")
             disconnect_interaction(current_focus[key])
-            current_focus[key] = null
+            set_focus_on_awaiting_interection(key)
     
+    for key in awaiting_interactions.keys():
+        print("awaiting interactions : \n", awaiting_interactions)
+        for awaiting_interaction in awaiting_interactions[key]:
+            for interaction in interaction_stack:
+                if interaction == awaiting_interaction and not (interaction.persistent or interaction.delete_on_play):
+                    print("removing interaction from awaiting interactions")
+                    disconnect_interaction(interaction)
+                    awaiting_interactions[key].erase(interaction) 
+
+
 func disconnect_interaction(interaction : Interaction):
     print("disconnecting from button")
     var pertaining_button = key_to_button[interaction.key]
@@ -112,12 +166,16 @@ func set_focus(interaction: Interaction):
     key_to_label[interaction.key].set_text(interaction.label)
 
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
     for key in current_focus:
-        var interaction = current_focus[key]
+        print("_input > current_focus : ", current_focus)
+        var interaction : Interaction = current_focus[key]
         if interaction == null : continue
-        if Input.is_action_pressed(int_key_to_ui[interaction.key]) and interaction.is_valid():
+        if Input.is_action_just_released(int_key_to_ui[interaction.key]) and interaction.is_valid():
             interaction.play()
+            if interaction.delete_on_play: #order matters
+                disconnect_interaction(interaction)
+                set_focus_on_awaiting_interection(key)
 
 func _process(_delta: float) -> void:
     if player and check_speed_up and player.can_speed_up():

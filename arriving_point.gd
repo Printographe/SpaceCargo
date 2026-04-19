@@ -33,7 +33,8 @@ func on_pending(player):
 
 func on_detected(player):
     if get_mission_progress() == Mission.MissionState.PENDING:
-        sendInteraction.emit(Interaction.new(Interaction.KEYS.A, "interact", self, ice_breaker))
+        var special_interaction  = Interaction.new(Interaction.KEYS.A, "interact", self, ice_breaker, 2)
+        _send_interaction_with_raw(special_interaction)
         
 
 func on_success(player):

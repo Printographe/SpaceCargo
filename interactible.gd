@@ -9,29 +9,59 @@ signal loseInteraction
 @onready var highlight_shader = preload("res://simple contour shader.tres") 
 
 
-var __player : PlayerController
+##TODO when separating VisualInteraction from Interaction, add node_path for the "emitor" 
+##The emitor should be the reference that tells if the interaction is valid or not => self would work too ig but better safe than sorry 
+
+#inner workings :sleep:
+var _interaction_stack :Array[Interaction] = []
+
+
+var _player : PlayerController
+
+
+
+func send_interaction(key : int, label :String, callback : Callable):
+    var interaction = Interaction.new(key, label, self, callback)
+    _send_interaction_with_raw(interaction)
+
+func send_delete_on_play_interaction(key : int, label : String, callback : Callable):
+    var interaction = Interaction.new(key, label, self, callback)
+    interaction.delete_on_play = true
+    _send_interaction_with_raw(interaction)
+
+func send_persistent_interaction(key, label, callback):
+    var interaction = Interaction.new(key, label, self, callback)
+    interaction.persistent = true
+    _send_interaction_with_raw(interaction)
+
+func _send_interaction_with_raw(interaction: Interaction):
+    self._interaction_stack.push_back(interaction)
+    sendInteraction.emit(interaction)
+
 
 func _ready() -> void:
     self.add_to_group("Interactibles")
     for player_node : PlayerController in get_tree().get_nodes_in_group("PlayerController"):
-        __player = player_node
-        __player.interactible_detected.connect(_on_detected)
-        __player.interactible_undetected.connect(_on_undetect)
+        _player = player_node
+        _player.interactible_detected.connect(_on_detected)
+        _player.interactible_undetected.connect(_on_undetect)
 
 
 func on_detected(player):
     pass
 
-
 func _on_detected(body):
     _set_detect(body, true)
     if self == body : 
-        on_detected(self.__player)
+        on_detected(self._player)
 
 func _on_undetect(body):
     _set_detect(body, false)
     if self == body :
-        loseInteraction.emit(self)
+        if len(self._interaction_stack)> 0:
+            loseInteraction.emit(self._interaction_stack)
+            #thank god for manual memory management :)
+            self._interaction_stack.clear()
         on_interaction_lost()
 
 func on_interaction_lost():
