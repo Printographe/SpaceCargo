@@ -39,11 +39,11 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.82500005
 anchor_top = 0.11400001
-anchor_right = 1.0
+anchor_right = 0.99000007
 anchor_bottom = 0.614
 offset_left = -0.4000244
 offset_top = 0.12799835
-offset_right = -11.0
+offset_right = 0.51989746
 offset_bottom = 0.12799072
 
 [node name="mission_button" type="Button" parent="Dashboard_panel"]
@@ -58,51 +58,44 @@ size_flags_horizontal = 8
 size_flags_vertical = 0
 metadata/_edit_use_anchors_ = true
 
+[node name="MissionViewContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.012152778
+anchor_top = 0.20522223
+anchor_right = 0.21772222
+anchor_bottom = 0.65900004
+offset_left = 21.0
+offset_top = 0.015991211
+offset_right = 0.18400574
+offset_bottom = -0.03201294
+metadata/_edit_use_anchors_ = true
+
 [node name="MissionContentSystem" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -1151.0
-offset_bottom = -647.0
-grow_horizontal = 2
-grow_vertical = 2
+anchor_right = 0.00086805556
+anchor_bottom = 0.0015432099
 script = ExtResource("4_k1kl5")
+metadata/_edit_use_anchors_ = true
 
 [node name="MissionItemText" parent="MissionContentSystem" instance=ExtResource("4_1w0xl")]
 visible = false
 layout_mode = 1
-anchor_left = 0.119
-anchor_top = 5.3820004
-anchor_right = 0.119
-anchor_bottom = 5.3820004
-offset_left = 19.0
-offset_top = 486.0
-offset_right = 920.0
-offset_bottom = 616.0
+anchor_left = 19.119
+anchor_top = 491.382
+anchor_right = 920.119
+anchor_bottom = 621.382
+offset_right = 0.0
+offset_bottom = 0.0
+metadata/_edit_use_anchors_ = true
 
 [node name="mission_panel" parent="MissionContentSystem" instance=ExtResource("2_dx5rv")]
 visible = false
 layout_mode = 1
 anchor_left = 279.0
-anchor_top = 116.0
+anchor_top = 77.0
 anchor_right = 816.0
-anchor_bottom = 596.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-
-[node name="MissionViewContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.20522223
-anchor_right = 0.18322918
-anchor_bottom = 0.65900004
-offset_left = 21.0
-offset_top = 0.01599884
-offset_right = -0.08000183
-offset_bottom = -0.03201294
-metadata/_edit_use_anchors_ = true
+anchor_bottom = 570.0
 
 [node name="MissionSuccessMessage" parent="." instance=ExtResource("3_vyiww")]
 visible = false

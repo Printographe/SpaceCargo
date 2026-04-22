@@ -10,8 +10,7 @@ signal nextItem
 
 @onready var confirmButton : Button = $VBoxContainer/MarginContainer2/ActionButtons/ConfirmButton
 @onready var refuseButton : Button = $VBoxContainer/MarginContainer2/ActionButtons/RefuseButton
-@onready var cancelButton : Button = $VBoxContainer/HBoxContainer/cancelbutton
-
+@onready var cancelButton : Button = $VBoxContainer/MarginContainer3/HBoxContainer/cancelbutton
 @onready var ongoingButton : Button = $VBoxContainer/MarginContainer2/ActionButtons/OngoingButton
 
 
@@ -33,7 +32,7 @@ func set_contract_info(mission : Mission):
     if connected_mission :
         if confirmButton.pressed.is_connected(on_refused_button_pressed) :
             confirmButton.disconnect("pressed", on_confirm_button_pressed)
-        else:
+        if refuseButton.pressed.is_connected(on_refused_button_pressed):
             refuseButton.disconnect("pressed", on_refused_button_pressed)
     
     connected_mission = mission

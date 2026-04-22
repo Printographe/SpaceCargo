@@ -4,14 +4,9 @@
 [ext_resource type="Script" uid="uid://x3g7jxn0miry" path="res://contract_panel.gd" id="1_c73c8"]
 
 [node name="Contract Panel" type="PanelContainer"]
-custom_minimum_size = Vector2(200, 200)
 anchors_preset = -1
-anchor_top = 0.008
-anchor_right = 0.46500003
-anchor_bottom = 0.95100003
-offset_top = -5.184
-offset_right = 1.3199463
-offset_bottom = -0.24804688
+anchor_right = 0.46614584
+anchor_bottom = 0.76080245
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_7cyww")
@@ -23,16 +18,18 @@ layout_mode = 2
 alignment = 1
 metadata/_edit_group_ = true
 
-[node name="margin_top" type="Control" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 10)
+[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer3"]
 layout_mode = 2
+size_flags_stretch_ratio = 0.9
 
-[node name="Title" type="Label" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+[node name="Title" type="Label" parent="VBoxContainer/MarginContainer3/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 40
@@ -40,22 +37,18 @@ text = "CONTRACT OFFER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="cancelbutton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="cancelbutton" type="Button" parent="VBoxContainer/MarginContainer3/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.1
-focus_neighbor_left = NodePath("../../MarginContainer2/ActionButtons/ConfirmButton")
+focus_neighbor_left = NodePath("../../../MarginContainer2/ActionButtons/ConfirmButton")
 focus_neighbor_top = NodePath(".")
 focus_neighbor_right = NodePath(".")
-focus_neighbor_bottom = NodePath("../../MarginContainer2/ActionButtons/OngoingButton")
-focus_next = NodePath("../../MarginContainer2/ActionButtons/ConfirmButton")
+focus_neighbor_bottom = NodePath("../../../MarginContainer2/ActionButtons/OngoingButton")
+focus_next = NodePath("../../../MarginContainer2/ActionButtons/ConfirmButton")
 focus_previous = NodePath(".")
 text = " X "
-
-[node name="margin_right" type="Control" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(10, 10)
-layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -65,32 +58,30 @@ theme_override_constants/margin_right = 10
 
 [node name="Context" type="RichTextLabel" parent="VBoxContainer/MarginContainer"]
 clip_contents = false
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/normal_font_size = 25
-text = "UN CONTRACT OU TU FAIS DES TRUCS, TU DOIS ALLER DE LA PLANETE A  A LA PLANETE B, ET RAPIDEMENT !
-
+text = "Meaningful text
 "
 scroll_following = true
 
 [node name="Time" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_stretch_ratio = 0.3
+size_flags_stretch_ratio = 0.97
 alignment = 1
 metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
 
 [node name="Time label" type="Label" parent="VBoxContainer/Time"]
-custom_minimum_size = Vector2(100, 40)
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 32
-text = "Time"
+text = "Time:  "
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="time" type="Label" parent="VBoxContainer/Time"]
-custom_minimum_size = Vector2(100, 40)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "mm:ss"
@@ -105,15 +96,13 @@ metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
 
 [node name="Offer label" type="Label" parent="VBoxContainer/Offer"]
-custom_minimum_size = Vector2(100, 40)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Offer"
+text = "Offer:   "
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="amount" type="Label" parent="VBoxContainer/Offer"]
-custom_minimum_size = Vector2(100, 40)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "3 415"
@@ -132,44 +121,41 @@ theme_override_constants/margin_bottom = 5
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.17
-focus_neighbor_top = NodePath("../../HBoxContainer/cancelbutton")
+focus_neighbor_top = NodePath("../../MarginContainer3/HBoxContainer/cancelbutton")
 alignment = 1
 
 [node name="ConfirmButton" type="Button" parent="VBoxContainer/MarginContainer2/ActionButtons"]
-custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_neighbor_left = NodePath(".")
-focus_neighbor_top = NodePath("../../../HBoxContainer/cancelbutton")
+focus_neighbor_top = NodePath("../../../MarginContainer3/HBoxContainer/cancelbutton")
 focus_neighbor_right = NodePath("../RefuseButton")
 focus_neighbor_bottom = NodePath(".")
 focus_next = NodePath("../RefuseButton")
-focus_previous = NodePath("../../../HBoxContainer/cancelbutton")
+focus_previous = NodePath("../../../MarginContainer3/HBoxContainer/cancelbutton")
 theme = ExtResource("1_7cyww")
 text = "Confirm
 "
 
 [node name="OngoingButton" type="Button" parent="VBoxContainer/MarginContainer2/ActionButtons"]
-custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_neighbor_left = NodePath(".")
-focus_neighbor_top = NodePath("../../../HBoxContainer/cancelbutton")
+focus_neighbor_top = NodePath("../../../MarginContainer3/HBoxContainer/cancelbutton")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath(".")
 focus_next = NodePath(".")
-focus_previous = NodePath("../../../HBoxContainer/cancelbutton")
+focus_previous = NodePath("../../../MarginContainer3/HBoxContainer/cancelbutton")
 text = "It's already ongoing"
 
 [node name="RefuseButton" type="Button" parent="VBoxContainer/MarginContainer2/ActionButtons"]
-custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_neighbor_left = NodePath("../ConfirmButton")
-focus_neighbor_top = NodePath("../../../HBoxContainer/cancelbutton")
+focus_neighbor_top = NodePath("../../../MarginContainer3/HBoxContainer/cancelbutton")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath(".")
-focus_next = NodePath("../../../HBoxContainer/cancelbutton")
+focus_next = NodePath("../../../MarginContainer3/HBoxContainer/cancelbutton")
 focus_previous = NodePath("../ConfirmButton")
 text = "Refuse
 "
