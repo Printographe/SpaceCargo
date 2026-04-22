@@ -3,8 +3,8 @@
 [ext_resource type="StyleBox" uid="uid://c2r2vi2q2qitt" path="res://ButtonStyle.tres" id="1_yhag5"]
 [ext_resource type="FontFile" uid="uid://r4mios1wxy2v" path="res://MainFont.tres" id="2_rfn4m"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lm1e7"]
-bg_color = Color(0.13887513, 0.65553474, 0.53616333, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6qad1"]
+bg_color = Color(0.123200096, 0.59144753, 0.4845646, 1)
 border_width_bottom = 5
 border_color = Color(5.7756904e-07, 0.5094699, 0.50380003, 1)
 corner_radius_top_left = 5
@@ -73,9 +73,10 @@ corner_detail = 4
 [resource]
 default_font = ExtResource("2_rfn4m")
 Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_focus_color = Color(0.8004907, 0.8004907, 0.8004914, 1)
 Button/font_sizes/font_size = 40
 Button/styles/focus = ExtResource("1_yhag5")
-Button/styles/hover = SubResource("StyleBoxFlat_lm1e7")
+Button/styles/hover = SubResource("StyleBoxFlat_6qad1")
 Button/styles/normal = ExtResource("1_yhag5")
 Button/styles/pressed = SubResource("StyleBoxFlat_acwmj")
 Panel/styles/panel = SubResource("StyleBoxFlat_rfn4m")

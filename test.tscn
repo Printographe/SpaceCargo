@@ -1,9 +1,10 @@
-[gd_scene load_steps=29 format=3 uid="uid://dq87yi5bfss86"]
+[gd_scene load_steps=30 format=3 uid="uid://dq87yi5bfss86"]
 
 [ext_resource type="PackedScene" uid="uid://dd5k1qilde1i1" path="res://Joueur.tscn" id="1_37kl0"]
 [ext_resource type="PackedScene" uid="uid://cpnl153rw4le" path="res://dashboard.tscn" id="2_8uh7m"]
 [ext_resource type="PackedScene" uid="uid://d4ji265l14uqv" path="res://Asteroid1.glb" id="2_ppyta"]
 [ext_resource type="Environment" uid="uid://4ibwtduv01jq" path="res://testng_environnement.tres" id="2_xersf"]
+[ext_resource type="Script" uid="uid://dl13se601gq1u" path="res://fuel_system.gd" id="3_4uo0j"]
 [ext_resource type="Script" uid="uid://c3j7g4ey4joxn" path="res://Mission.gd" id="3_6uqi0"]
 [ext_resource type="PackedScene" uid="uid://cmrdrvs2n2xyi" path="res://Gas Station.glb" id="4_77dp3"]
 [ext_resource type="PackedScene" uid="uid://c05frf1gjc430" path="res://Asteroid.tscn" id="4_a3se8"]
@@ -96,6 +97,12 @@ environment = ExtResource("2_xersf")
 current = true
 fov = 30.0
 
+[node name="FuelSystem" type="Node" parent="PlayerController"]
+script = ExtResource("3_4uo0j")
+max_reserve = 100
+reserve = 100.0
+metadata/_custom_type_script = "uid://dl13se601gq1u"
+
 [node name="World" type="Node" parent="."]
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="World"]
@@ -182,7 +189,7 @@ transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 transform = Transform3D(-0.996371, 0.0851214, 0, -0.0851214, -0.996371, 0, 0, 0, 1, -233.767, 0, 0)
 
 [node name="Node3D" parent="World" instance=ExtResource("5_5tkv4")]
-transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 271.91275, 6.58343, -30.6552)
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 271.91275, 66.35501, -30.6552)
 material_override = SubResource("ShaderMaterial_uty7l")
 transparency = 1.0
 
@@ -215,7 +222,7 @@ price = 235.0
 metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
 
 [node name="CollectableItem" parent="Missions/Mission" instance=ExtResource("7_vbegm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 181.57707, 104.328, 70.142)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 222.85118, 9.073456, -24.929724)
 offset_xy = Vector2(0, 0)
 item = SubResource("Resource_45l4g")
 progress = 0
@@ -249,10 +256,6 @@ price = 235.0
 id = 1
 metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
 
-[node name="Dashboard" parent="." instance=ExtResource("2_8uh7m")]
-offset_top = -1.0
-offset_bottom = -1.0
-
 [node name="asymmetric_meteor" parent="." instance=ExtResource("18_45l4g")]
 transform = Transform3D(0.37751755, 0, 0.92600244, 0, 1, 0, -0.92600244, 0, 0.37751755, 163.42123, 60.493134, -1.2944107)
 
@@ -264,3 +267,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.303986, 15.795692, 14.5855
 
 [node name="asymmetric_meteor4" parent="." instance=ExtResource("18_45l4g")]
 transform = Transform3D(1, 0, 0, 0, 0.4725354, -0.8813117, 0, 0.8813117, 0.4725354, 53.303986, 15.795692, 80.76128)
+
+[node name="Dashboard" parent="." instance=ExtResource("2_8uh7m")]
+offset_top = -1.0
+offset_bottom = -1.0

@@ -6,10 +6,12 @@
 [node name="Contract Panel" type="PanelContainer"]
 custom_minimum_size = Vector2(200, 200)
 anchors_preset = -1
-anchor_left = 0.6111111
-anchor_top = 0.024691358
-anchor_right = 0.9861111
-anchor_bottom = 0.97530866
+anchor_top = 0.008
+anchor_right = 0.46500003
+anchor_bottom = 0.95100003
+offset_top = -5.184
+offset_right = 1.3199463
+offset_bottom = -0.24804688
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_7cyww")
@@ -43,6 +45,12 @@ layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.1
+focus_neighbor_left = NodePath("../../MarginContainer2/ActionButtons/ConfirmButton")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../../MarginContainer2/ActionButtons/OngoingButton")
+focus_next = NodePath("../../MarginContainer2/ActionButtons/ConfirmButton")
+focus_previous = NodePath(".")
 text = " X "
 
 [node name="margin_right" type="Control" parent="VBoxContainer/HBoxContainer"]
@@ -124,12 +132,19 @@ theme_override_constants/margin_bottom = 5
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.17
+focus_neighbor_top = NodePath("../../HBoxContainer/cancelbutton")
 alignment = 1
 
 [node name="ConfirmButton" type="Button" parent="VBoxContainer/MarginContainer2/ActionButtons"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../../../HBoxContainer/cancelbutton")
+focus_neighbor_right = NodePath("../RefuseButton")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath("../RefuseButton")
+focus_previous = NodePath("../../../HBoxContainer/cancelbutton")
 theme = ExtResource("1_7cyww")
 text = "Confirm
 "
@@ -138,11 +153,23 @@ text = "Confirm
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../../../HBoxContainer/cancelbutton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath(".")
+focus_previous = NodePath("../../../HBoxContainer/cancelbutton")
 text = "It's already ongoing"
 
 [node name="RefuseButton" type="Button" parent="VBoxContainer/MarginContainer2/ActionButtons"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../ConfirmButton")
+focus_neighbor_top = NodePath("../../../HBoxContainer/cancelbutton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath("../../../HBoxContainer/cancelbutton")
+focus_previous = NodePath("../ConfirmButton")
 text = "Refuse
 "

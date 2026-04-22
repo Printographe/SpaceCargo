@@ -16,14 +16,14 @@ func _ready() -> void:
 
 
 func on_progress(body : PlayerController):
-    if body.carry_statemachine.get_state() == PlayerController.STATES.CARRYING \
-    and  body.get_carrying_id() == item_id:
+    if not body.can_carry() and body.get_carrying_id() == item_id:
         print(trigger_text)
         add_content("Chekov", "Cimer mon reuf")
         show_content()
         taskDone.emit()
     else: 
         add_content("Chekov", sentences[interaction_count % len(sentences)])
+        show_content()
         interaction_count += 1
 
 func on_pending(player):
@@ -34,11 +34,12 @@ func on_pending(player):
 func on_detected(player):
     if get_mission_progress() == Mission.MissionState.PENDING:
         var special_interaction  = Interaction.new(Interaction.KEYS.A, "interact", self, ice_breaker, 2)
-        _send_interaction_with_raw(special_interaction)
-        
+        self.interactible._send_interaction_with_raw(special_interaction)
+
 
 func on_success(player):
     add_content("Chekov", "Tié le tigre des montagnes")
+    show_content()
     self.queue_free()
 
 func ice_breaker():

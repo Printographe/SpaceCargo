@@ -237,7 +237,7 @@ gear_to_max_speed = {
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5738292, 0.6523733, -0.022773445)
-target_position = Vector3(100, -1, 0)
+target_position = Vector3(50, -1, 0)
 collide_with_areas = true
 
 [node name="Space Cargo" parent="." instance=ExtResource("1_nyone")]

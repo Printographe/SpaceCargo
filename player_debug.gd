@@ -4,7 +4,7 @@ class_name PlayerDebug
 var player : PlayerController
 
 func _ready() -> void:
-    self.player = get_tree().get_nodes_in_group("PlayerController")[0]
+    self.player = get_tree().get_first_node_in_group("PlayerController")
     
     if player is PlayerController:
         player.rotation_statemachine.stateChange.connect(func (prev, curr) :
@@ -17,7 +17,8 @@ func _ready() -> void:
             $HBoxContainer2/VBoxContainer7/MovementStateValue.set_text(player.movement_statemachine.get_state_identifier(_curr))
         )
     else:
-        print_debug("Trying to connect the GUI Player pannel to a non-Player node.")
+        push_error("Player controller Debug : Trying to connect the GUI Player pannel to a non-Player node.")
+        self.queue_free()
 
 func _process(_delta: float) -> void:
     if player and player is PlayerController:
