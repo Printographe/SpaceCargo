@@ -1,4 +1,4 @@
-extends Interactible
+extends Detectable
 class_name MissionItem
 
 
@@ -52,6 +52,7 @@ func add_content(title : String, content : String, show_mission = false):
 
 func show_content():
     self.showContent.emit()
+    self.interactible.pauseInputProcessing.emit()
 
 func _player_entered_check(body):
     if body is PlayerController:

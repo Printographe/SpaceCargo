@@ -4,7 +4,11 @@ extends Control
 
 #signal accept_mission
 #signal refuse_mission
-@onready var confirmButton : Button = $VBoxContainer/HBoxContainer/cancelbutton
+
+signal nextItem
+
+
+@onready var confirmButton : Button = $VBoxContainer/MarginContainer2/ActionButtons/ConfirmButton
 @onready var refuseButton : Button = $VBoxContainer/MarginContainer2/ActionButtons/RefuseButton
 @onready var cancelButton : Button = $VBoxContainer/HBoxContainer/cancelbutton
 
@@ -26,9 +30,11 @@ func _ready() -> void:
 
 func set_contract_info(mission : Mission):
 
-    if connected_mission : 
-        confirmButton.disconnect("pressed", on_confirm_button_pressed)
-        refuseButton.disconnect("pressed", on_refused_button_pressed)
+    if connected_mission :
+        if confirmButton.pressed.is_connected(on_refused_button_pressed) :
+            confirmButton.disconnect("pressed", on_confirm_button_pressed)
+        else:
+            refuseButton.disconnect("pressed", on_refused_button_pressed)
     
     connected_mission = mission
 
@@ -48,22 +54,26 @@ func set_contract_info(mission : Mission):
             ongoingButton.hide()
             confirmButton.connect("pressed", on_confirm_button_pressed.bind(connected_mission), CONNECT_ONE_SHOT)
             refuseButton.connect("pressed", on_refused_button_pressed.bind(connected_mission), CONNECT_ONE_SHOT)
-    
+            confirmButton.grab_focus()
+
         Mission.MissionState.ACCEPTED_ONGOING:
             confirmButton.hide()
             refuseButton.hide()
             ongoingButton.show()
+            ongoingButton.grab_focus()
             ongoingButton.pressed.connect(self.hide, CONNECT_ONE_SHOT)
         _:
             push_error("Mission {id} shown while state is {state}"
-                .format({"id" : mission.id, "state" : mission.statemachine.get_state_identifier(mission.statemachine.current_state) }))
+                .format({"id" : mission.id, "state" : mission.statemachine.get_current_state_identifier() }))
     
     self.show()
 
 func on_confirm_button_pressed(mission):
+    nextItem.emit(true)
     mission.statemachine.switch_to(Mission.MissionState.ACCEPTED_ONGOING)
     self.hide()
 
 func on_refused_button_pressed(mission):
-    self.hide()
     mission.statemachine.switch_to(Mission.MissionState.REFUSED)
+    nextItem.emit(false)
+    self.hide()
