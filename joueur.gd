@@ -3,8 +3,8 @@ class_name PlayerController
 extends CharacterBody3D
 
 
-signal interactible_detected
-signal interactible_undetected
+signal on_detectable_found
+signal on_detectable_lost
 
 
 
@@ -12,9 +12,12 @@ signal interactible_undetected
 ## Raycast Variables:
 var current_collider
 
+var ran_out_of_fuel = false
 
 ## Object carrying logic : 
 @onready var carry_remote_transform : RemoteTransform3D = $"Space Cargo/Carry";
+@onready var fuel_system : FuelSystem = $FuelSystem
+
 var _carrying_object = null 
 
 
@@ -304,9 +307,31 @@ func can_speed_up():
 
 func _ready() -> void:
     self.add_to_group("PlayerController", true)
+
     setup_rotation_statemachine()
     setup_movement_statemachine()	
     setup_carry_statemachine()
+
+
+    if fuel_system:
+        self.fuel_system.RanOutOfFuel.connect(func () : 
+            self.ran_out_of_fuel = true
+            var n = gear_to_number[self.movement_statemachine.get_state()]
+            if n == null : return
+            while self.movement_statemachine.get_state() != STATES.IDLE:
+                if number_to_gear(n-1) != null:
+                    self.movement_statemachine.switch_to(number_to_gear(n-1))
+                    n -= 1
+                else:
+                    break
+            
+        )
+        self.movement_statemachine.stateChange.connect(fuel_system.setState)
+        self.fuel_system.setState(null, self.movement_statemachine.get_state())
+
+
+
+  
     
 
 
@@ -317,12 +342,16 @@ func play_rot(_last, current):
 
 
 func _physics_process(delta: float) -> void:
+    self.detect()
+
+
     if self.rotation_statemachine:
         self.rotation_statemachine.use_process(delta)
+    if self.ran_out_of_fuel : return 
     if self.movement_statemachine:
         self.movement_statemachine.use_process(delta)
 
-    detect()
+    
 
 func update_rotation(_delta):
     
@@ -358,12 +387,12 @@ func detect():
     var collider = $RayCast3D.get_collider()
     if current_collider == null : 
         current_collider = collider
-        interactible_detected.emit(current_collider)
+        on_detectable_found.emit(current_collider)
     elif current_collider == collider:
         return
     else :
-        interactible_undetected.emit(current_collider)
-        interactible_detected.emit(collider)
+        on_detectable_lost.emit(current_collider)
+        on_detectable_found.emit(collider)
         current_collider = collider
 
 

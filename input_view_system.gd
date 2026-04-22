@@ -21,6 +21,8 @@ extends VBoxContainer
 var player : PlayerController = null
 var check_speed_up = false
 
+var paused = false
+
 ##We should make it a queue ordered by priority
 var current_focus : Dictionary[Interaction.KEYS, Interaction] = {
     Interaction.KEYS.A : null,
@@ -63,12 +65,16 @@ var int_key_to_ui = {
     Interaction.KEYS.E : "object_interaction",
 }
 
+var awaiting_interactibles: Array[Interactible] = []
 
-func _ready() -> void:
-    for node in get_tree().get_nodes_in_group("Interactibles"):
-        var interactible : Interactible = node
-        interactible.sendInteraction.connect(set_interaction)
-        interactible.loseInteraction.connect(remove_interactions)
+func add_interactible(interactible : Interactible):
+    interactible.sendInteraction.connect(set_interaction)
+    interactible.loseInteraction.connect(remove_interactions)
+    interactible.pauseInputProcessing.connect(func () : paused = true)
+
+func _enter_tree() -> void:
+    add_to_group("interaction_system", true)
+        
 
     for  k in get_tree().get_nodes_in_group("PlayerController"):
         player = k
@@ -78,6 +84,8 @@ func _ready() -> void:
         on_speed_change(player.STATES.NULL, player.movement_statemachine.get_state())
 
 
+func resume_input_listner():
+    self.paused = false
 
 
 func suspend_interaction(interaction : Interaction):
@@ -109,8 +117,6 @@ func on_speed_change(past, current):
         key_x_button.set_disabled(false) 
 
 func set_interaction(interaction: Interaction):
-    print("asking for interaction to be set ")
-
     var current_focus_input : Interaction = current_focus[interaction.key] 
 
     if current_focus_input:
@@ -131,27 +137,21 @@ func set_focus_on_awaiting_interection(key):
         current_focus[key] = null
 
 func remove_interactions(interaction_stack: Array[Interaction]):
-    print("iterating through : ", interaction_stack)
-
     for interaction : Interaction in interaction_stack:
         if  current_focus[interaction.key] == interaction and not (interaction.persistent or interaction.delete_on_play):
             var key = interaction.key
-            print("removing interaction from current focus")
             disconnect_interaction(current_focus[key])
             set_focus_on_awaiting_interection(key)
     
     for key in awaiting_interactions.keys():
-        print("awaiting interactions : \n", awaiting_interactions)
         for awaiting_interaction in awaiting_interactions[key]:
             for interaction in interaction_stack:
                 if interaction == awaiting_interaction and not (interaction.persistent or interaction.delete_on_play):
-                    print("removing interaction from awaiting interactions")
                     disconnect_interaction(interaction)
                     awaiting_interactions[key].erase(interaction) 
 
 
 func disconnect_interaction(interaction : Interaction):
-    print("disconnecting from button")
     var pertaining_button = key_to_button[interaction.key]
     if pertaining_button.pressed.is_connected(interaction._callback):
         pertaining_button.pressed.disconnect(interaction._callback)
@@ -167,8 +167,8 @@ func set_focus(interaction: Interaction):
 
 
 func _input(_event: InputEvent) -> void:
+    if paused : return
     for key in current_focus:
-        print("_input > current_focus : ", current_focus)
         var interaction : Interaction = current_focus[key]
         if interaction == null : continue
         if Input.is_action_just_released(int_key_to_ui[interaction.key]) and interaction.is_valid():
