@@ -99,8 +99,8 @@ fov = 30.0
 
 [node name="FuelSystem" type="Node" parent="PlayerController"]
 script = ExtResource("3_4uo0j")
-max_reserve = 100
-reserve = 100.0
+max_reserve = 4000
+reserve = 4000.0
 metadata/_custom_type_script = "uid://dl13se601gq1u"
 
 [node name="World" type="Node" parent="."]
