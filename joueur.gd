@@ -16,6 +16,8 @@ var ran_out_of_fuel = false
 
 ## Object carrying logic : 
 @onready var carry_remote_transform : RemoteTransform3D = $"Space Cargo/Carry";
+
+#Fuel system
 @onready var fuel_system : FuelSystem = $FuelSystem
 
 var _carrying_object = null 
@@ -377,10 +379,10 @@ func update_rotation(_delta):
         input_map[k] = Input.is_action_just_released(k)
         
         
-    var any_button_released = input_map.values() \
-        .any(func (x) : return x == true)
+    var all_buttons_released = input_map.values() \
+        .all(func (x) : return x == false)
         
-    if any_button_released:
+    if all_buttons_released:
         self.rotation_statemachine.switch_to(STATES.IDLE)
 
 func detect():
