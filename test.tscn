@@ -99,7 +99,7 @@ fov = 30.0
 
 [node name="FuelSystem" type="Node" parent="PlayerController"]
 script = ExtResource("3_4uo0j")
-max_reserve = 4000
+max_reserve = 500
 reserve = 4000.0
 metadata/_custom_type_script = "uid://dl13se601gq1u"
 
@@ -255,6 +255,24 @@ time = 3.45
 price = 235.0
 id = 1
 metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
+
+[node name="CollectableItem" parent="Missions/Mission2" instance=ExtResource("7_vbegm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 168.4004, 44.706596, 12.25817)
+offset_xy = Vector2(0, 0)
+item = SubResource("Resource_45l4g")
+progress = 0
+child_mesh_path = NodePath("MeshInstance3D2")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Missions/Mission2/CollectableItem"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0.3779297, -0.25816345, -0.15665436)
+material_override = SubResource("StandardMaterial3D_0m0f1")
+cast_shadow = 0
+extra_cull_margin = 1506.57
+mesh = SubResource("SphereMesh_a3se8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Missions/Mission2/CollectableItem"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.37730408, -0.2834015, -0.25798035)
+shape = SubResource("BoxShape3D_a3se8")
 
 [node name="asymmetric_meteor" parent="." instance=ExtResource("18_45l4g")]
 transform = Transform3D(0.37751755, 0, 0.92600244, 0, 1, 0, -0.92600244, 0, 0.37751755, 163.42123, 60.493134, -1.2944107)

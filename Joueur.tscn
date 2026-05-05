@@ -62,6 +62,46 @@ rings = 4
 [sub_resource type="BoxShape3D" id="BoxShape3D_pfoao"]
 size = Vector3(9.046746, 2.46262, 2.23743)
 
+[sub_resource type="Curve" id="Curve_onbj7"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 1313.7081, 0, 0, Vector2(0.65156794, 200), 384.94464, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ae20r"]
+curve = SubResource("Curve_onbj7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pfoao"]
+emission_shape_scale = Vector3(5, 5, 1)
+emission_shape = 2
+emission_sphere_radius = 6.0
+inherit_velocity_ratio = 0.407
+direction = Vector3(10, 0, 0)
+spread = 0.0
+angular_velocity_min = -1.6093254e-05
+angular_velocity_max = -1.6093254e-05
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 178.45998
+gravity = Vector3(10, -30, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = 99.99999
+linear_accel_curve = SubResource("CurveTexture_ae20r")
+radial_accel_min = -2.2351742e-06
+radial_accel_max = 99.99999
+scale_max = 3.0
+scale_over_velocity_min = 144.62
+scale_over_velocity_max = 329.24
+hue_variation_min = 0.74999994
+hue_variation_max = 0.99999994
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_onbj7"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_ae20r"]
+material = SubResource("StandardMaterial3D_onbj7")
+radius = 0.04
+height = 6.0
+
 [sub_resource type="Animation" id="Animation_onbj7"]
 length = 0.001
 tracks/0/type = "rotation_3d"
@@ -185,46 +225,6 @@ _data = {
 &"up": SubResource("Animation_xsfoi")
 }
 
-[sub_resource type="Curve" id="Curve_onbj7"]
-_limits = [-200.0, 200.0, 0.0, 1.0]
-_data = [Vector2(0, 1), 0.0, 1313.7081, 0, 0, Vector2(0.65156794, 200), 384.94464, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_ae20r"]
-curve = SubResource("Curve_onbj7")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pfoao"]
-emission_shape_scale = Vector3(5, 5, 1)
-emission_shape = 2
-emission_sphere_radius = 6.0
-inherit_velocity_ratio = 0.407
-direction = Vector3(10, 0, 0)
-spread = 0.0
-angular_velocity_min = -1.6093254e-05
-angular_velocity_max = -1.6093254e-05
-radial_velocity_min = -2.2351742e-05
-radial_velocity_max = 178.45998
-gravity = Vector3(10, -30, 0)
-linear_accel_min = -2.2351742e-06
-linear_accel_max = 99.99999
-linear_accel_curve = SubResource("CurveTexture_ae20r")
-radial_accel_min = -2.2351742e-06
-radial_accel_max = 99.99999
-scale_max = 3.0
-scale_over_velocity_min = 144.62
-scale_over_velocity_max = 329.24
-hue_variation_min = 0.74999994
-hue_variation_max = 0.99999994
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_onbj7"]
-shading_mode = 0
-vertex_color_use_as_albedo = true
-
-[sub_resource type="SphereMesh" id="SphereMesh_ae20r"]
-material = SubResource("StandardMaterial3D_onbj7")
-radius = 0.04
-height = 6.0
-
 [node name="Node3D" type="CharacterBody3D"]
 motion_mode = 1
 script = ExtResource("1_pfoao")
@@ -273,11 +273,6 @@ spot_angle = 12.4642105
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.72938776, 0.650406, 0.18158)
 shape = SubResource("BoxShape3D_pfoao")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_xsqk8")
-}
-
 [node name="SpeedParticles" type="GPUParticles3D" parent="."]
 transform = Transform3D(-0.0565117, 0.98654836, -0.15339138, 0.050952848, -0.15058687, -0.98728234, -0.9971006, -0.06360875, -0.041757546, 5.891988, 2.1461926, 0.22746682)
 emitting = false
@@ -286,6 +281,11 @@ lifetime = 0.17
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_pfoao")
 draw_pass_1 = SubResource("SphereMesh_ae20r")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_xsqk8")
+}
 
 [node name="C1" type="Camera3D" parent="."]
 transform = Transform3D(0.0101492, 0.0713587, -0.997399, -0.000726082, 0.997451, 0.071355, 0.999948, -4.36565e-09, 0.0101752, -14.7558, 7.30146, 0.293667)

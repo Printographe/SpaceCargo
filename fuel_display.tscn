@@ -27,6 +27,13 @@ theme_override_constants/margin_bottom = 10
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9882353, 0.53333336, 0.6509804, 1)
+theme_override_colors/font_shadow_color = Color(0.2784314, 0.68235296, 0.5882353, 1)
+theme_override_colors/font_outline_color = Color(0.43137255, 0.36862746, 0.5176471, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 13
 theme_override_font_sizes/font_size = 33
 text = "Gas "
 horizontal_alignment = 1
@@ -41,4 +48,7 @@ theme_override_constants/margin_bottom = 10
 [node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/MarginContainer2"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9882353, 0.53333336, 0.6509804, 1)
+theme_override_colors/font_outline_color = Color(0.4237964, 0.35254022, 0.50827914, 1)
+theme_override_constants/outline_size = 7
 theme_override_font_sizes/font_size = 32
