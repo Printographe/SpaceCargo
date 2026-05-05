@@ -32,8 +32,6 @@ enum STATES {
     MOVING_DIAG_UP_LEFT,
     MOVING_DIAG_DOWN_RIGHT,
     MOVING_DIAG_DOWN_LEFT,
-    ACCELERATING,
-    DECELERATING,
     IDLE,
     BASE,
     NULL,
@@ -150,8 +148,11 @@ func number_to_gear(n):
 func accelerating():
     return self.acceleration > 0
 
+func decelerating():
+    return self.acceleration == BRAKES_RATE
+
 #Exports 
-@export var BASE_ACCELERATION = 2;
+
 @export var angle = TAU/100 ;
 @export var MAX_ANGLE = TAU/12;
 
@@ -159,8 +160,9 @@ func accelerating():
 @export_category("The physics of it")
 var speed : float = 0;
 var acceleration : float = 0
-@export var decel_rate : float = 5
-
+@export var DECEL_RATE : float = -30
+@export var BRAKES_RATE : float = -90;
+@export var BASE_ACCELERATION = 2;
 
 
 @export var gear_to_max_speed : Dictionary[int, float] = {
@@ -259,7 +261,10 @@ func set_deceleration(c, n):
     if n == STATES.IDLE : 
         self.acceleration = 0
     else:
-        self.acceleration = self.decel_rate
+        if decelerating():
+            self.acceleration = self.BRAKES_RATE
+        else:
+            self.acceleration = self.DECEL_RATE
     #self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
     self.set_particle_emmission(c, n)
     
@@ -294,16 +299,32 @@ func update_movement(delta):
     self.move_and_slide()
 
 
+func start_engine():
+    self.acceleration = BASE_ACCELERATION
+
+func stop_engine(brakes):
+    var prev = self.number_to_gear(self.gear_to_number[self.movement_statemachine.get_state()]-1)
+    if not prev == STATES.NULL:
+        if brakes:
+            self.acceleration = BRAKES_RATE
+        else:
+            self.acceleration = DECEL_RATE
+
+
 func _input(_event: InputEvent):
+
     if Input.is_action_just_pressed("acceleration"):
-        self.acceleration = BASE_ACCELERATION
+        start_engine()
             
+    elif Input.is_action_just_released("acceleration"):
+        stop_engine(false)
+    
+    if Input.is_action_pressed("brakes"):
+        if accelerating(): return
+        else:
+            stop_engine(true)
+    
 
-
-    if Input.is_action_just_released("acceleration"):
-        var prev = self.number_to_gear(self.gear_to_number[self.movement_statemachine.get_state()]-1)
-        if not prev == STATES.NULL : 
-            self.acceleration = decel_rate
 
 
     

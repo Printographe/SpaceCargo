@@ -83,13 +83,14 @@ environment = ExtResource("2_xersf")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.17784, 0, -12.8668)
 BASE_ACCELERATION = 25
 angle = 0.013
+MAX_ANGLE = null
 decel_rate = -90.0
-gear_to_max_speed = {
-0: 0,
-1: 1500,
-2: 3000,
-3: 5000
-}
+gear_to_max_speed = Dictionary[int, float]({
+0: 0.0,
+1: 1500.0,
+2: 3000.0,
+3: 5000.0
+})
 
 [node name="C2" type="Camera3D" parent="PlayerController"]
 transform = Transform3D(-4.2865086e-08, 0.19582626, -0.9806386, 8.55983e-09, 0.9806386, 0.19582626, 1, 9.769963e-15, -4.3711395e-08, -38.092014, 13.391382, 0.09759331)
