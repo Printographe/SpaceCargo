@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://cn7h42toqi1l0"]
+
+[ext_resource type="Shader" uid="uid://cukn3v5hgl6qw" path="res://planet_shader.gdshader" id="1_r7mn8"]
+[ext_resource type="Texture2D" uid="uid://3xq7wh3xnrmn" path="res://simplex_noise.jpg" id="2_mneg4"]
+[ext_resource type="Texture2D" uid="uid://miiguk7crp2e" path="res://voronoi_texture.jpg" id="3_p5xh3"]
+[ext_resource type="Script" uid="uid://dxln5qppl0pa6" path="res://procedural_planet.gd" id="4_mneg4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l1x3g"]
+render_priority = 0
+shader = ExtResource("1_r7mn8")
+shader_parameter/primary_color = Color(0.41801068, 0.8624182, 0.94208026, 1)
+shader_parameter/secondary_color = Color(0.25269938, 0.3312393, 0.68511313, 1)
+shader_parameter/third_color = Color(0.88975346, 0.6752674, 0.84644645, 1)
+shader_parameter/cn = 100
+shader_parameter/n = 12
+shader_parameter/rotation = true
+shader_parameter/mixdeg = 0.12
+shader_parameter/voronoi = ExtResource("3_p5xh3")
+shader_parameter/noise = ExtResource("2_mneg4")
+shader_parameter/i_p = Vector3(1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_7ky6l"]
+radial_segments = 32
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bw8cs"]
+
+[node name="Procedural Planet" type="MeshInstance3D"]
+material_override = SubResource("ShaderMaterial_l1x3g")
+transparency = 0.67
+lod_bias = 0.001
+mesh = SubResource("SphereMesh_7ky6l")
+script = ExtResource("4_mneg4")
+rotation_rate = 0.001
+
+[node name="StaticBody" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody"]
+shape = SubResource("SphereShape3D_bw8cs")

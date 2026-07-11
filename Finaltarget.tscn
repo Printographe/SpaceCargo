@@ -1,13 +1,188 @@
-[gd_scene load_steps=3 format=3 uid="uid://4aglyq1mqitp"]
+[gd_scene load_steps=11 format=3 uid="uid://4aglyq1mqitp"]
 
 [ext_resource type="Script" uid="uid://ddsp83wb3ysbk" path="res://arriving_point.gd" id="1_yyift"]
+[ext_resource type="Script" uid="uid://btwboxs7hwvy5" path="res://interactible.gd" id="2_ywo4j"]
+[ext_resource type="PackedScene" uid="uid://rlc3hsew0j8c" path="res://pinkyblue.tscn" id="3_gtmet"]
+[ext_resource type="PackedScene" uid="uid://7rpy682s8h7" path="res://UFO.glb" id="4_gtmet"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gtmet"]
+size = Vector3(6.2995605, 4.1381836, 5.9434814)
+
+[sub_resource type="Animation" id="Animation_vbrw7"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UFO")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("pinky")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.95166254, 0, -0.28231716)
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("pinky:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("FocusCamera")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0, -0.75516737, 0, 0.655532)
+
+[sub_resource type="Animation" id="Animation_gtmet"]
+resource_name = "floating_spaceship"
+length = 9.0
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UFO")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 3, 0, 10, 3, 1, 3, -1, 10, 6, 1, 3, 1, 10, 8, 1, 3.601, 0, 10.615)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UFO")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1.7333333, 1, 0.131, 0, 0, 0.991, 4.2, 1, 0, 0, 0, 1, 6.6, 1, -0.13, 0.129, 0.017, 0.983, 8.1, 1, 0, -0.131, 0, 0.991)
+tracks/2/type = "scale_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("pinky")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 1.25, 1.25, 1.25, 1, 1, 1, 1, 1, 2, 1, 1.25, 1.25, 1.25, 3.1666665, 1, 1, 1, 1, 4.1666665, 1, 1.25, 1.25, 1.25, 5.0333333, 1, 1, 1, 1, 6.0333333, 1, 1.25, 1.25, 1.25, 7.0080004, 1, 1, 1, 1, 8.008, 1, 1.25, 1.25, 1.25)
+
+[sub_resource type="Animation" id="Animation_hnd3a"]
+resource_name = "leaving"
+length = 8.0
+step = 60.0
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("pinky")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0.03333334, 1, -0.95166254, 0, -0.28231716, 3.4666667, 1, 3, 3, 10)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("pinky")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0.033333335, 1, 0, -0.707, 0, 0.707, 0.6333333, 1, 0, 0, 0, 1)
+tracks/2/type = "scale_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("pinky")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0.033333335, 1, 1, 1, 1, 1.3666667, 1, 0.7, 0.7, 0.7, 3.5, 1, 0.5, 0.5, 0.5)
+tracks/3/type = "position_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("UFO")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0.033333335, 1, 3.601, 0, 10.615, 3.4666667, 1, 3.601, 0, 10.615, 3.8333333, 1, 3.601, -10, 10, 4.5666666, 1, 3.601, -10, 10, 5.233333, 1, 3.601, 0, 10, 6.7433333, 1, 3.601, 100, 10, 7.477333, 1, 3.601, 200, 10)
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("pinky:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.06666667, 3.4666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("UFO")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0.033333335, 1, 0, 0, 0, 1, 3.8666666, 1, 0, 0, 0, 1, 4.0666666, 1, -0.131, 0, 0, 0.991, 4.3333335, 1, 0.131, 0, 0, 0.991, 4.5666666, 1, 0, 0, 0, 1)
+tracks/6/type = "rotation_3d"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("FocusCamera")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array(0, 1, 0, -0.75516737, 0, 0.655532, 3.5, 1, 0, -0.75516737, 0, 0.655532, 3.99, 1, -0.20476514, -0.72687626, -0.1777488, 0.6309735, 5, 1, -0.20476514, -0.72687626, -0.1777488, 0.6309735, 5.919999, 1, 0.27483305, -0.70338094, 0.23857208, 0.6105781)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hnd3a"]
+_data = {
+&"RESET": SubResource("Animation_vbrw7"),
+&"floating_spaceship": SubResource("Animation_gtmet"),
+&"leaving": SubResource("Animation_hnd3a")
+}
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bl83n"]
-size = Vector3(11.1186, 6.97313, 9.6051)
+size = Vector3(18.314968, 8.762444, 22.229523)
 
 [node name="ArrivingPoint" type="Area3D"]
 script = ExtResource("1_yyift")
+metadata/_custom_type_script = "uid://dly8w48ywhu3c"
+
+[node name="Interactible" type="Node" parent="."]
+script = ExtResource("2_ywo4j")
+metadata/_custom_type_script = "uid://btwboxs7hwvy5"
+
+[node name="pinky" parent="." instance=ExtResource("3_gtmet")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.95166254, 0, -0.28231716)
+
+[node name="UFO" parent="." instance=ExtResource("4_gtmet")]
+transform = Transform3D(1.9999995, 0, 0, 0, 1.999999, 0, 0, 0, 1.999999, 3.601, 200, 10)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="UFO"]
+transform = Transform3D(0.32789415, -0.0021618502, 0.37746635, -0.00055654347, 0.4999887, 0.0033470243, -0.37747225, -0.0026150867, 0.32788426, -2.2624812, 2.1094248, -2.4750302)
+light_color = Color(0.6862745, 0.3529412, 0.42745098, 1)
+light_energy = 14.0
+light_indirect_energy = 6.0
+light_volumetric_fog_energy = 6.0
+omni_range = 17.313
+omni_attenuation = 0.845
+omni_shadow_mode = 0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="UFO"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="UFO/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 2.2072345e-07, 0, -2.2072345e-07, 1, 0.0076904297, 1.5690907, 0.00836277)
+shape = SubResource("BoxShape3D_gtmet")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_hnd3a")
+}
+
+[node name="FocusCamera" type="Camera3D" parent="."]
+transform = Transform3D(-0.14055555, 0, -0.9900729, 0, 1.0000001, 0, 0.9900729, 0, -0.14055555, -17.156437, 2.6121616, 6.089635)
+
+[node name="EndPosition" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.587875, 0, 7.27693)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.207004, 0.705696, 3.48468)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3900156, 1.6003526, 9.796892)
 shape = SubResource("BoxShape3D_bl83n")
+
+[node name="CSGSphere3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.549408, 0, 5.7177906)

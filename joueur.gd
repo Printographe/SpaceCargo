@@ -8,10 +8,16 @@ signal on_detectable_lost
 
 
 
+#camera
+@onready var camera : Camera3D = $C1;
+
+#Emissions
+@onready var engineparticles : GPUParticles3D = $"Space Cargo/EngineParticles" 
+@onready var speedparticles : GPUParticles3D = $"Space Cargo/SpeedParticles"
+
 
 ## Raycast Variables:
 var current_collider
-
 var ran_out_of_fuel = false
 
 ## Object carrying logic : 
@@ -32,10 +38,12 @@ enum STATES {
     MOVING_DIAG_UP_LEFT,
     MOVING_DIAG_DOWN_RIGHT,
     MOVING_DIAG_DOWN_LEFT,
+    
     IDLE,
     BASE,
     NULL,
 
+    REVERSE,
     FIRST_GEAR,
     SECOND_GEAR,
     THIRD_GEAR,
@@ -115,12 +123,14 @@ var state_to_rotation = {
     STATES.MOVING_DIAG_UP_LEFT : custom_rotate.bind(-1, 1),
     STATES.MOVING_DIAG_DOWN_RIGHT: custom_rotate.bind(1, -1),
     STATES.MOVING_DIAG_DOWN_LEFT :  custom_rotate.bind(1, 1),
+
 }
 
 
 
 const gear_to_number : Dictionary =  {
-    STATES.NULL : -1,
+    STATES.NULL : -2,
+    STATES.REVERSE : -1,
     STATES.IDLE : 0,
     STATES.FIRST_GEAR : 1,
     STATES.SECOND_GEAR : 2,
@@ -129,7 +139,8 @@ const gear_to_number : Dictionary =  {
 
 ##TODO : Simplify by assigning them to the enum
 const number_to_gear_map = {
-    -1: STATES.NULL,
+    -2: STATES.NULL,
+    -1: STATES.REVERSE,
      0: STATES.IDLE,
      1: STATES.FIRST_GEAR,
      2: STATES.SECOND_GEAR,
@@ -139,7 +150,7 @@ const number_to_gear_map = {
 
 
 func number_to_gear(n):
-    if n > 3 or n < 0:
+    if n > 3 or n < -1:
         return  STATES.NULL
     else:
         return  number_to_gear_map[n]
@@ -166,7 +177,9 @@ var acceleration : float = 0
 
 
 @export var gear_to_max_speed : Dictionary[int, float] = {
-    -1: 0,
+    -2: 0, #Null
+
+    -1: -20,
     0 : 0,
     1 : 50,
     2 : 100,
@@ -212,14 +225,16 @@ func setup_rotation_statemachine():
             
         })\
         .ignore_self_transitions() \
-        .add_st_transition(STATES.MOVING_RIGHT, play_rot) \
-        .add_st_transition(STATES.MOVING_LEFT, play_rot) \
-        .add_st_transition(STATES.MOVING_UP, play_rot) \
-        .add_st_transition(STATES.MOVING_DOWN, play_rot)\
-        .add_st_transition_arr([STATES.MOVING_DIAG_UP_RIGHT,
-        STATES.MOVING_DIAG_UP_LEFT,
-        STATES.MOVING_DIAG_DOWN_RIGHT,
-        STATES.MOVING_DIAG_DOWN_LEFT,], play_rot)\
+        .add_st_transition_arr([
+            STATES.MOVING_RIGHT,
+            STATES.MOVING_LEFT,
+            STATES.MOVING_UP,
+            STATES.MOVING_DOWN,
+            STATES.MOVING_DIAG_UP_RIGHT,
+            STATES.MOVING_DIAG_UP_LEFT,
+            STATES.MOVING_DIAG_DOWN_RIGHT,
+            STATES.MOVING_DIAG_DOWN_LEFT,
+        ], handle_rotation)\
         .add_st_transition(STATES.IDLE,
             func (last, _current) : 
                 if state_to_animation.has(last):
@@ -231,12 +246,14 @@ func setup_rotation_statemachine():
 
 func setup_movement_statemachine():
     self.movement_statemachine = StateMachine.new(STATES.IDLE, 
-        [STATES.IDLE, STATES.FIRST_GEAR, STATES.SECOND_GEAR, STATES.THIRD_GEAR], {
+        [STATES.REVERSE, STATES.IDLE, STATES.FIRST_GEAR, STATES.SECOND_GEAR, STATES.THIRD_GEAR], {
+            STATES.REVERSE : "Reverse",
             STATES.IDLE : "Idle",
             STATES.FIRST_GEAR : "Gear I",
             STATES.SECOND_GEAR : "Gear II",
             STATES.THIRD_GEAR : "Gear III",
         }) \
+        .add_transition(STATES.REVERSE, STATES.IDLE, set_acceleration)\
         .add_transition(STATES.IDLE, STATES.FIRST_GEAR, set_acceleration)\
         .add_transition(STATES.FIRST_GEAR, STATES.SECOND_GEAR, set_acceleration)\
         .add_transition(STATES.SECOND_GEAR, STATES.THIRD_GEAR, set_acceleration)\
@@ -245,21 +262,24 @@ func setup_movement_statemachine():
         .add_transition(STATES.SECOND_GEAR, STATES.FIRST_GEAR, set_deceleration)\
         #.add_transition(STATES.FIRST_GEAR, STATES.IDLE, set_deceleration)\
         .add_transition(STATES.FIRST_GEAR, STATES.IDLE, set_deceleration)\
-        .set_process_function_for([STATES.IDLE, STATES.FIRST_GEAR, STATES.SECOND_GEAR, STATES.THIRD_GEAR], update_movement) 
-
+        .add_transition(STATES.IDLE, STATES.REVERSE, set_deceleration)\
+        .set_process_function_for([STATES.REVERSE, STATES.IDLE, STATES.FIRST_GEAR, STATES.SECOND_GEAR, STATES.THIRD_GEAR], update_movement) 
 
     print(self.movement_statemachine.generate_transition_map())
     print(self.movement_statemachine.generate_process_map())
     return
 
 func set_acceleration(c, n):
+  
     self.acceleration = BASE_ACCELERATION
-    #self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
+        #self.current_max_speed = gear_to_max_speed[gear_to_number[n]]
     self.set_particle_emmission(c, n)
 
 func set_deceleration(c, n):
     if n == STATES.IDLE : 
         self.acceleration = 0
+    elif n == STATES.REVERSE :
+        self.acceleration = self.DECEL_RATE
     else:
         if decelerating():
             self.acceleration = self.BRAKES_RATE
@@ -278,7 +298,7 @@ func update_movement(delta):
     if accelerating() :
         var max_speed =  self.gear_to_max_speed[gear_to_number[self.movement_statemachine.get_state()]]
 
-        if self.speed > max_speed :
+        if self.speed >= max_speed :
             var next_gear = number_to_gear(gear_to_number[self.movement_statemachine.get_state()]+1)
             if not next_gear == STATES.NULL :
                 self.movement_statemachine.switch_to(next_gear)
@@ -287,13 +307,15 @@ func update_movement(delta):
     else:
 
         var prev_gear = number_to_gear(self.gear_to_number[self.movement_statemachine.get_state()] - 1)
-        
-        if not prev_gear == STATES.NULL:
-            var lowest_speed = self.gear_to_max_speed[gear_to_number[prev_gear]] 
-            if speed < lowest_speed: 
-                self.movement_statemachine.switch_to(prev_gear)
+        var lowest_speed = self.gear_to_max_speed[gear_to_number[prev_gear]] 
 
-        self.speed = clampf(self.speed, 0, self.speed)
+        if not prev_gear == STATES.NULL:
+            if speed < lowest_speed:
+                ##BUG : When Speed = 0 and acceleration = 0 => we automatically go into reverse
+                ## which isn't always meant to be the case ;; to solve later 
+                self.movement_statemachine.switch_to(prev_gear)
+        self.speed = clampf(self.speed, lowest_speed, self.speed)
+
 
     self.velocity = self.basis.x * speed * delta
     self.move_and_slide()
@@ -303,12 +325,16 @@ func start_engine():
     self.acceleration = BASE_ACCELERATION
 
 func stop_engine(brakes):
-    var prev = self.number_to_gear(self.gear_to_number[self.movement_statemachine.get_state()]-1)
-    if not prev == STATES.NULL:
-        if brakes:
-            self.acceleration = BRAKES_RATE
-        else:
-            self.acceleration = DECEL_RATE
+    if brakes:
+        self.acceleration = BRAKES_RATE
+    else:
+        self.acceleration = DECEL_RATE
+
+func set_engine_to_neutral():
+    if self.movement_statemachine.get_state() == STATES.REVERSE:
+        self.acceleration = 0;
+        self.speed = 0;
+    
 
 
 func _input(_event: InputEvent):
@@ -320,9 +346,11 @@ func _input(_event: InputEvent):
         stop_engine(false)
     
     if Input.is_action_pressed("brakes"):
-        if accelerating(): return
-        else:
-            stop_engine(true)
+        stop_engine(true)
+
+    if Input.is_action_just_released("brakes"):
+        set_engine_to_neutral()
+    
     
 
 
@@ -359,10 +387,16 @@ func _ready() -> void:
   
     
 
+func handle_rotation(last, current):
+    play_rot(last, current)
+    #set_particle_orientation(current)
 
-
-func play_rot(_last, current):
-    $AnimationPlayer.play(state_to_animation[current])
+func play_rot(last, current):
+    if current == STATES.IDLE : 
+        if state_to_animation.has(last):
+            $AnimationPlayer.play_backwards(last)
+    else:
+        $AnimationPlayer.play(state_to_animation[current])
 
 
 
@@ -424,24 +458,26 @@ func detect():
 
 func set_particle_emmission(past, current):
     const AMOUNT_TO_GEAR = {
+        -1: 0,
         0: 0,
         1: 25,
         2: 100,
         3: 250
     }
-    print("THE GEAR IS :", current )
     if current == STATES.IDLE:
-        $"Space Cargo/EngineParticles".set_emitting(false)
+        engineparticles.set_emitting(false)
         return
     elif current == STATES.FIRST_GEAR:
-        $"Space Cargo/EngineParticles".set_emitting(true)
+        engineparticles.set_emitting(true)
     elif current == STATES.SECOND_GEAR and past == STATES.THIRD_GEAR:
-        $SpeedParticles.set_emitting(false)
+        speedparticles.set_emitting(false)
     elif current == STATES.THIRD_GEAR:
-        $SpeedParticles.set_emitting(true)
+        speedparticles.set_emitting(true)
     
-    $"Space Cargo/EngineParticles".set_amount(AMOUNT_TO_GEAR[gear_to_number[current]])
-    $"Space Cargo/EngineParticles".set_speed_scale(1+gear_to_number[current]/3)
+    if not AMOUNT_TO_GEAR[gear_to_number[current]] == 0:
+        engineparticles.set_amount(AMOUNT_TO_GEAR[gear_to_number[current]])
+    engineparticles.set_speed_scale(1+gear_to_number[current]/3)
+
 
 
 func can_carry():
@@ -471,3 +507,18 @@ func on_uncarry(_current_state, _next_state):
 func get_carrying_id():
     if self._carrying_object:
         return self._carrying_object.get_item_id()
+
+func lose_focus():
+    self.movement_statemachine.disable()
+    self.rotation_statemachine.disable()
+    self.carry_statemachine.disable()
+    self.movement_statemachine.force_switch(STATES.IDLE, set_deceleration)
+    self.rotation_statemachine.force_switch(STATES.IDLE, null)
+    self.speed = 0
+    self.acceleration = 0
+
+func regain_focus():
+    camera.set_current(true)
+    self.movement_statemachine.enable()
+    self.rotation_statemachine.enable()
+    self.carry_statemachine.enable()

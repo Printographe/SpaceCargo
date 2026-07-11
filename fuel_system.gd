@@ -15,6 +15,7 @@ var fuel_exhausted = false
 
 @export var fuel_consumption_rate_per_speed = {
     PlayerController.STATES.NULL : 0,
+    PlayerController.STATES.REVERSE : 0.1,
     PlayerController.STATES.IDLE : 0,
     PlayerController.STATES.FIRST_GEAR : 1.5,
     PlayerController.STATES.SECOND_GEAR : 2.5,
@@ -24,6 +25,7 @@ var fuel_exhausted = false
 @export var on_accel_fuel_consumption = {
     PlayerController.STATES.NULL : 0,
     PlayerController.STATES.IDLE : 0,
+    PlayerController.STATES.REVERSE : 0.5,
     PlayerController.STATES.FIRST_GEAR : 1.5,
     PlayerController.STATES.SECOND_GEAR : 2.5,
     PlayerController.STATES.THIRD_GEAR : 4,

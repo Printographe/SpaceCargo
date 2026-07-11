@@ -1,17 +1,47 @@
-[gd_scene load_steps=29 format=3 uid="uid://dd5k1qilde1i1"]
+[gd_scene load_steps=28 format=3 uid="uid://dd5k1qilde1i1"]
 
 [ext_resource type="PackedScene" uid="uid://k13yv2k8ujob" path="res://Space Cargo.glb" id="1_nyone"]
 [ext_resource type="Script" uid="uid://bghl4gr2g6x8w" path="res://joueur.gd" id="1_pfoao"]
+[ext_resource type="ArrayMesh" uid="uid://bhn3wny443jty" path="res://speed_particle_pass.res" id="3_onbj7"]
+
+[sub_resource type="Curve" id="Curve_onbj7"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0.017543856, 39.382233), 0.0, 317.78748, 0, 0, Vector2(0.36340854, 154.82626), 112.30089, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ae20r"]
+curve = SubResource("Curve_onbj7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pfoao"]
+emission_shape_scale = Vector3(70, 70, 70)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+spread = 0.0
+angular_velocity_min = -1.6093254e-05
+angular_velocity_max = -1.6093254e-05
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = -2.2351742e-05
+gravity = Vector3(-10, 0, 0)
+linear_accel_min = 39.999996
+linear_accel_max = 99.99999
+linear_accel_curve = SubResource("CurveTexture_ae20r")
+radial_accel_min = -2.2351742e-06
+radial_accel_max = -2.2351742e-06
+scale_over_velocity_min = 1.0
+scale_over_velocity_max = 1.0
+hue_variation_min = 0.74999994
+hue_variation_max = 0.99999994
 
 [sub_resource type="Curve" id="Curve_pfoao"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0959167, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0959167, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_onbj7"]
 curve = SubResource("Curve_pfoao")
 
 [sub_resource type="Gradient" id="Gradient_pfoao"]
-colors = PackedColorArray(1, 1, 1, 1, 0.0871712, 0.0251685, 0.00261845, 1)
+offsets = PackedFloat32Array(0.22788204, 0.58176947, 1)
+colors = PackedColorArray(0.8717924, 0.47935766, 0.20598182, 1, 0.45882353, 0.28627452, 0.16470589, 0.84313726, 0.3794149, 0.3651073, 0.35514048, 0.036458373)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_onbj7"]
 gradient = SubResource("Gradient_pfoao")
@@ -26,10 +56,12 @@ curve = SubResource("Curve_ae20r")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fpxll"]
 angle_min = -720.0
 angle_max = 720.0
+velocity_pivot = Vector3(1, 1, 1)
+direction = Vector3(0, 0, 0)
 spread = 10.0
 angular_velocity_min = -228.18001
 angular_velocity_max = 423.13998
-gravity = Vector3(-10, 0, 0)
+gravity = Vector3(0, 0, 0)
 linear_accel_min = -1.2300022
 linear_accel_max = 5.529998
 radial_accel_min = 4.589998
@@ -47,60 +79,17 @@ hue_variation_min = 0.019999977
 hue_variation_max = 0.019999977
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pfoao"]
+transparency = 1
 shading_mode = 0
-specular_mode = 1
-disable_ambient_light = true
-disable_fog = true
-disable_specular_occlusion = true
 vertex_color_use_as_albedo = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_onbj7"]
 material = SubResource("StandardMaterial3D_pfoao")
-radial_segments = 5
-rings = 4
+radial_segments = 4
+rings = 3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pfoao"]
 size = Vector3(9.046746, 2.46262, 2.23743)
-
-[sub_resource type="Curve" id="Curve_onbj7"]
-_limits = [-200.0, 200.0, 0.0, 1.0]
-_data = [Vector2(0, 1), 0.0, 1313.7081, 0, 0, Vector2(0.65156794, 200), 384.94464, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_ae20r"]
-curve = SubResource("Curve_onbj7")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pfoao"]
-emission_shape_scale = Vector3(5, 5, 1)
-emission_shape = 2
-emission_sphere_radius = 6.0
-inherit_velocity_ratio = 0.407
-direction = Vector3(10, 0, 0)
-spread = 0.0
-angular_velocity_min = -1.6093254e-05
-angular_velocity_max = -1.6093254e-05
-radial_velocity_min = -2.2351742e-05
-radial_velocity_max = 178.45998
-gravity = Vector3(10, -30, 0)
-linear_accel_min = -2.2351742e-06
-linear_accel_max = 99.99999
-linear_accel_curve = SubResource("CurveTexture_ae20r")
-radial_accel_min = -2.2351742e-06
-radial_accel_max = 99.99999
-scale_max = 3.0
-scale_over_velocity_min = 144.62
-scale_over_velocity_max = 329.24
-hue_variation_min = 0.74999994
-hue_variation_max = 0.99999994
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_onbj7"]
-shading_mode = 0
-vertex_color_use_as_albedo = true
-
-[sub_resource type="SphereMesh" id="SphereMesh_ae20r"]
-material = SubResource("StandardMaterial3D_onbj7")
-radius = 0.04
-height = 6.0
 
 [sub_resource type="Animation" id="Animation_onbj7"]
 length = 0.001
@@ -121,7 +110,7 @@ tracks/0/enabled = true
 tracks/0/path = NodePath("C1")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0.0333333, 1, -10, 7.301, 0.294, 0.566667, 1, -29.512, 7.301, 0.294, 1.66667, 1, -10, 7.301, 0.294)
+tracks/0/keys = PackedFloat32Array(0.03333336, 1, -29.512, 7.301, 0.294, 0.7, 1, -20, 7.301, 0.294)
 
 [sub_resource type="Animation" id="Animation_wqfnb"]
 resource_name = "diag_down_left"
@@ -228,12 +217,12 @@ _data = {
 [node name="Node3D" type="CharacterBody3D"]
 motion_mode = 1
 script = ExtResource("1_pfoao")
-gear_to_max_speed = {
-0: 0,
-1: 100,
-2: 200,
-3: 400
-}
+gear_to_max_speed = Dictionary[int, float]({
+0: 0.0,
+1: 100.0,
+2: 200.0,
+3: 400.0
+})
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5738292, 0.6523733, -0.022773445)
@@ -241,21 +230,9 @@ target_position = Vector3(50, -1, 0)
 collide_with_areas = true
 
 [node name="Space Cargo" parent="." instance=ExtResource("1_nyone")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.96108, 0, 0)
-
-[node name="EngineParticles" type="GPUParticles3D" parent="Space Cargo"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.367002, -0.502022, -0.0629213)
-emitting = false
-amount = 50
-lifetime = 10.0
-interp_to_end = 0.05
-preprocess = 5.0
-local_coords = true
-process_material = SubResource("ParticleProcessMaterial_fpxll")
-draw_pass_1 = SubResource("SphereMesh_onbj7")
 
 [node name="Carry" type="RemoteTransform3D" parent="Space Cargo"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.97688, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4805937, 0, 0)
 update_scale = false
 
 [node name="DirectionalLight3D" type="SpotLight3D" parent="Space Cargo"]
@@ -269,18 +246,29 @@ light_specular = 2.5
 spot_range = 299.4278
 spot_angle = 12.4642105
 
+[node name="SpeedParticles" type="GPUParticles3D" parent="Space Cargo"]
+transform = Transform3D(0.9999995, 0, 0, 0, 1.0000001, 0, 0, 0, 0.9999994, 38.158363, -0.15451813, 0.22746682)
+emitting = false
+amount = 16
+lifetime = 0.3
+local_coords = true
+trail_lifetime = 1.86
+process_material = SubResource("ParticleProcessMaterial_pfoao")
+draw_pass_1 = ExtResource("3_onbj7")
+
+[node name="EngineParticles" type="GPUParticles3D" parent="Space Cargo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.367002, -0.502022, -0.0629213)
+emitting = false
+amount = 50
+lifetime = 10.0
+interp_to_end = 0.05
+preprocess = 5.0
+process_material = SubResource("ParticleProcessMaterial_fpxll")
+draw_pass_1 = SubResource("SphereMesh_onbj7")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.72938776, 0.650406, 0.18158)
 shape = SubResource("BoxShape3D_pfoao")
-
-[node name="SpeedParticles" type="GPUParticles3D" parent="."]
-transform = Transform3D(-0.0565117, 0.98654836, -0.15339138, 0.050952848, -0.15058687, -0.98728234, -0.9971006, -0.06360875, -0.041757546, 5.891988, 2.1461926, 0.22746682)
-emitting = false
-amount = 16
-lifetime = 0.17
-local_coords = true
-process_material = SubResource("ParticleProcessMaterial_pfoao")
-draw_pass_1 = SubResource("SphereMesh_ae20r")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -288,5 +276,6 @@ libraries = {
 }
 
 [node name="C1" type="Camera3D" parent="."]
-transform = Transform3D(0.0101492, 0.0713587, -0.997399, -0.000726082, 0.997451, 0.071355, 0.999948, -4.36565e-09, 0.0101752, -14.7558, 7.30146, 0.293667)
+transform = Transform3D(-4.139299e-08, 0.25603625, -0.9666672, 1.1138374e-08, 0.9666672, 0.25603625, 1, -1.6899371e-10, -4.286507e-08, -38.75103, 13.540642, 0)
 current = true
+fov = 30.0

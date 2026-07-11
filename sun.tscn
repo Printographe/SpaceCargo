@@ -11,18 +11,18 @@ backlight_enabled = true
 [sub_resource type="SphereShape3D" id="SphereShape3D_5tkv4"]
 radius = 100.0
 
-[node name="sun" type="StaticBody3D"]
-
-[node name="MiniSun" type="CSGSphere3D" parent="."]
+[node name="MiniSun" type="CSGSphere3D"]
 radius = 100.0
 radial_segments = 24
 rings = 24
 material = SubResource("StandardMaterial3D_5tkv4")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="sun" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="sun"]
 shape = SubResource("SphereShape3D_5tkv4")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="sun"]
 light_color = Color(0.827451, 0.56078434, 0.22745098, 1)
 light_energy = 100.0
 omni_range = 381.90283

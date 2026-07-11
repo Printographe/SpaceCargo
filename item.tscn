@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://jroqs1xxjf01"]
+[gd_scene load_steps=3 format=3 uid="uid://jroqs1xxjf01"]
 
 [ext_resource type="Script" uid="uid://ba4l1qh1ulhvm" path="res://CollectableItem.gd" id="1_tnite"]
+[ext_resource type="Script" uid="uid://btwboxs7hwvy5" path="res://interactible.gd" id="2_ttk8k"]
 
 [node name="CollectableItem" type="Area3D"]
 script = ExtResource("1_tnite")
@@ -8,3 +9,8 @@ offset_xy = null
 item_id = null
 progress = null
 child_mesh_path = null
+metadata/_custom_type_script = "uid://dly8w48ywhu3c"
+
+[node name="Interactible" type="Node" parent="."]
+script = ExtResource("2_ttk8k")
+metadata/_custom_type_script = "uid://btwboxs7hwvy5"

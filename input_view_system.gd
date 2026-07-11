@@ -76,15 +76,8 @@ func _enter_tree() -> void:
     add_to_group("interaction_system", true)
         
 
-    for  k in get_tree().get_nodes_in_group("PlayerController"):
-        player = k
-    if player and player is PlayerController:
-        player.movement_statemachine.stateChange.connect(on_speed_change)
-        #manual call for sync
-        on_speed_change(player.STATES.NULL, player.movement_statemachine.get_state())
-
-
 func resume_input_listner():
+    print("Game is resumed ?")
     self.paused = false
 
 
@@ -101,20 +94,6 @@ func fetch_awaiting_interaction(key):
     if len(self.awaiting_interactions[key]) > 0:
         return self.awaiting_interactions[key].pop_front()
 
-
-
-
-func on_speed_change(past, current):
-    key_x_button.set_disabled(true)
-    if current == PlayerController.STATES.IDLE:
-        key_c_button.set_disabled(true)
-    else:
-        # key_x_button.set_disabled(false)
-        key_c_button.set_disabled(false)
-    if player.gear_to_number[past] < player.gear_to_number[current]:
-        check_speed_up = true
-    else:
-        key_x_button.set_disabled(false) 
 
 func set_interaction(interaction: Interaction):
     var current_focus_input : Interaction = current_focus[interaction.key] 

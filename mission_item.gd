@@ -1,12 +1,13 @@
-extends Area3D
+extends Detectable
 class_name MissionItem
 
 
 signal taskDone
 signal showContent
 signal addContent
+signal addCallback
 
-@onready var mission : Mission = get_parent() 
+@onready var mission : Mission 
 var detected = false
 
 @export var progress: int
@@ -24,7 +25,7 @@ var detected = false
 signal player_entered(body : PlayerController)
 
 func on_success(player):
-    print("Why doesn't it work ?")
+    pass
 
 func on_failure(player):
     pass
@@ -50,6 +51,13 @@ func get_mission_progress():
 func add_content(title : String, content : String, show_mission = false):
     self.addContent.emit(title, content, show_mission, mission)
 
+
+func add_callback(callback : Callable):
+    self.addCallback.emit(callback)
+
+
+
+
 func show_content():
     self.showContent.emit()
     self.interactible.pauseInputProcessing.emit()
@@ -58,8 +66,8 @@ func _player_entered_check(body):
     if body is PlayerController:
         player_entered.emit(body)
 
-func _ready():
-    super._ready()
+func connect_to_mission(ex_mission):
+    self.mission = ex_mission
     self.body_entered.connect(_player_entered_check)
     
     if mission is Mission:
@@ -69,9 +77,6 @@ func _ready():
 
             _on_mission_state_change(prev, current)
         )
-    else :
-        push_error(false, "MissionItem instance not child of Mission")
-    
     self.add_to_group("mission_items")
 
    

@@ -81,11 +81,21 @@ func _enter_tree() -> void:
 	
 	self.add_to_group("missions");
 	self.statemachine.switch_to(MissionState.PENDING)
-	
-	
+
+func recursively_connect_children(children):
+	for child in children : 
+		if child is MissionItem:
+			child.taskDone.connect(incr_progress)
+			child.connect_to_mission(self)
+		else: 
+			recursively_connect_children(child.get_children())	
+
+func _ready() -> void:
 	self.max_progress = self.get_child_count()
-	for child : MissionItem in self.get_children():
-		child.taskDone.connect(incr_progress)
+	recursively_connect_children(self.get_children())
+
+func get_state():
+	return self.statemachine.get_state()			
 	
 
 func print_transition(last, current):

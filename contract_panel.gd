@@ -22,8 +22,12 @@ signal nextItem
 
 var connected_mission : Mission = null;
 
+
+func finished():
+    self.hide()
+    nextItem.emit()
+
 func _ready() -> void:
-    cancelButton.pressed.connect(self.hide)
     self.hide()
 
 
@@ -51,8 +55,8 @@ func set_contract_info(mission : Mission):
         
         Mission.MissionState.PENDING:
             ongoingButton.hide()
-            confirmButton.connect("pressed", on_confirm_button_pressed.bind(connected_mission), CONNECT_ONE_SHOT)
-            refuseButton.connect("pressed", on_refused_button_pressed.bind(connected_mission), CONNECT_ONE_SHOT)
+            confirmButton.pressed.connect(on_confirm_button_pressed.bind(connected_mission), CONNECT_ONE_SHOT)
+            refuseButton.pressed.connect(on_refused_button_pressed.bind(connected_mission), CONNECT_ONE_SHOT)
             confirmButton.grab_focus()
 
         Mission.MissionState.ACCEPTED_ONGOING:
@@ -60,7 +64,7 @@ func set_contract_info(mission : Mission):
             refuseButton.hide()
             ongoingButton.show()
             ongoingButton.grab_focus()
-            ongoingButton.pressed.connect(self.hide, CONNECT_ONE_SHOT)
+            ongoingButton.pressed.connect(finished, CONNECT_ONE_SHOT)
         _:
             push_error("Mission {id} shown while state is {state}"
                 .format({"id" : mission.id, "state" : mission.statemachine.get_current_state_identifier() }))
@@ -68,11 +72,10 @@ func set_contract_info(mission : Mission):
     self.show()
 
 func on_confirm_button_pressed(mission):
-    nextItem.emit(true)
+    print("ça marche ????")
     mission.statemachine.switch_to(Mission.MissionState.ACCEPTED_ONGOING)
-    self.hide()
+    finished()
 
 func on_refused_button_pressed(mission):
     mission.statemachine.switch_to(Mission.MissionState.REFUSED)
-    nextItem.emit(false)
-    self.hide()
+    finished()

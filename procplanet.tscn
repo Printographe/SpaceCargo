@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://dujl3b3ati44o"]
+
+[ext_resource type="Shader" uid="uid://cukn3v5hgl6qw" path="res://planet_shader.gdshader" id="1_nw8hp"]
+[ext_resource type="Texture2D" uid="uid://3xq7wh3xnrmn" path="res://simplex_noise.jpg" id="2_aln0b"]
+[ext_resource type="Texture2D" uid="uid://miiguk7crp2e" path="res://voronoi_texture.jpg" id="3_hjbar"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l1x3g"]
+render_priority = -1
+shader = ExtResource("1_nw8hp")
+shader_parameter/primary_color = Color(0.30800784, 0.5962504, 0.75819904, 1)
+shader_parameter/secondary_color = Color(0.25269938, 0.3312393, 0.68511313, 1)
+shader_parameter/third_color = Color(0.92488337, 0.7795178, 0.8927261, 1)
+shader_parameter/cn = 50
+shader_parameter/n = 12
+shader_parameter/rotation = true
+shader_parameter/mixdeg = 0.1
+shader_parameter/voronoi = ExtResource("3_hjbar")
+shader_parameter/noise = ExtResource("2_aln0b")
+shader_parameter/i_p = Vector3(1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_7ky6l"]
+radial_segments = 13
+rings = 13
+
+[node name="Node3D" type="MeshInstance3D"]
+material_override = SubResource("ShaderMaterial_l1x3g")
+transparency = 0.67
+lod_bias = 0.001
+mesh = SubResource("SphereMesh_7ky6l")

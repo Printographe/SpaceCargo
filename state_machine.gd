@@ -16,6 +16,8 @@ signal stateChange(prev_state, current_state)
 
 var _state_identifiers 
 
+var _enabled : bool = true
+
 var _debug : bool = false
 var _name : String
 var _states : Array[int]
@@ -40,6 +42,13 @@ func show_debug():
 func sm_print_debug(bla):
     if self._debug:
         print(self._name + ": " + str(bla))
+
+
+func disable():
+    self._enabled = false
+
+func enable():
+    self._enabled = true
 
 
 func _init(s0 : int, states : Array[int], state_to_string) -> void:
@@ -73,12 +82,12 @@ func get_state_identifier(state) -> String:
 
 func to_next():
     if self._is_no_conditions_dfs:
-        if self.transitions[_current_state][0]:
+        if self.transitions[self.get_state()][0]:
             self.switch_to(self.transitions[_current_state][0])
         else : 
             push_error("The state {cs} doesn't have a transition state".format({"cs" : self._current_state}))
     else:
-        push_error("Can't use the to_next method without adding add no_conditions_dfs() to the instance")
+        push_error("Can't use the to_next method without setting the no_conditions_dfs flag to the instance")
 
 
 
@@ -151,19 +160,27 @@ func generate_process_map() -> Dictionary:
 
 
 func use_process(delta : float) -> void:
+    if not _enabled : return
     if self.process_functions.has(self._current_state):
         self.process_functions[_current_state].call(delta)
 
 func can_switch_to(state) -> bool:
-    return state in self.transitions[self.get_state()] 
+    return state in self.transitions[self.get_state()]\
+        .any(func (t : ConcreteTransition) : t.next_state == state)
 
 func force_switch(next, transition, persistent = false) -> void:
     #TODO implement forced transitions from a state to another
     #bool persistent -> Add this transition to the transition map or is a one time use. 
-    pass
+    if persistent: 
+        self.transitions[self.get_state()][next] =transition
+    if transition is Callable:
+        transition.call(self.get_state(), next)
+    stateChange.emit(self.get_state(), next)
+    self._current_state = next
 
 
 func switch_to(next) -> void:
+    if not _enabled : return
     sm_print_debug("Attempt to switch from " + _state_identifiers[self._current_state] + " to " + _state_identifiers[next])
     if next == self._current_state and self._ignore_self_transitions:
         return 

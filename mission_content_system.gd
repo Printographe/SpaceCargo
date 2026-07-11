@@ -21,7 +21,7 @@ signal resumeGame
 
 var queue : Array = []
 
-
+var _end_func = null
 
 
 func _ready() -> void:
@@ -29,6 +29,7 @@ func _ready() -> void:
     for mission_item : MissionItem in get_tree().get_nodes_in_group("mission_items"):
         mission_item.showContent.connect(show_content)
         mission_item.addContent.connect(add_content)
+        mission_item.addCallback.connect(add_callback)
 
     self.resumeGame.connect(interaction_system.resume_input_listner)
     content_display.nextItem.connect(show_content)
@@ -40,10 +41,13 @@ func add_content(title : String, text : String, show_mission : bool, mission : M
     if show_mission:
         queue.append(mission)
 
+func add_callback(callback):
+    self.queue.append(callback)
 
-func show_content(mission_answer = null):
-    
+
+func show_content():
     var content = self.queue.pop_front()
+    print(content)
     if content == null :
         resumeGame.emit()
 
@@ -52,10 +56,8 @@ func show_content(mission_answer = null):
         self.grab_click_focus()
     elif content is Mission:
         mission_panel.set_contract_info(content)
+    elif content is Callable:
+        content.call()
+        show_content()
     
     
-
-
-
-
-
