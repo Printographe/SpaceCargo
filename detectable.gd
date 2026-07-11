@@ -3,8 +3,8 @@ extends Area3D
 class_name Detectable
 
 
+@export var interactible_path : NodePath
 var interactible : Interactible
-
 
 
 @export var child_mesh_path : NodePath
@@ -13,9 +13,10 @@ var interactible : Interactible
 var _player : PlayerController
 
 func _ready() -> void:
-    interactible = Interactible.new()
-    self.add_child(interactible) 
-
+    if get_node_or_null(interactible_path):
+        assert(false, "A detectable is needed in order to for the interactible to work as expected.")
+    else :
+        interactible = get_node(interactible_path)
     for player_node : PlayerController in get_tree().get_nodes_in_group("PlayerController"):
         _player = player_node
         _player.on_detectable_found.connect(_on_detected)

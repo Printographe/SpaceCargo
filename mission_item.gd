@@ -1,4 +1,4 @@
-extends Detectable
+extends Area3D
 class_name MissionItem
 
 
