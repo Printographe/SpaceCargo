@@ -1,11 +1,10 @@
-[gd_scene load_steps=31 format=3 uid="uid://dq87yi5bfss86"]
+[gd_scene load_steps=32 format=3 uid="uid://dq87yi5bfss86"]
 
 [ext_resource type="PackedScene" uid="uid://dd5k1qilde1i1" path="res://Joueur.tscn" id="1_37kl0"]
 [ext_resource type="PackedScene" uid="uid://cpnl153rw4le" path="res://dashboard.tscn" id="2_8uh7m"]
 [ext_resource type="Environment" uid="uid://4ibwtduv01jq" path="res://testng_environnement.tres" id="2_xersf"]
 [ext_resource type="Script" uid="uid://dl13se601gq1u" path="res://fuel_system.gd" id="3_4uo0j"]
-[ext_resource type="Script" uid="uid://c3j7g4ey4joxn" path="res://Mission.gd" id="3_6uqi0"]
-[ext_resource type="PackedScene" uid="uid://cmrdrvs2n2xyi" path="res://Gas Station.glb" id="4_77dp3"]
+[ext_resource type="Script" uid="uid://c3j7g4ey4joxn" path="res://Mission.gd" id="5_uty7l"]
 [ext_resource type="Shader" uid="uid://cukn3v5hgl6qw" path="res://planet_shader.gdshader" id="7_a3se8"]
 [ext_resource type="PackedScene" uid="uid://bccu8rb5cnu5k" path="res://sun.tscn" id="7_uty7l"]
 [ext_resource type="PackedScene" uid="uid://jroqs1xxjf01" path="res://item.tscn" id="7_vbegm"]
@@ -14,7 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://3xq7wh3xnrmn" path="res://simplex_noise.jpg" id="9_vxl6d"]
 [ext_resource type="Script" uid="uid://dp7h0dedmbsn3" path="res://Item.gd" id="10_45l4g"]
 [ext_resource type="Texture2D" uid="uid://miiguk7crp2e" path="res://voronoi_texture.jpg" id="10_eski5"]
+[ext_resource type="PackedScene" uid="uid://cbrl1mwap8ea2" path="res://GarageQuest.tscn" id="11_uty7l"]
 [ext_resource type="PackedScene" uid="uid://cn7h42toqi1l0" path="res://procedural_planet.tscn" id="14_b0q6j"]
+[ext_resource type="Script" uid="uid://bahsd10rl78l3" path="res://tutorial.gd" id="17_45l4g"]
 [ext_resource type="Script" uid="uid://btwboxs7hwvy5" path="res://interactible.gd" id="18_vxl6d"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_37kl0"]
@@ -50,7 +51,7 @@ rings = 10
 albedo_color = Color(0.10204344, 0.34198764, 0.44738013, 1)
 emission_enabled = true
 emission = Color(0.5184665, 0.24163353, 0.21162537, 1)
-emission_energy_multiplier = 11.35
+emission_energy_multiplier = 9.28
 emission_on_uv2 = true
 anisotropy_enabled = true
 anisotropy = 0.24
@@ -218,34 +219,32 @@ randomness = 0.14
 process_material = SubResource("ParticleProcessMaterial_37kl0")
 draw_pass_1 = SubResource("SphereMesh_6uqi0")
 
-[node name="Gas Station" parent="World" instance=ExtResource("4_77dp3")]
-transform = Transform3D(-0.996371, 0.0851214, 0, -0.0851214, -0.996371, 0, 0, 0, 1, -233.767, 0, 0)
-
 [node name="sun" parent="World" instance=ExtResource("7_uty7l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.3154144, 0, -126.68958)
 
 [node name="sun2" parent="World" instance=ExtResource("7_uty7l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -401.93988, 0, -458.38043)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -401.93988, -351.8051, -457.51657)
+material = SubResource("StandardMaterial3D_uty7l")
+
+[node name="sun3" parent="World" instance=ExtResource("7_uty7l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -401.93988, 136.888, -108.74513)
 material = SubResource("StandardMaterial3D_uty7l")
 
 [node name="Missions" type="Node" parent="."]
 
-[node name="Mission" type="Node" parent="Missions"]
-script = ExtResource("3_6uqi0")
+[node name="Mission" type="Node3D" parent="Missions"]
+script = ExtResource("5_uty7l")
 contractor = "Chekov"
-context = "Rapporte moi mon gun stp : )"
-time = 300.0
-price = 235.0
-metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
+context = "Aider Chekov a retrouver son moteur"
+time = 200.0
 
 [node name="RigidBody3D" type="RigidBody3D" parent="Missions/Mission"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 222.85118, 9.073456, -24.929724)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -291.16333, 9.073456, -24.929724)
 gravity_scale = 0.0
 sleeping = true
 
 [node name="CollectableItem" parent="Missions/Mission/RigidBody3D" instance=ExtResource("7_vbegm")]
 item = SubResource("Resource_4uo0j")
-progress = 0
 interactible_path = NodePath("Interactible2")
 child_mesh_path = NodePath("../MeshInstance3D2")
 
@@ -269,7 +268,7 @@ mesh = SubResource("SphereMesh_a3se8")
 skeleton = NodePath("../CollectableItem")
 
 [node name="ArrivingPoint" parent="Missions/Mission" instance=ExtResource("8_ehkex")]
-transform = Transform3D(0.609949, 0.248004, -0.752633, -0.135215, 0.968409, 0.209524, 0.78082, -0.0260312, 0.624214, 61.6581, 24.7862, 73.7725)
+transform = Transform3D(0.609949, 0.248004, -0.752633, -0.135215, 0.968409, 0.209524, 0.78082, -0.0260312, 0.624214, -374.142, -93.03426, -160.10095)
 collision_layer = 3
 collision_mask = 3
 trigger_text = "Bwaaaaaah"
@@ -277,38 +276,39 @@ item = NodePath("../RigidBody3D/CollectableItem")
 interactible_path = NodePath("Interactible")
 child_mesh_path = NodePath("pinky")
 
-[node name="Mission2" type="Node" parent="Missions"]
-script = ExtResource("3_6uqi0")
-contractor = "ijiojoijouge"
-context = "hughiuhojojok"
-time = 3.45
-price = 235.0
-id = 1
-metadata/_custom_type_script = "uid://c3j7g4ey4joxn"
+[node name="GarageMission" parent="Missions" instance=ExtResource("11_uty7l")]
+transform = Transform3D(0.9684876, 0, -0.2490618, 0, 1, 0, 0.2490618, 0, 0.9684876, -168.70929, 0, 100.30531)
 
 [node name="Procedural Planet" parent="." instance=ExtResource("14_b0q6j")]
-transform = Transform3D(60, 0, 0, 0, 60, 0, 0, 0, 60, -337.68274, 0, 183.58826)
+transform = Transform3D(60, 0, 0, 0, 60, 0, 0, 0, 60, -337.68274, -108.538666, -26.685516)
+transparency = 1.0
 rotation_rate = 0.2
 rotation_direction = Vector3(0, 1, 1)
 
 [node name="Procedural Planet2" parent="." instance=ExtResource("14_b0q6j")]
 transform = Transform3D(60, 0, 0, 0, 60, 0, 0, 0, 60, 581.8517, 65.919815, -132.79764)
 material_override = SubResource("ShaderMaterial_45l4g")
+transparency = 1.0
 rotation_rate = 0.2
 
 [node name="Procedural Planet3" parent="." instance=ExtResource("14_b0q6j")]
 transform = Transform3D(60, 0, 0, 0, 60, 0, 0, 0, 60, -283.9678, 65.919815, -195.18881)
 material_override = SubResource("ShaderMaterial_4uo0j")
+transparency = 1.0
 mesh = SubResource("SphereMesh_vxl6d")
 rotation_rate = 0.2
 rotation_direction = Vector3(1, 1, 0)
 
 [node name="Procedural Planet4" parent="." instance=ExtResource("14_b0q6j")]
-transform = Transform3D(60, 0, 0, 0, 60, 0, 0, 0, 60, -17.472443, 117.29994, -487.1557)
+transform = Transform3D(60, 0, 0, 0, 60, 0, 0, 0, 60, -17.472443, 117.29994, -350.8758)
 material_override = SubResource("ShaderMaterial_eski5")
+transparency = 1.0
 rotation_rate = 0.2
 rotation_direction = Vector3(0.2, 1, 0.3)
 
 [node name="Dashboard" parent="." instance=ExtResource("2_8uh7m")]
 offset_top = -1.0
 offset_bottom = -1.0
+
+[node name="Tutorial" type="Node" parent="."]
+script = ExtResource("17_45l4g")

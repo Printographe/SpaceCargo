@@ -15,7 +15,7 @@ class_name ArrivingPoint
 
 var interaction_count = 0
 
-var sentences = ["Ju-ju-jujujujujuuuuuuul", "bientôt je me casse d'ici tu verras...", "Mon gun c'est pour quand ?"]
+var sentences = ["Comment je respire dans l'espace ? Je fais de la photosynthèse", "Bon, tu te dépêche ?", "Mon livreur, Déli Vérrou, est à 500années lumières.."]
 
 func _ready() -> void:
     super._ready()
@@ -25,13 +25,13 @@ func _ready() -> void:
 
 func on_progress(body : PlayerController):
     if not body.can_carry() and body.get_carrying_id() == item_id:
-        add_content("Chekov", "Cimer mon reuf")
+        add_content("Chekov", "Trop ")
         show_content()
         taskDone.emit()
     else: 
-        add_content("Chekov", sentences[interaction_count % len(sentences)])
+        add_content("Chekov", sentences[interaction_count])
         show_content()
-        interaction_count += 1
+        interaction_count = (interaction_count +1) % len(sentences)
 
 func on_pending(player_body : PlayerController):
     focus_camera.set_current(true)
@@ -39,7 +39,9 @@ func on_pending(player_body : PlayerController):
     player_body.set_position(end_position.get_global_position())
     player_body.set_rotation(end_position.get_global_rotation())
 
-    add_content("Chekov", "Hello I need my gun. Hello.", true)
+    add_content("Chekov", "Je suis tombé en panne... Mon moteur ne marche plus.")
+    add_content("Chekov", "Mais j'ai crû voir un moteur qlqpart dans ce vide. \n A pied c'est trop épuisant..")
+    add_content("Chekov", "Peux-tu te déplacer pour aller chercher le moteur ? \n Je te donne 5 balles comme remerciement.", true)
     add_callback(func () :
         focus_camera.set_current(false)
         player_body.regain_focus()
@@ -70,8 +72,7 @@ func on_success(player_body):
     
 
 func ice_breaker():
-    add_content("Chekov", "You'll never guess what will come next")
-    add_content("Chekov", "I wonder how much the repairs will cost...")
+    add_content("Chekov", "Eh toi, viens, j'ai quelque chose à te dire..")
     show_content()
 
 func get_ball(body):

@@ -1,0 +1,116 @@
+[gd_scene load_steps=13 format=3 uid="uid://cbrl1mwap8ea2"]
+
+[ext_resource type="PackedScene" uid="uid://blbb524cos70f" path="res://pinky.tscn" id="1_hwsm8"]
+[ext_resource type="Script" uid="uid://d0c4tklw8yfcf" path="res://garage_quest.gd" id="1_j77tw"]
+[ext_resource type="Script" uid="uid://dly8w48ywhu3c" path="res://mission_item.gd" id="1_mdh7l"]
+[ext_resource type="PackedScene" uid="uid://rlc3hsew0j8c" path="res://pinkyblue.tscn" id="2_ghs04"]
+[ext_resource type="Script" uid="uid://btwboxs7hwvy5" path="res://interactible.gd" id="2_j77tw"]
+[ext_resource type="PackedScene" uid="uid://cmrdrvs2n2xyi" path="res://Gas Station.glb" id="3_mdh7l"]
+
+[sub_resource type="Animation" id="Animation_j77tw"]
+resource_name = "GarageScene 1"
+length = 10.0
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../GarageScene/Camera3D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0.03333334, 1, -34.92817, 27.970804, -53.481808, 1.7333333, 1, -5.8073645, 6.9918566, -20.563284, 3.0333333, 1, 9.466629, 6.2055864, -12.167105, 3.3333333, 1, 9.466629, 6.2055864, -12.167105, 6.6, 1, -10.381669, 6.4644537, -15.138758, 6.9333334, 1, -10.381669, 6.4644537, -15.138758, 7.733333, 1, -17.93726, 8.450759, -18.479967, 9.033334, 1, -21.934679, 4.258445, -13.245169)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../GarageScene/Camera3D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0.033333335, 1, -0.0006714366, 0.9475604, 0.0011157438, -0.3195741, 1.7333333, 1, -0.00045346867, 0.87209684, 0.0012206872, -0.48933157, 3, 1, -0.0004534686, 0.8720968, 0.0012206872, -0.48933166, 3.3333333, 1, -0.0004534686, 0.8720968, 0.0012206872, -0.48933166, 6.6, 1, -0.13170032, 0.81493944, 0.5262441, 0.20395057, 6.9333334, 1, -0.13170032, 0.81493944, 0.5262441, 0.20395057, 7.8, 1, 0.12202969, 0.84678155, 0.22060508, -0.46840498, 9.033334, 1, -0.014113808, -0.6793213, -0.013069732, 0.7335888)
+
+[sub_resource type="Animation" id="Animation_jferj"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../GarageScene/Camera3D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 9.466629, 6.2055864, -12.167105)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sqnqo"]
+_data = {
+&"GarageScene 1": SubResource("Animation_j77tw"),
+&"RESET": SubResource("Animation_jferj")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mdh7l"]
+radius = 36.234127
+
+[sub_resource type="GDScript" id="GDScript_jferj"]
+script/source = "extends MissionItem
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jferj"]
+radius = 2.0708008
+height = 7.899536
+
+[node name="GarageMission" type="Node3D"]
+script = ExtResource("1_j77tw")
+contractor = "The garage mission"
+context = "TBA"
+time = 150.0
+price = 200.0
+id = 3
+
+[node name="GarageScene" type="Node3D" parent="."]
+
+[node name="Gas Station" parent="GarageScene" instance=ExtResource("3_mdh7l")]
+transform = Transform3D(1.5, 0, 0, 0, -1.4987853, -0.060354732, 0, 0.060354732, -1.4987853, 0, 0.6065159, 0)
+
+[node name="Camera3D" type="Camera3D" parent="GarageScene"]
+transform = Transform3D(-0.79574394, -0.0005593278, -0.60563296, -0.0019855788, 0.9999966, 0.0016853216, 0.60563, 0.0025436166, -0.79574233, 9.466629, 6.2055864, -12.167105)
+fov = 73.702805
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GarageScene"]
+root_node = NodePath("../../Blue/blue character")
+libraries = {
+&"": SubResource("AnimationLibrary_sqnqo")
+}
+
+[node name="Entry" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entry"]
+shape = SubResource("SphereShape3D_mdh7l")
+
+[node name="Red" type="Area3D" parent="."]
+transform = Transform3D(-0.4521584, 0.13008164, -0.8824016, 0.015278513, 0.9902934, 0.13815771, 0.8918066, 0.04898747, -0.44975668, 11.66667, 2.9891524, -12.096365)
+script = SubResource("GDScript_jferj")
+interactible_path = NodePath("Interactible")
+child_mesh_path = NodePath("red character")
+metadata/_custom_type_script = "uid://dly8w48ywhu3c"
+
+[node name="Interactible" type="Node" parent="Red"]
+script = ExtResource("2_j77tw")
+metadata/_custom_type_script = "uid://btwboxs7hwvy5"
+
+[node name="red character" parent="Red" instance=ExtResource("1_hwsm8")]
+transform = Transform3D(0.99999994, 0, -2.9802322e-08, -7.450581e-09, 1, -7.450581e-09, 0, -3.7252903e-09, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Red"]
+transform = Transform3D(0.9999997, 0, -3.2782555e-07, -1.3522804e-06, 1, -3.2782555e-07, -3.874302e-07, -3.7252903e-09, 0.99999976, 0, 0.8513794, 2.3841858e-06)
+shape = SubResource("CapsuleShape3D_jferj")
+
+[node name="Blue" type="Area3D" parent="."]
+transform = Transform3D(-0.43940154, -0.14295238, -0.8868445, -0.10773788, 0.98851866, -0.10596088, 0.8918068, 0.048987523, -0.44975746, -11.173391, 2.4772131, -15.191086)
+script = ExtResource("1_mdh7l")
+interactible_path = NodePath("Interactible")
+metadata/_custom_type_script = "uid://dly8w48ywhu3c"
+
+[node name="blue character" parent="Blue" instance=ExtResource("2_ghs04")]
+transform = Transform3D(-0.96873194, -0.08247887, 0.23400074, -0.09387137, 0.9948596, -0.037954863, -0.22966787, -0.058733907, -0.97149414, 0.87748814, 0.27133632, 0.3984642)
+
+[node name="Interactible" type="Node" parent="Blue"]
+script = ExtResource("2_j77tw")
+metadata/_custom_type_script = "uid://btwboxs7hwvy5"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Blue"]
+transform = Transform3D(0.9999997, 0, -3.2782555e-07, -1.3522804e-06, 1, -3.2782555e-07, -3.874302e-07, -3.7252903e-09, 0.99999976, 0, 0.8513794, 2.3841858e-06)
+shape = SubResource("CapsuleShape3D_jferj")

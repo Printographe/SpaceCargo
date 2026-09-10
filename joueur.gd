@@ -15,6 +15,8 @@ signal on_detectable_lost
 @onready var engineparticles : GPUParticles3D = $"Space Cargo/EngineParticles" 
 @onready var speedparticles : GPUParticles3D = $"Space Cargo/SpeedParticles"
 
+@onready var animation_tree : AnimationTree = $AnimationTree
+
 
 ## Raycast Variables:
 var current_collider
@@ -506,7 +508,7 @@ func on_uncarry(_current_state, _next_state):
 
 func get_carrying_id():
     if self._carrying_object:
-        return self._carrying_object.get_item_id()
+        return self._carrying_object.get_node_or_null("CollectableItem").get_item_id()
 
 func lose_focus():
     self.movement_statemachine.disable()

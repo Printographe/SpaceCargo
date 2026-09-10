@@ -33,6 +33,9 @@ func _send_interaction_with_raw(interaction: Interaction):
     self._interaction_stack.push_back(interaction)
     sendInteraction.emit(interaction)
 
+func lose_interaction():
+    self.loseInteraction.emit(self._interaction_stack)
+
 
 func _ready() -> void:
     var interaction_system = get_tree().get_first_node_in_group("interaction_system")

@@ -114,10 +114,15 @@ theme = ExtResource("4_x2n5p")
 text = "Try the Demo
 "
 
-[node name="SettingsButton" type="Button" parent="MainMenue"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenue"]
+layout_mode = 2
+theme_override_constants/margin_top = 40
+
+[node name="SettingsButton" type="Button" parent="MainMenue/MarginContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme = ExtResource("4_x2n5p")
+disabled = true
 text = "Settings
 "
 
@@ -130,22 +135,39 @@ offset_bottom = -110.0
 
 [node name="Version" type="Label" parent="."]
 anchors_preset = -1
-anchor_left = 0.703
-anchor_top = 0.934
+anchor_left = 0.697
+anchor_top = 0.94900006
 anchor_right = 1.001
 anchor_bottom = 0.99700004
-offset_left = 0.14398193
-offset_top = -0.23199463
-offset_right = -0.15209961
-offset_bottom = -0.056030273
+offset_left = -48.80005
+offset_top = -4.040039
+offset_right = -39.400024
+offset_bottom = -4.0560303
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_y0kxn")
-text = "Version Alpha"
+text = "Version avant celle qui est à l'amont de la pre-Alpha"
+horizontal_alignment = 1
+
+[node name="Version2" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.697
+anchor_top = 0.94900006
+anchor_right = 1.001
+anchor_bottom = 0.99700004
+offset_left = -492.80008
+offset_top = -340.0401
+offset_right = -483.40002
+offset_bottom = -340.0561
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.43741846
+theme = ExtResource("3_y0kxn")
+text = "On travaille dessus"
 horizontal_alignment = 1
 
 [node name="pinky" parent="." instance=ExtResource("6_05tgr")]
-transform = Transform3D(0.8825506, 0.47021413, 0.0015681717, -0.46535313, 0.8729388, 0.1463682, 0.06745549, -0.12990713, 0.98922867, 13.697197, 0, -14.153838)
+transform = Transform3D(0.88255054, 0.47021413, 0.0015681715, -0.4653531, 0.8729388, 0.14636819, 0.06745549, -0.12990713, 0.9892286, 13.697197, 0, -14.153838)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

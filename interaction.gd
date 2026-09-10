@@ -1,11 +1,15 @@
 class_name Interaction
 
+#Returned when interaction created, can be used as a key later on.
+static var interaction_id = 0
+
 enum KEYS {
     A,
     E, 
     X,
     C
 }
+
 var key : int
 var label : String
 var emitor : Variant

@@ -14,7 +14,7 @@ signal nextItem
 @onready var ongoingButton : Button = $VBoxContainer/MarginContainer2/ActionButtons/OngoingButton
 
 
-@onready var amount_label : Label = $VBoxContainer/Offer/amount
+@onready var amount_label : Label = $VBoxContainer/Reward/amount
 @onready var time_label : Label = $VBoxContainer/Time/time
 @onready var context_text : RichTextLabel = $VBoxContainer/MarginContainer/Context
 
@@ -28,6 +28,7 @@ func finished():
     nextItem.emit()
 
 func _ready() -> void:
+    cancelButton.pressed.connect(self.hide)
     self.hide()
 
 

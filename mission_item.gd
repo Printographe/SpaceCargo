@@ -7,11 +7,27 @@ signal showContent
 signal addContent
 signal addCallback
 
+
+
+var done : bool = false
+
+
+enum TASK_PROCESSING_MODE {SEQUENTIAL, CONCURRENT};
+
+@export var task_processing_mode := TASK_PROCESSING_MODE.SEQUENTIAL
+
 @onready var mission : Mission 
 var detected = false
 
-@export var progress: int
 
+@export var progress_level = 0
+
+@export var pre_requisite : int:
+    set(value):
+        if value > progress_level:
+            push_error("cannot pre requisite a higher value than the current progress")
+            return null
+        return value
 
 @onready var state_function = {
     Mission.MissionState.PENDING : on_pending,
@@ -20,6 +36,20 @@ var detected = false
     Mission.MissionState.ACCEPTED_ONGOING : on_progress,
     Mission.MissionState.FINISHED_FAILURE : on_failure
 }
+
+
+func set_up_task_processing_mode():
+    match self.task_processing_mode : 
+        TASK_PROCESSING_MODE.SEQUENTIAL: 
+            self.pre_requisite = self.progress_level - 1
+        TASK_PROCESSING_MODE.CONCURRENT:
+            print("Task #", self.progress_level, "is concurrent to tasks : ", Array(range(self.pre_requisite, self.progress)) )
+
+
+func _ready() -> void:
+    super._ready()
+    set_up_task_processing_mode()
+
 
 
 signal player_entered(body : PlayerController)
@@ -56,6 +86,13 @@ func add_callback(callback : Callable):
     self.addCallback.emit(callback)
 
 
+func task_done():
+    # idempotence 
+    if not done and mission.progress > self.pre_requisite:
+            taskDone.emit()
+            done = true
+    else: 
+        push_warning("Task done on already done task. ")
 
 
 func show_content():
@@ -90,6 +127,6 @@ func _on_mission_state_change(prev, current):
         self.player_entered.disconnect(state_function[prev])
     self.player_entered.connect(state_function[current])
     
-    #These work instantly
+    # this works instantly
     if current == Mission.MissionState.FINISHED_SUCCESS:
         mission_done()

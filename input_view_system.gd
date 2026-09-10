@@ -117,7 +117,7 @@ func set_focus_on_awaiting_interection(key):
 
 func remove_interactions(interaction_stack: Array[Interaction]):
     for interaction : Interaction in interaction_stack:
-        if  current_focus[interaction.key] == interaction and not (interaction.persistent or interaction.delete_on_play):
+        if  current_focus[interaction.key] == interaction and not interaction.persistent:
             var key = interaction.key
             disconnect_interaction(current_focus[key])
             set_focus_on_awaiting_interection(key)
@@ -125,7 +125,7 @@ func remove_interactions(interaction_stack: Array[Interaction]):
     for key in awaiting_interactions.keys():
         for awaiting_interaction in awaiting_interactions[key]:
             for interaction in interaction_stack:
-                if interaction == awaiting_interaction and not (interaction.persistent or interaction.delete_on_play):
+                if interaction == awaiting_interaction and not interaction.persistent:
                     disconnect_interaction(interaction)
                     awaiting_interactions[key].erase(interaction) 
 

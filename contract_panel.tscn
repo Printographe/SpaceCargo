@@ -32,8 +32,8 @@ size_flags_stretch_ratio = 0.9
 [node name="Title" type="Label" parent="VBoxContainer/MarginContainer3/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 40
-text = "CONTRACT OFFER"
+theme_override_font_sizes/font_size = 72
+text = "Mission"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -61,7 +61,7 @@ clip_contents = false
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 25
+theme_override_font_sizes/normal_font_size = 60
 text = "Meaningful text
 "
 scroll_following = true
@@ -76,35 +76,35 @@ metadata/_edit_use_anchors_ = true
 [node name="Time label" type="Label" parent="VBoxContainer/Time"]
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 64
 text = "Time:  "
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="time" type="Label" parent="VBoxContainer/Time"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 64
 text = "mm:ss"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Offer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Reward" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_stretch_ratio = 0.3
 alignment = 1
 metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
 
-[node name="Offer label" type="Label" parent="VBoxContainer/Offer"]
+[node name="Reward label" type="Label" parent="VBoxContainer/Reward"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Offer:   "
+theme_override_font_sizes/font_size = 64
+text = "reward : "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="amount" type="Label" parent="VBoxContainer/Offer"]
+[node name="amount" type="Label" parent="VBoxContainer/Reward"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 64
 text = "3 415"
 horizontal_alignment = 1
 vertical_alignment = 1

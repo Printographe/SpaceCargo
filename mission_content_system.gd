@@ -21,11 +21,10 @@ signal resumeGame
 
 var queue : Array = []
 
-var _end_func = null
-
 
 func _ready() -> void:
-
+    ##The line below was used as a quick and dirty method to create a tutorial ;; to refactor.
+    self.add_to_group("__msis") 
     for mission_item : MissionItem in get_tree().get_nodes_in_group("mission_items"):
         mission_item.showContent.connect(show_content)
         mission_item.addContent.connect(add_content)

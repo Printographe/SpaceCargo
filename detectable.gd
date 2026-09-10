@@ -26,15 +26,15 @@ func on_detected(player):
 
 func _on_detected(body):
     if not enabled : return 
-    _set_detect(body, true)
     if self == body : 
+        _set_detect(body, true)
         on_detected(self.__player)
 
 #the signal is about something being undetected, we need to check that it's this specific instance 
 func _on_undetect(body):
     if not enabled : return
-    _set_detect(body, false)
     if self == body :
+        _set_detect(body, false)
         if len(self.interactible._interaction_stack)> 0:
             interactible.loseInteraction.emit(self.interactible._interaction_stack)
             #thank god for manual memory management :)

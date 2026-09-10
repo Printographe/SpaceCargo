@@ -49,6 +49,6 @@ theme_override_constants/margin_bottom = 10
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9882353, 0.53333336, 0.6509804, 1)
-theme_override_colors/font_outline_color = Color(0.4237964, 0.35254022, 0.50827914, 1)
+theme_override_colors/font_outline_color = Color(0.13275388, 0.37778962, 0.3215131, 1)
 theme_override_constants/outline_size = 7
 theme_override_font_sizes/font_size = 32

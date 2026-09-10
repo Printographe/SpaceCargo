@@ -24,6 +24,6 @@ shape = SubResource("SphereShape3D_5tkv4")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="sun"]
 light_color = Color(0.827451, 0.56078434, 0.22745098, 1)
-light_energy = 100.0
+light_energy = 16.0
 omni_range = 381.90283
 omni_attenuation = 0.655
